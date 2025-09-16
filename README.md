@@ -1,4 +1,4 @@
-# 🚀 Microsoft x Rise DC x Hack4Impact-UMD
+# 🚀 Microsoft x RISE DC x Hack4Impact-UMD
 Welcome to the Microsoft x Rise DC x Hack4Impact-UMD Hackathon! 🎉 We're so excited to have all of us work on such a meaningful and impactful project, and can't wait to see what we all build together!
 
 Throughout the course of this week, you will be working on a specific subproject alongside your assigned team. To make sure we avoid code conflicts and are able to organize all the features easily for Rise DC, you will notice that we have folders for each. Please do all work for your respective feature within the folder!
@@ -8,7 +8,7 @@ The project descriptions for each feature are provided below, along with their a
 
 Good luck to you all, and have fun! This is going to be an amazing week. ✨
 
-## ❤️ About Rise DC
+## ❤️ About RISE DC
 
 [Rise DC](https://www.risewithusdc.com/) provides daily therapeutic support and life skills training for young adults ages 18-30 with moderate to severe intellectual disabilities. They focus on building functional life skills such as hygiene, cooking, job readiness, and independent commuting through structured support, including a young adult day program and social groups.
 
