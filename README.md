@@ -38,19 +38,5 @@ Desired Solution
 
 📁 Folder: `scheduler` 
 
-
-### 🏆 Goal Tracking & ISP Management Platform
-
-Problem
-
-> Rise DC staff must meet DDS documentation requirements (annual ISPs, quarterly progress notes, daily notes, participant paperwork, and staff training logs), but the current system is fragmented across Google Forms, PDFFiller, and manual tracking. This creates challenges with ensuring notes are completed daily, reducing repetitive or incomplete data, reassigning tasks when staff are absent, preparing for audits, simplifying parent paperwork, and tracking training for staff. The process is time-consuming, confusing, and prone to errors.
-
-Desired Solution
-
-> A CRM platform that streamlines all DDS-required documentation and communication in one place. Each participant will have a profile with emergency information, schedules, and documentation tabs, while staff will have daily task checklists, automated reminders for missing notes, and the ability to upload photos or generate varied progress note text. The system will track ISP and quarterly deadlines with integrated calendars, compile data into trends, and provide a user-friendly portal for parents to complete required paperwork. It will also feature a dedicated training log tab for each participant, staff and parent communication tools, and printable versions of documents.
-
-📁 Folder: `goal-tracker`
-
-
 For your reference, [this document](https://docs.google.com/document/d/1QoyHmOhcS8u4RWKbkYsZFRUyoqzl7UF9Ki5QRweSVQ0/edit?tab=t.0) also contains information on specifications for each problem and desired solution.
 
