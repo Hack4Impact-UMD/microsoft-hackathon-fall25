@@ -1,1 +1,0 @@
-# Visual Scheduling & Daily Routines

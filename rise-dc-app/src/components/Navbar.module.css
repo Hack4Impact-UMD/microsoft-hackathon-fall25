@@ -1,0 +1,19 @@
+.navbar {
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  gap: 30px;
+}
+
+.logo {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  color: inherit;
+}
+
+.link {
+  text-decoration: none;
+  font-size: 16px;
+  color: inherit;
+}

@@ -1,12 +1,19 @@
 # 🚀 Microsoft x RISE DC x Hack4Impact-UMD
 Welcome to the Microsoft x Rise DC x Hack4Impact-UMD Hackathon! 🎉 We're so excited to have all of us work on such a meaningful and impactful project, and can't wait to see what we all build together!
 
-Throughout the course of this week, you will be working on a specific subproject alongside your assigned team. To make sure we avoid code conflicts and are able to organize all the features easily for Rise DC, you will notice that we have folders for each. Please do all work for your respective feature within the folder!
-
-Also, as the week progresses, this readme will be updated with any new information that participants should know and understand, so please keep an eye on the readme at least once a day!
-The project descriptions for each feature are provided below, along with their associated folders.
+This is a single React application with two main features for RISE DC. All teams will work together in the same codebase to build an integrated solution.
 
 Good luck to you all, and have fun! This is going to be an amazing week. ✨
+
+## 🚀 Getting Started
+
+```bash
+cd rise-dc-app
+npm install
+npm run dev
+```
+
+The app includes a basic temporary navbar to navigate between the two main features.
 
 ## ❤️ About RISE DC
 
@@ -23,7 +30,7 @@ Desired Solution
 
 > A digital adaptive cookbook that uses simple visuals and step-by-step instructions to make recipes easier to follow. Features would include multimedia guides (images, gifs, or short videos showing actions like “spread peanut butter”), basic appliance tutorials (using the microwave or oven), and the ability for participants or supports to add and save custom recipes. The cookbook would also include meal prep planning (assigning recipes to specific meals and days of the week), along with a “cart” system to generate grocery lists according to the user's budget.
 
-📁 Folder: `cookbook`
+📍 Component: `/src/pages/Cookbook.jsx`
 
 
 ### 📆 Visual Scheduling & Daily Routines
@@ -36,7 +43,7 @@ Desired Solution
 
 > A scheduling interface offering customizable daily and task-based schedules with simple words and visuals for ease of use at home or at Rise DC. It will include features such as voice prompts, alarms, detailed checklists, accountability methods, visual supports, and both participant and support interfaces to promote independence, reduce staff reliance, and allow seamless collaboration between participants, families, and staff
 
-📁 Folder: `scheduler` 
+📍 Component: `/src/pages/Scheduler.jsx` 
 
 For your reference, [this document](https://docs.google.com/document/d/1QoyHmOhcS8u4RWKbkYsZFRUyoqzl7UF9Ki5QRweSVQ0/edit?tab=t.0) also contains information on specifications for each problem and desired solution.
 

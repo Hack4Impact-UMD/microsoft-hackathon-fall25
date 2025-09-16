@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  background-color: #ffffff;
+  color: #213547;
+}
+
+* {
+  box-sizing: border-box;
+}
