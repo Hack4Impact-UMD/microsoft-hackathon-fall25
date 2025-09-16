@@ -28,8 +28,8 @@ src/
 
 ## Team Guidelines
 
-- **Cookbook Team**: Work in `/src/pages/Cookbook.jsx` and related components
-- **Scheduler Team**: Work in `/src/pages/Scheduler.jsx` and related components
+- **Cookbook Team**: Work in `/src/pages/Cookbook.tsx` and related components
+- **Scheduler Team**: Work in `/src/pages/Scheduler.tsx` and related components
 - **Both Teams**: Use `/src/shared/` for any reusable code to prevent duplication
 - Maintain consistent styling across features using shared components
 
