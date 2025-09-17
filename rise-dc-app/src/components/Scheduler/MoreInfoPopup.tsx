@@ -1,6 +1,7 @@
 import { useState } from "react"
 import styles from './MoreInfo.module.css'
 import CloseIcon from '@mui/icons-material/Close';
+import AddInfoButton from "./AddInfoButton";
 
 interface MoreInfoPopupProps {
     popupIsOpen: boolean
@@ -13,16 +14,22 @@ export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen}: MoreInfoPop
             {popupIsOpen ? 
                 <div className={styles.popupContainer}>
                     <div className={styles.popupHeader}>
-                        <CloseIcon 
-                            sx={{
-                                fontSize: 40,
-                                '&:hover': {
-                                    opacity: "80%"
-                                }
-                            }} 
-                            onClick={()=>{setPopupIsOpen(false)}}
-                        ></CloseIcon>
+                        <div className={styles.headerActions}>
+                            <AddInfoButton />
+                            <CloseIcon 
+                                sx={{
+                                    fontSize: 40,
+                                    marginLeft: "12px",
+                                    cursor: "pointer",
+                                    '&:hover': {
+                                        opacity: "80%"
+                                    }
+                                }} 
+                                onClick={()=>{setPopupIsOpen(false)}}
+                            />
+                        </div>
                     </div>
+                    {/* Other popup content here */}
                 </div>    
             : ""}
         </>
