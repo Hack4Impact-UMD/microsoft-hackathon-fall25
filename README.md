@@ -13,7 +13,7 @@ npm install
 npm run dev
 ```
 
-The app includes a basic temporary navbar to navigate between the two main features.
+The app includes a basic temporary navbar to navigate between the two main features!
 
 ## ❤️ About RISE DC
 
