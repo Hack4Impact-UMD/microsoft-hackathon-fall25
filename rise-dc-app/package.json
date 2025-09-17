@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/node": "^24.5.0",
+    "microsoft-cognitiveservices-speech-sdk": "^1.45.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.1",
