@@ -1,11 +1,12 @@
 import { SpeechConfig, AudioConfig, SpeechSynthesizer, ResultReason, SpeechSynthesisResult } from "microsoft-cognitiveservices-speech-sdk";
 
-export async function textToSpeech(text: string, filename: string) {
+export async function textToSpeech(text: string, _filename?: string) {
   if (!import.meta.env.VITE_SPEECH_KEY || !import.meta.env.VITE_SPEECH_REGION) {
     throw new Error("Missing credentials for text-to-speech")
   }
   const speechConfig = SpeechConfig.fromSubscription(import.meta.env.VITE_SPEECH_KEY, import.meta.env.VITE_SPEECH_REGION);
-  const audioConfig = AudioConfig.fromAudioFileOutput(filename);
+
+  const audioConfig = AudioConfig.fromDefaultSpeakerOutput();
 
   speechConfig.speechSynthesisVoiceName = "en-US-AvaMultilingualNeural";
 
