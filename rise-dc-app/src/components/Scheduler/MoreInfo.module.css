@@ -1,0 +1,21 @@
+.popupContainer {
+    display: flex;
+    justify-content: center;   
+    background-color: #f5f5f5; 
+    width: 80%;             
+    height: 80%;
+    position: absolute;
+    top: 50%;                  
+    left: 50%;
+    transform: translate(-50%, -50%); /* correct centering */
+    z-index: 1000;             
+    border-radius: 12px;       
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+    padding: 16px;           
+}
+
+.popupHeader {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}

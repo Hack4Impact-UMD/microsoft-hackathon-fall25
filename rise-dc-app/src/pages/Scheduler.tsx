@@ -1,3 +1,4 @@
+import MoreInfoButton from '../components/Scheduler/MoreInfoButton'
 import styles from './Page.module.css'
 
 export default function Scheduler() {
