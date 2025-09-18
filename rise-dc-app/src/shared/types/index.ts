@@ -73,17 +73,3 @@ export interface Instruction {
   text_instructions: string;
   image_id?: string;
 }
-
-export interface SlideshowImage {
-  id: string;
-  src: string;
-  alt: string;
-  caption?: string;
-}
-
-export interface SlideshowProps {
-  title: string;
-  images: SlideshowImage[];
-  viewMode?: 'list' | 'grid';
-  className?: string;
-}
