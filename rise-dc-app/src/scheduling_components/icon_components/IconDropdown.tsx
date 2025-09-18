@@ -6,9 +6,23 @@ import {
   Chip,
   Tooltip,
   Card,
-  CardContent,
   CardActionArea
 } from '@mui/material';
+
+/**
+ * IconDropdown Component
+ * 
+ * A searchable grid component that displays icons in a 4-column layout.
+ * Users can search for specific activities and select them by clicking.
+ * Designed for accessibility with large touch targets and clear visual feedback.
+ * 
+ * Features:
+ * - Search functionality to filter icons
+ * - 4-column responsive grid layout
+ * - Visual selection feedback with orange highlighting
+ * - Tooltips for better accessibility
+ * - Selected icon display as a chip
+ */
 import {
   SportsSoccer,
   MenuBook,
@@ -40,9 +54,14 @@ import {
   Psychology,
   Bedtime,
   Medication
-} from '@mui/icons-material'; // importing all the icons from MUI
+} from '@mui/icons-material';
 
-// maps icons to their respective components
+/**
+ * Icon Mapping Configuration
+ * 
+ * Maps icon names (strings) to their corresponding MUI icon components.
+ * This allows dynamic icon rendering based on the icon name from the data.
+ */
 const iconMap: { [key: string]: React.ComponentType<any> } = {
   SportsSoccer,
   MenuBook,
@@ -76,16 +95,25 @@ const iconMap: { [key: string]: React.ComponentType<any> } = {
   Medication
 };
 
+// name to icon mapping interface
 interface IconOption {
   name: string;
   icon: string;
 }
 
+/**
+ * Props interface for IconDropdown component
+ */
 interface IconDropdownProps {
+  /** Category key (hobbies, chores, skills, hygiene) */
   category: string;
+  /** Display title of the category */
   title: string;
+  /** Array of icon options for this category */
   icons: IconOption[];
+  /** Currently selected icon name */
   selectedIcon?: string;
+  /** Callback function when an icon is selected (filler logic currently) */
   onIconSelect: (category: string, iconName: string, iconType: string) => void;
 }
 
@@ -96,11 +124,17 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
   selectedIcon,
   onIconSelect
 }) => {
+  // State for search functionality
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Find the currently selected icon data and component
   const selectedIconData = icons.find(icon => icon.name === selectedIcon);
   const SelectedIconComponent = selectedIconData ? iconMap[selectedIconData.icon] : null;
 
-  // Filter icons based on search term
+  /**
+   * Filter icons based on search term
+   * Uses useMemo for performance optimization
+   */
   const filteredIcons = useMemo(() => {
     if (!searchTerm) return icons;
     return icons.filter(icon => 
@@ -108,6 +142,11 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
     );
   }, [icons, searchTerm]);
 
+  /**
+   * Handles icon selection when user clicks on an icon
+   * @param iconOption - The selected icon option
+   * this doesn't do anything yet
+   */
   const handleIconClick = (iconOption: IconOption) => {
     onIconSelect(category, iconOption.name, iconOption.icon);
   };
@@ -232,7 +271,7 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        fontFamily: 'Neue Haas Grotesk Display Pro, sans-serif' // filler
+                        fontFamily: 'Neue Haas Grotesk Display Pro, sans-serif' // filler (doesn't work)
                       }}
                     >
                       {iconOption.name}
@@ -245,8 +284,8 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
         })}
       </Box>
 
-      {/* No results message */}
-      {filteredIcons.length === 0 && searchTerm && (
+      {/* no results found message */}
+      {filteredIcons.length === 0 && searchTerm && (                                        // this is filler as well (doesn't work)
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 2, fontFamily: 'Neue Haas Grotesk Display Pro, sans-serif', fontSize: '0.8rem' }}>
           No {title.toLowerCase()} found matching "{searchTerm}"
         </Typography>

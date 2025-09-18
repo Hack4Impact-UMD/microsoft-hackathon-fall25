@@ -10,7 +10,26 @@ import {
 } from '@mui/material';
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import IconDropdown from './IconDropdown';
-// Define icon categories with their respective icons
+
+/**
+ * IconCard Component
+ * 
+ * A collapsible card component that displays different activity categories
+ * (hobbies, chores, skills, hygiene) in a vertical stack. Each category can be
+ * expanded/collapsed to show/hide the icon selection interface.
+ * 
+ * Features:
+ * - Collapsible categories for better mobile UX
+ * - Visual feedback with expand/collapse icons
+ * - Selected activities summary display
+ * - Orange and grey color scheme for accessibility
+ */
+/**
+ * Icon Categories Configuration
+ * 
+ * Defines the four main activity categories with their respective icons.
+ * Each category contains a title and an array of icon objects with name and MUI icon type.
+ */
 const iconCategories = {
   hobbies: {
     title: 'Hobbies',
@@ -66,29 +85,59 @@ const iconCategories = {
   }
 };
 
+/**
+ * Props interface for IconCard component
+ */
 interface IconCardProps {
+  /** Callback function called when an icon is selected */
   onIconSelect?: (category: string, iconName: string, iconType: string) => void;
 }
 
 const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
+  // State to track which icons are selected in each category
   const [selectedIcons, setSelectedIcons] = useState<{[key: string]: string}>({});
+  
+  // State to track which categories are expanded/collapsed
   const [expandedCategories, setExpandedCategories] = useState<{[key: string]: boolean}>({});
 
+  /**
+   * Handles icon selection from child IconDropdown components
+   * @param category - The category key (hobbies, chores, skills, hygiene)
+   * @param iconName - The name of the selected activity
+   * @param iconType - The MUI icon type
+   */
   const handleIconSelect = (category: string, iconName: string, iconType: string) => {
+    // Update local state with selected icon
     setSelectedIcons(prev => ({
       ...prev,
       [category]: iconName
     }));
     
+    // Call parent callback if provided
     if (onIconSelect) {
       onIconSelect(category, iconName, iconType);
     }
   };
 
+  /**
+   * Toggles the expanded/collapsed state of a category
+   * 
+   * This function handles the click events on category headers to expand/collapse
+   * the icon selection interface. It uses a functional state update to toggle
+   * the boolean value for the specific category.
+   * 
+   * @param categoryKey - The category key to toggle (hobbies, chores, skills, hygiene)
+   * 
+   * How it works:
+   * 1. Takes the current expandedCategories state
+   * 2. Spreads all existing category states (...prev)
+   * 3. Toggles the specific category's boolean value (!prev[categoryKey])
+   * 4. Updates the state with the new object
+   */
   const handleCategoryToggle = (categoryKey: string) => {
     setExpandedCategories(prev => ({
       ...prev,
-      [categoryKey]: !prev[categoryKey]
+      [categoryKey]: !prev[categoryKey]  // Toggle: true becomes false, false becomes true
     }));
   };
 
@@ -125,6 +174,7 @@ const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
           maxWidth: '400px',
           margin: '0 auto'
         }}>
+          {/* Render each category as a collapsible section */}
           {Object.entries(iconCategories).map(([categoryKey, category]) => (
             <Paper 
               key={categoryKey}
@@ -132,22 +182,24 @@ const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
               sx={{ 
                 borderRadius: 2,
                 backgroundColor: '#F5F5F5',
-                overflow: 'hidden'
+                overflow: 'hidden'  // Ensures content doesn't overflow rounded corners
               }}
             >
+              {/* Clickable header that toggles collapse state */}
               <Box 
                 sx={{ 
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   p: 2,
-                  cursor: 'pointer',
+                  cursor: 'pointer',  // Shows hand cursor on hover
                   '&:hover': {
-                    backgroundColor: '#EEEEEE'
+                    backgroundColor: '#EEEEEE'  // Visual feedback on hover
                   }
                 }}
-                onClick={() => handleCategoryToggle(categoryKey)}
+                onClick={() => handleCategoryToggle(categoryKey)}  // Toggle collapse on click
               >
+                {/* Category title */}
                 <Typography 
                   variant="subtitle1" 
                   sx={{ 
@@ -159,11 +211,13 @@ const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
                   {category.title}
                 </Typography>
                 
+                {/* expand/collapse icon that changes based on state */}
                 <IconButton size="small">
                   {expandedCategories[categoryKey] ? <ExpandLess /> : <ExpandMore />}
                 </IconButton>
               </Box>
               
+              {/* Collapsible content area */}
               <Collapse in={expandedCategories[categoryKey]}>
                 <Box sx={{ p: 2, pt: 0 }}>
                   <IconDropdown
@@ -179,32 +233,6 @@ const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
           ))}
         </Box>
 
-        {/* Selected Icons Summary */}
-        {Object.keys(selectedIcons).length > 0 && (
-          <Box sx={{ mt: 3, p: 3, backgroundColor: '#FD8743', borderRadius: 2 }}>
-            <Typography variant="subtitle1" gutterBottom sx={{ color: 'white', fontFamily: 'Lexend, sans-serif' }}>
-              Selected Activities:
-            </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-              {Object.entries(selectedIcons).map(([category, iconName]) => (
-                <Typography 
-                  key={category}
-                  variant="body2" 
-                  sx={{ 
-                    backgroundColor: 'white',
-                    px: 2,
-                    py: 1,
-                    borderRadius: 1,
-                    color: '#666666',
-                    fontFamily: 'Neue Haas Grotesk Display Pro, sans-serif'
-                  }}
-                >
-                  {iconCategories[category as keyof typeof iconCategories]?.title}: {iconName}
-                </Typography>
-              ))}
-            </Box>
-          </Box>
-        )}
       </CardContent>
     </Card>
   );
