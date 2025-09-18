@@ -7,15 +7,22 @@ interface MoreInfoPopupProps {
     popupIsOpen: boolean
     setPopupIsOpen: Function
 }
-export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen}: MoreInfoPopupProps) {
 
+const placeholderEvents = [
+    {title: "Wash Hands", description: "Use soap and water for 1 minute"}
+]
+export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen}: MoreInfoPopupProps) {
+    const [info, setInfo] = useState(placeholderEvents)
+
+    const addInfo = (title: string, description: string) => {
+        setInfo([...info, {title: title, description: description}])
+    }
     return (
         <>
             {popupIsOpen ? 
                 <div className={styles.popupContainer}>
                     <div className={styles.popupHeader}>
                         <div className={styles.headerActions}>
-                            <AddInfoButton />
                             <CloseIcon 
                                 sx={{
                                     fontSize: 40,
@@ -29,7 +36,14 @@ export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen}: MoreInfoPop
                             />
                         </div>
                     </div>
-                    {/* Other popup content here */}
+                    {info.map((step, index)=>(
+                        <>
+
+                            <h3>Step {index+1}: {step.title}</h3>
+                            <p>{step.description}</p>
+                        </>
+                    ))}
+                    <AddInfoButton addInfo={addInfo}/>
                 </div>    
             : ""}
         </>
