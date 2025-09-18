@@ -1,5 +1,6 @@
 import { SpeechConfig, AudioConfig, SpeechSynthesizer, ResultReason, SpeechSynthesisResult, AudioOutputStream } from "microsoft-cognitiveservices-speech-sdk";
 
+// TODO for production: move this function to run on a secure backend environment, so VITE_SPEECH_KEY isn't exposed client-side
 export async function getAudioBlobFromText(text: string): Promise<Blob> {
   if (!import.meta.env.VITE_SPEECH_KEY || !import.meta.env.VITE_SPEECH_REGION) {
     throw new Error("Missing credentials for text-to-speech")

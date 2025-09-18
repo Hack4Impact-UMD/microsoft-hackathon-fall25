@@ -3,22 +3,14 @@ import { useRef } from "react";
 import { getAudioBlobFromText } from "../utils/textToSpeech";
 import { useMutation } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
+import { Assignment } from "../types";
 
-// TODO: ScheduleEvent is a temporary placeholder until the scheduling types are finalized & pushed
-interface ScheduleEvent {
-  id: string;
-  title: string;
-  startTime: string; // ISO-8601
-  endTime: string; // ISO-8601
-}
-
-// assume the events are sorted by start time
 interface WhatsNextButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  events: ScheduleEvent[];
+  assignments: Assignment[];
 }
 
 export default function WhatsNextButton({
-  events,
+  assignments,
   className = "",
   ...rest
 }: WhatsNextButtonProps) {
@@ -29,14 +21,17 @@ export default function WhatsNextButton({
       audioRef.current?.pause(); // if already playing
 
       const currTime = moment();
-      const nextEvent = events.find((e) =>
-        moment(e.startTime).isAfter(currTime)
+      const nextAssignment = assignments.find((a) =>
+        moment(a.startTime).isAfter(currTime)
       );
 
-      if (nextEvent) {
-        const diff = moment(nextEvent?.startTime).diff(moment.now(), "minutes");
+      if (nextAssignment) {
+        const diff = moment(nextAssignment?.startTime).diff(
+          moment.now(),
+          "minutes"
+        );
         const audioBlob = await getAudioBlobFromText(
-          `Next event is ${nextEvent.title} in ${diff} ${
+          `Next event is ${nextAssignment.name} in ${diff} ${
             diff > 1 ? "minutes" : "minute"
           }`
         );
