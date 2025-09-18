@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Cookbook from './pages/Cookbook'
 import Scheduler from './pages/Scheduler'
 import AllRecipes from './pages/AllRecipes'
+import MyRecipes from './pages/MyRecipes'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cookbook" element={<Cookbook />} />
         <Route path="/cookbook/all-recipes" element={<AllRecipes />} />
+        <Route path="/cookbook/my-recipes" element={<MyRecipes />} />
         
         <Route path="/scheduler" element={<Scheduler />} />
       </Routes>
