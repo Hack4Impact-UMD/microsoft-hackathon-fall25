@@ -1,6 +1,6 @@
 import { SpeechConfig, AudioConfig, SpeechSynthesizer, ResultReason, SpeechSynthesisResult, AudioOutputStream } from "microsoft-cognitiveservices-speech-sdk";
 
-export async function getAudioElementFromText(text: string): Promise<HTMLAudioElement> {
+export async function getAudioBlobFromText(text: string): Promise<Blob> {
   if (!import.meta.env.VITE_SPEECH_KEY || !import.meta.env.VITE_SPEECH_REGION) {
     throw new Error("Missing credentials for text-to-speech")
   }
@@ -15,10 +15,7 @@ export async function getAudioElementFromText(text: string): Promise<HTMLAudioEl
     synthesizer.speakTextAsync(text, (e: SpeechSynthesisResult) => {
       if (e.reason === ResultReason.SynthesizingAudioCompleted) {
         const blob = new Blob([e.audioData], { type: "audio/wav" });
-        const audio = new Audio(URL.createObjectURL(blob));
-        audio.play();
-        console.log('done creating audio file')
-        resolve(audio);
+        resolve(blob);
       } else {
         console.log('speech synthesis canceled');
         reject('speech synthesis canceled');

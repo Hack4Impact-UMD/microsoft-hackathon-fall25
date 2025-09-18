@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.89.0",
     "@types/node": "^24.5.0",
     "microsoft-cognitiveservices-speech-sdk": "^1.45.0",
     "moment": "^2.30.1",

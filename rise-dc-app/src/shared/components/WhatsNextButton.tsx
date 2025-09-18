@@ -1,6 +1,7 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { getAudioElementFromText } from "../utils/textToSpeech";
+import { useEffect, useRef, useState } from "react";
+import { getAudioBlobFromText } from "../utils/textToSpeech";
+import { useMutation } from "@tanstack/react-query";
 
 // TODO: ScheduleEvent is a temporary placeholder until the scheduling types are finalized & pushed
 interface ScheduleEvent {
@@ -15,22 +16,47 @@ interface WhatsNextButtonProps {
   events: ScheduleEvent[];
 }
 
-export default function WhatsNextButton(props: WhatsNextButtonProps) {
-  const { events } = props;
+
+export default function WhatsNextButton({ events }: WhatsNextButtonProps) {
   const [nextEventId, setNextEventId] = useState<string>();
-  const [audio, setAudio] = useState<HTMLAudioElement>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  const handlePlayAudio = () => {
-    const currTime = moment();
-    const nextEvent = events.find(e => moment(e.startTime).isAfter(currTime));
-    // TODO:
-    // if nextEvent hasn't changed, just play the current audio
-    // else refetch the audio for the new next event and play that instead
-    if ((!nextEvent && !nextEventId) || (nextEvent && nextEvent.id === nextEventId)) {
-      audio?.play();
+  const playAudioMutation = useMutation({
+    mutationFn: async () => {
+      audioRef.current?.pause() // if already playing
+
+      const currTime = moment();
+      const nextEvent = events.find(e => moment(e.startTime).isAfter(currTime));
+      // TODO:
+      // if nextEvent hasn't changed, just play the current audio
+      // else refetch the audio for the new next event and play that instead
+      if (nextEvent) {
+        const diff = moment(moment.now()).diff(nextEvent?.startTime, 'minutes')
+        const audioBlob = await getAudioBlobFromText(`Next event is ${nextEvent.title} in ${diff} minutes`);
+        if (!audioRef.current) throw new Error("No audio ref")
+
+        audioRef.current.src = URL.createObjectURL(audioBlob)
+        audioRef.current.play();
+      } else {
+        const audioBlob = await getAudioBlobFromText(`No events upcoming`);
+        if (!audioRef.current) throw new Error("No audio ref")
+
+        audioRef.current.src = URL.createObjectURL(audioBlob)
+        audioRef.current.play();
+      }
+    },
+    onError: (err) => {
+      alert("Failed to play audio!")
+      console.error(err);
     }
-  };
+  })
 
-  return <button onClick={handlePlayAudio}></button>;
+  return <div>
+    <button onClick={() => playAudioMutation.mutate()} disabled={playAudioMutation.isPending}>
+      What's Next
+    </button>
+    <audio ref={audioRef} style={{
+      display: 'none'
+    }}></audio>
+  </div>;
 }
