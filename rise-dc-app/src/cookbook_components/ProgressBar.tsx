@@ -13,21 +13,20 @@ const ProgressBar = ({ currentStep, totalSteps, onNext }: ProgressBarProps) => {
         Step {currentStep}/{totalSteps}
       </p>
 
-      <div className="w-full h-4 bg-[#E6E6E6] rounded-full flex  border-1 border-[#616161] overflow-hidden">
-        {/* Create progress bar based on length of recipe */}
-        {Array.from({ length: totalSteps }).map((_, index) => {
+      <div className="w-full h-4 bg-[#E6E6E6] rounded-full flex border-1 border-[#616161] overflow-hidden">        
+      {Array.from({ length: totalSteps }).map((_, index) => {
           const isComplete = index + 1 <= currentStep;
 
           return (
             <div
               key={index + 1}
               className={`
-                h-full flex-1 transition-colors duration-300
+                h-full flex-1 transition-colors duration-300 rounded ml-[-8px]
                 ${isComplete ? "bg-[#0F6CBD]" : "bg-[#E6E6E6]"}
-                
-                // Divider between steps
-                ${!isComplete && index > 0 ? "border-l-1 border-[#616161]" : ""}
+                ${!isComplete && index >= 0 ? "border-r-1 border-[#616161]" : ""}
+                ${index > 0 ? "ml-[-2px]" : ""}
               `}
+              style={{ zIndex: totalSteps - index, position: "relative" }}
             />
           );
         })}
