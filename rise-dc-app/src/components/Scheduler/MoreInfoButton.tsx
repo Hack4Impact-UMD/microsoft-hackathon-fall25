@@ -10,7 +10,7 @@ export default function MoreInfoButton ({}: MoreInfoButtonProps) {
 
     return (
         <>
-            <button onClick={()=>{setPopupIsOpen(!popupIsOpen)}}>More Info</button>
+            <button className={styles.moreInfoButton} onClick={()=>{setPopupIsOpen(!popupIsOpen)}}>More Info</button>
             <MoreInfoPopup popupIsOpen={popupIsOpen} setPopupIsOpen={setPopupIsOpen}></MoreInfoPopup>
         </>
     )

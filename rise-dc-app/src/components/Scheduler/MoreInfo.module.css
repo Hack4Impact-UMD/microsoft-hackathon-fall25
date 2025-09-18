@@ -57,3 +57,15 @@
   transform: translateY(-2px);
 }
 
+.moreInfoButton {
+  padding: 0.5rem 1rem;          /* p-2 px-4 */
+  background-color: #1f2937;     /* bg-gray-800 */
+  color: #f3f4f6;               /* text-gray-100 */
+  border-radius: 0.25rem;       /* rounded */
+  cursor: pointer;              /* cursor-pointer */
+  transition: opacity 0.2s ease, cursor 0.2s ease;
+}
+
+input, textarea, select {
+  border: 2px solid black
+}
