@@ -11,6 +11,7 @@ export default function AddInfoButton({addInfo}: AddInfoButtonProps) {
     const [textboxActive, setTextboxActive] = useState(false);
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
+    const [step, setStep] = useState(0)
 
     return (
 
@@ -34,6 +35,8 @@ export default function AddInfoButton({addInfo}: AddInfoButtonProps) {
                 addInfo = {addInfo}
                 title = {title}
                 description = {description}
+                step = {step}
+                setStep = {setStep}
                 setDescription = {setDescription}></AddInfoTextbox>
             
         </>

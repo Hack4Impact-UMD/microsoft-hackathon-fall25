@@ -10,10 +10,12 @@ interface AddInfoButtonProps {
     setDescription: Function
     addInfo: Function
     title: string
+    step: number
+    setStep: Function
     description: string
 }
 
-export default function AddInfoTextbox({textboxActive, setTextboxActive, setTitle, setDescription, addInfo, title, description}: AddInfoButtonProps) {
+export default function AddInfoTextbox({textboxActive, setTextboxActive, setTitle, setDescription, addInfo, title, description, setStep, step}: AddInfoButtonProps) {
     
     //Template function to fetch all events from firebase
     const fetchEvents = () => {
@@ -63,9 +65,10 @@ export default function AddInfoTextbox({textboxActive, setTextboxActive, setTitl
                             <p>Create New:</p>
                             <div className={styles.createNew}>
                                 <input placeholder="Step Title" onChange={(e)=>{setTitle(e.target.value)}}></input>
+                                <input placeholder="Step Number" type="number" onChange={(e)=>{setStep(e.target.value)}}></input>
                                 <textarea placeholder="Add instructions here:" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
                             </div>
-                            <button className={styles.createInfo} onClick={()=>{addInfo(title, description); setTextboxActive(false)}}>Done</button>
+                            <button className={styles.createInfo} onClick={()=>{addInfo(title, description, step); setTextboxActive(false)}}>Done</button>
                     </div>
                 </div>
             )}

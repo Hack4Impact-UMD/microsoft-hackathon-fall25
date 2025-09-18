@@ -2,20 +2,21 @@ import { useState } from "react"
 import styles from './MoreInfo.module.css'
 import CloseIcon from '@mui/icons-material/Close';
 import AddInfoButton from "./AddInfoButton";
+import { Instruction } from "../../shared/types";
 
 interface MoreInfoPopupProps {
     popupIsOpen: boolean
     setPopupIsOpen: Function
 }
 
-const placeholderEvents = [
-    {title: "Wash Hands", description: "Use soap and water for 1 minute"}
-]
 export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen}: MoreInfoPopupProps) {
-    const [info, setInfo] = useState(placeholderEvents)
+    const [info, setInfo] = useState<Instruction[]>([])
 
-    const addInfo = (title: string, description: string) => {
-        setInfo([...info, {title: title, description: description}])
+    const addInfo = (title: string, description: string, stepNumber: number) => {
+        setInfo([...info, {
+            id: title, instructions: description,
+            step_number: stepNumber
+        }])
     }
     return (
         <>
@@ -36,11 +37,11 @@ export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen}: MoreInfoPop
                             />
                         </div>
                     </div>
-                    {info.map((step, index)=>(
+                    {info.slice().sort((a, b) => a.step_number - b.step_number).map((step)=>(
                         <>
 
-                            <h3>Step {index+1}: {step.title}</h3>
-                            <p>{step.description}</p>
+                            <h3>Step {step.step_number}: {step.id}</h3>
+                            <p>{step.instructions}</p>
                         </>
                     ))}
                     <AddInfoButton addInfo={addInfo}/>
