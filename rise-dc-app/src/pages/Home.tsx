@@ -1,4 +1,3 @@
-import Servings from '../cookbook_components/Servings'
 import styles from './Page.module.css'
 
 export default function Home() {
@@ -6,7 +5,6 @@ export default function Home() {
     <div className={styles.container}>
       <h1 className='text-3xl'>RISE DC</h1>
       <p>Welcome to RISE DC</p>
-      <Servings></Servings>
     </div>
   )
 }
