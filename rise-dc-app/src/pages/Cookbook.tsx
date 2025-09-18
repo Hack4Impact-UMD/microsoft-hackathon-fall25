@@ -21,7 +21,7 @@ export default function Cookbook() {
         images={[
           <ImageCard 
             src="https://www.cranfield-colours.co.uk/wp-content/uploads/2022/01/cranfield-traditional-etching-ink-mid-black-400x221.jpg"
-            howToUseOnClick={() => navigate({pathname: '/cookbook/all-recipes'})}
+            onClick={() => navigate({pathname: '/cookbook/all-recipes'})}
             caption="All Recipes"
           />,
           <ImageCard 
