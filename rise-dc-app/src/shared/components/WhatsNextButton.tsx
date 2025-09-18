@@ -20,7 +20,6 @@ interface WhatsNextButtonProps {
 
 
 export default function WhatsNextButton({ events, className = "" }: WhatsNextButtonProps) {
-  const [nextEventId, setNextEventId] = useState<string>();
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const playAudioMutation = useMutation({
