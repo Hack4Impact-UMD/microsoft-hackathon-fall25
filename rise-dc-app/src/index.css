@@ -10,4 +10,7 @@ body {
 
 * {
   box-sizing: border-box;
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }

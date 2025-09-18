@@ -11,7 +11,7 @@ const Button: React.FC<ButtonProps> = ({ label, onClick, className }) => {
   return (
       <button
         onClick={onClick}
-        className={`px-20 py-3 rounded-xl bg-[#5B5454] cursor-pointer text-white font-semibold shadow-md hover:bg-gray-800 transition duration-200 ${className}`}
+        className={`px-20 py-3 rounded-xl bg-[#0F6CBD] cursor-pointer text-white font-semibold shadow-md hover:bg-[#0B4F8C] transition duration-200 ${className}`}
         >
         {label}
       </button>
