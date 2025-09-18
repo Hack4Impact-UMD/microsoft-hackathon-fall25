@@ -1,6 +1,6 @@
 import moment from "moment";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
-import IconCard from '../scheduling_components/icon_components/icon_card';
+import IconCard from '../scheduling_components/icon_components/IconCard';
 
 import styles from "./Page.module.css";
 
