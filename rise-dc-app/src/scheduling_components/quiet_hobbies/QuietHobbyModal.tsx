@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-type Hobby = { id: string; name: string; iconURL?: string };
+import { QuietHobbyModalProps, QuietHobby } from "./types";
+
 export default function QuietHobbyModal({
     isOpen,
     onClose,
@@ -8,24 +9,25 @@ export default function QuietHobbyModal({
     onChooseActivity,
     onTakePhoto,
     initialHobbyId = "",
-}: {
-    isOpen: boolean;
-    onClose: () => void;
-    timeRange?: string;
-    hobbies: Hobby[];
-    onChooseActivity: (hobbyId: string) => void;
-    onTakePhoto: () => void;
-    initialHobbyId?: string;
-}) {
+}: QuietHobbyModalProps) {
     const [selectedId, setSelectedId] = useState(initialHobbyId);
+    const [selectedHobby, setSelectedHobby] = useState<QuietHobby | null>(null);
     const dialogRef = useRef<HTMLDivElement>(null);
+    
     useEffect(() => {
         if (isOpen) {
-        setSelectedId(initialHobbyId);
-        setTimeout(() => dialogRef.current?.querySelector("select")?.focus(), 0);
+            setSelectedId(initialHobbyId);
+            setTimeout(() => dialogRef.current?.querySelector("select")?.focus(), 0);
         }
-}, [isOpen, initialHobbyId]);
-if (!isOpen) return null;
+    }, [isOpen, initialHobbyId]);
+
+    // Update selected hobby when selectedId changes
+    useEffect(() => {
+        const hobby = hobbies.find(h => h.id === selectedId);
+        setSelectedHobby(hobby || null);
+    }, [selectedId, hobbies]);
+
+    if (!isOpen) return null;
 return (
     <div
       role="dialog"
@@ -96,6 +98,30 @@ return (
             </span>
           </div>
         </div>
+
+        {/* Selected hobby display */}
+        {selectedHobby && (
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                {selectedHobby.icon ? (
+                  <img 
+                    src={selectedHobby.icon} 
+                    alt={selectedHobby.name}
+                    className="w-8 h-8 object-contain"
+                  />
+                ) : (
+                  <span className="text-blue-600 text-xl">📝</span>
+                )}
+              </div>
+              <div>
+                <h3 className="font-semibold text-blue-900">{selectedHobby.name}</h3>
+                <p className="text-sm text-blue-700">Selected Activity</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* actions */}
         <div className="mt-6 space-y-3">
           <button
@@ -110,6 +136,7 @@ return (
             className="w-full rounded-xl bg-blue-600 px-4 py-3 text-white text-[16px] font-semibold hover:brightness-95"
           >
             <span className="mr-2" aria-hidden>
+              📷
             </span>
             Take Photo
           </button>
