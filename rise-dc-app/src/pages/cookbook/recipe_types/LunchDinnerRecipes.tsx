@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router"; 
-import ImageCardStar from '../shared/components/ImageCardStar';
-import Slideshow from '../shared/components/Slideshow';
+import ImageCardStar from '../../../shared/components/ImageCardStar';
+import Slideshow from '../../../shared/components/Slideshow';
 
-export default function BreakfastRecipes() {
+export default function LunchDinnerRecipes() {
     const navigate = useNavigate();
-
     const placeholder = "https://www.cranfield-colours.co.uk/wp-content/uploads/2022/01/cranfield-traditional-etching-ink-mid-black-400x221.jpg";
 
     return (
@@ -18,40 +17,40 @@ export default function BreakfastRecipes() {
             </button>
 
             <Slideshow 
-                title="Breakfast" 
+                title="Lunch/Dinner" 
                 images={[
                 <ImageCardStar
-                    key="b1"
+                    key="ld1"
                     src={placeholder}
                     caption="Meal Title"
                     defaultFavorite={false}
                 />,
                 <ImageCardStar
-                    key="b2"
+                    key="ld2"
                     src={placeholder}
                     caption="Meal Title"
                     defaultFavorite={false}
                 />,
                 <ImageCardStar
-                    key="b3"
+                    key="ld3"
                     src={placeholder}
                     caption="Meal Title"
                     defaultFavorite={false}
                 />,
                 <ImageCardStar
-                    key="b4"
+                    key="ld4"
                     src={placeholder}
                     caption="Meal Title"
                     defaultFavorite={false}
                 />,
                 <ImageCardStar
-                    key="b5"
+                    key="ld5"
                     src={placeholder}
                     caption="Meal Title"
                     defaultFavorite={false}
                 />,
                 <ImageCardStar
-                    key="b6"
+                    key="ld6"
                     src={placeholder}
                     caption="Meal Title"
                     defaultFavorite={false}

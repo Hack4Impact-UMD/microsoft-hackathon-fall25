@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"; 
-import ImageCard from '../shared/components/ImageCard';
-import Slideshow from '../shared/components/Slideshow';
+import ImageCard from '../../shared/components/ImageCard';
+import Slideshow from '../../shared/components/Slideshow';
 
 export default function AllRecipes() {
     const navigate = useNavigate();

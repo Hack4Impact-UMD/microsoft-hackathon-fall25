@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"; 
-import ImageCardStar from '../shared/components/ImageCardStar';
-import Slideshow from '../shared/components/Slideshow';
+import ImageCardStar from '../../../shared/components/ImageCardStar';
+import Slideshow from '../../../shared/components/Slideshow';
 
 export default function DessertRecipes() {
     const navigate = useNavigate();

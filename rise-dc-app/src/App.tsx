@@ -3,12 +3,12 @@ import Navbar from './shared/components/Navbar'
 import Home from './pages/Home'
 import Cookbook from './pages/Cookbook'
 import Scheduler from './pages/Scheduler'
-import AllRecipes from './pages/AllRecipes'
-import MyRecipes from './pages/MyRecipes'
-import BreakfastRecipes from './pages/BreakfastRecipes'
-import LunchDinnerRecipes from './pages/LunchDinnerRecipes'
-import SnackRecipes from './pages/SnackRecipes'
-import DessertRecipes from './pages/DessertRecipes'
+import AllRecipes from './pages/cookbook/AllRecipes'
+import MyRecipes from './pages/cookbook/MyRecipes'
+import BreakfastRecipes from './pages/cookbook/recipe_types/BreakfastRecipes'
+import LunchDinnerRecipes from './pages/cookbook/recipe_types/LunchDinnerRecipes'
+import SnackRecipes from './pages/cookbook/recipe_types/SnackRecipes'
+import DessertRecipes from './pages/cookbook/recipe_types/DessertRecipes'
 
 function App() {
   return (
