@@ -133,7 +133,6 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
 
   /**
    * Filter icons based on search term
-   * Uses useMemo for performance optimization
    */
   const filteredIcons = useMemo(() => {
     if (!searchTerm) return icons;
@@ -208,6 +207,7 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
         borderRadius: 1,
         backgroundColor: '#F5F5F5'
       }}>
+        {/* depending on the iconOption, display icons with matching terms */}
         {filteredIcons.map((iconOption) => {
           const IconComponent = iconMap[iconOption.icon];
           const isSelected = selectedIcon === iconOption.name;
@@ -271,7 +271,6 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        fontFamily: 'Neue Haas Grotesk Display Pro, sans-serif' // filler (doesn't work)
                       }}
                     >
                       {iconOption.name}
@@ -285,8 +284,8 @@ const IconDropdown: React.FC<IconDropdownProps> = ({
       </Box>
 
       {/* no results found message */}
-      {filteredIcons.length === 0 && searchTerm && (                                        // this is filler as well (doesn't work)
-        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 2, fontFamily: 'Neue Haas Grotesk Display Pro, sans-serif', fontSize: '0.8rem' }}>
+      {filteredIcons.length === 0 && searchTerm && (                                       
+        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 2, fontSize: '0.8rem' }}>
           No {title.toLowerCase()} found matching "{searchTerm}"
         </Typography>
       )}

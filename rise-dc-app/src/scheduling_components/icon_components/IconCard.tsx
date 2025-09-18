@@ -176,6 +176,7 @@ const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
         }}>
           {/* Render each category as a collapsible section */}
           {Object.entries(iconCategories).map(([categoryKey, category]) => (
+            // paper component creates the raised surface effect, can remove if needed
             <Paper 
               key={categoryKey}
               elevation={2} 
@@ -217,7 +218,7 @@ const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
                 </IconButton>
               </Box>
               
-              {/* Collapsible content area */}
+              {/* collapsible content area */}
               <Collapse in={expandedCategories[categoryKey]}>
                 <Box sx={{ p: 2, pt: 0 }}>
                   <IconDropdown
