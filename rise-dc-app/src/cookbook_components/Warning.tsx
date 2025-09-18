@@ -1,15 +1,14 @@
-import errorIcon from "../../assets/warning_icon.jpg";
+import ErrorIcon from '@mui/icons-material/Error';
 
 type WarningProps = {
-  text: string;
+  label: string;
 };
 
-const Warning = ({ text }: WarningProps) => {
+const Warning = ({ label }: WarningProps) => {
   return (
     <div className="px-8 py-4 bg-white border border-black flex items-center justify-center">
-      <img src={errorIcon} alt="Warning icon" className="mr-4" />
-
-      <span className="text-black text-xl font-bold">{text}</span>
+      <ErrorIcon className='mr-4'></ErrorIcon>
+      <span className="text-black text-xl">{label}</span>
     </div>
   );
 };
