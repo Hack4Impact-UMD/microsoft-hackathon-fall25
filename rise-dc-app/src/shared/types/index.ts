@@ -70,6 +70,43 @@ export interface Instruction {
   id: string;
   step_number: number;
   instructions: string;
-  text_instructions: string;
   image_id?: string;
+}
+
+// Scheduling Types
+export interface Assignment {
+  id: string;
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  event: Event;
+}
+
+export interface Event {
+  id: string;
+  name: string;
+  icon: string; 
+  complete: boolean;
+  tasks: TaskAssignment[]; 
+  image: Image;
+}
+
+export interface TaskAssignment {
+  id: string;
+  complete: boolean;
+}
+
+export interface Task {
+  id: string;
+  name: string;
+  icon: string;
+  category: 'Hobbies' | 'Hygiene' | 'Chores' | 'Skills' | 'Quiet Hobbies' | 'Miscellaneous';
+}
+
+export interface Feedback {
+  id: string;
+  taskAssignmentId: string;
+  taskId: string;
+  reaction: 'yes' | 'maybe' | 'no';
 }
