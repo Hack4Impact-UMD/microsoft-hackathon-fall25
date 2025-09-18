@@ -1,19 +1,19 @@
 import React, { useState} from "react";
 import ImageCard from "../shared/components/ImageCard";
 import Button from "../cookbook_components/Button";
+import { RecipeIngredient } from "../shared/types";
 
 interface IngredientDisplayProps {
     src: string;
-    ingredient: string;
-    quantity: string;
+    ingredient: RecipeIngredient;
     height?: number;
     width?: number;
     alt?: string;
     className?: string;
-    onToggle?: (ingredient: string, hasIngredient: boolean) => void;
+    onToggle?: (ingredient: RecipeIngredient, hasIngredient: boolean) => void;
 }
 
-const IngredientDisplay: React.FC<IngredientDisplayProps> = ({ src, ingredient, quantity, height, width, alt, className, onToggle }) => {
+const IngredientDisplay: React.FC<IngredientDisplayProps> = ({ src, ingredient, height, width, alt, className, onToggle }) => {
     const [hasIngredient, setHasIngredient] = useState(false);
 
     const handleToggle = () => {
@@ -57,7 +57,7 @@ const IngredientDisplay: React.FC<IngredientDisplayProps> = ({ src, ingredient, 
         className={`object-cover rounded-t-lg ${height || width ? '' : 'w-full'}`} 
       />
       <div className="w-full text-lg text-center py-5 font-bold rounded-b-lg">
-        {quantity} {ingredient}
+        {ingredient.quantity} {ingredient.ingredient.name}
       </div>
     </div>
   );
