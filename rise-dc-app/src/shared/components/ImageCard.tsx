@@ -7,12 +7,19 @@ interface ImageCardProps {
   alt?: string;
   caption?: string;
   howToUseOnClick?: () => void;
+  onClick?: () => void;
   className?: string;
 }
 
-const ImageCard: React.FC<ImageCardProps> = ({ src, height, width, alt, caption, howToUseOnClick, className }: ImageCardProps) => {
+const ImageCard: React.FC<ImageCardProps> = ({ src, height, width, alt, caption, howToUseOnClick, onClick, className }: ImageCardProps) => {
+  const Wrapper = onClick ? "button" : "div";
+
   return (
-    <div className={`flex flex-col border-2 rounded-lg items-center w-fit ${className}`}>
+    <Wrapper 
+      onClick={onClick}
+      className={`flex flex-col border-2 rounded-lg items-center w-fit ${onClick ? "cursor-pointer" : ""} ${className}`}
+
+    >
       <img 
         src={src} 
         alt={alt} 
@@ -31,7 +38,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ src, height, width, alt, caption,
             </button>
         </div>
       )}
-    </div>
+    </Wrapper>
   );
 };
 
