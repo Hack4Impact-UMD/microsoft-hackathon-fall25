@@ -85,6 +85,5 @@ export interface SlideshowProps {
   title: string;
   images: SlideshowImage[];
   viewMode?: 'list' | 'grid';
-  onViewModeChange?: (mode: 'list' | 'grid') => void;
   className?: string;
 }

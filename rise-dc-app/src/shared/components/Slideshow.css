@@ -3,9 +3,6 @@
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
 }
 
@@ -13,29 +10,6 @@
   font-size: 24px;
   margin: 0;
   color: #333;
-}
-
-.buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.button {
-  padding: 8px 16px;
-  border: 1px solid #ccc;
-  background: white;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.button:hover {
-  background: #f0f0f0;
-}
-
-.button.active {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
 }
 
 .images {
