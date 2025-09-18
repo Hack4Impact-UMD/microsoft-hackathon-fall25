@@ -2,6 +2,7 @@ import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { getAudioBlobFromText } from "../utils/textToSpeech";
 import { useMutation } from "@tanstack/react-query";
+import { twMerge } from "tailwind-merge";
 
 // TODO: ScheduleEvent is a temporary placeholder until the scheduling types are finalized & pushed
 interface ScheduleEvent {
@@ -14,10 +15,11 @@ interface ScheduleEvent {
 // assume the events are sorted by start time
 interface WhatsNextButtonProps {
   events: ScheduleEvent[];
+  className?: string
 }
 
 
-export default function WhatsNextButton({ events }: WhatsNextButtonProps) {
+export default function WhatsNextButton({ events, className = "" }: WhatsNextButtonProps) {
   const [nextEventId, setNextEventId] = useState<string>();
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -31,8 +33,8 @@ export default function WhatsNextButton({ events }: WhatsNextButtonProps) {
       // if nextEvent hasn't changed, just play the current audio
       // else refetch the audio for the new next event and play that instead
       if (nextEvent) {
-        const diff = moment(moment.now()).diff(nextEvent?.startTime, 'minutes')
-        const audioBlob = await getAudioBlobFromText(`Next event is ${nextEvent.title} in ${diff} minutes`);
+        const diff = moment(nextEvent?.startTime).diff(moment.now(), 'minutes');
+        const audioBlob = await getAudioBlobFromText(`Next event is ${nextEvent.title} in ${diff} ${diff > 1 ? 'minutes' : 'minute'}`);
         if (!audioRef.current) throw new Error("No audio ref")
 
         audioRef.current.src = URL.createObjectURL(audioBlob)
@@ -52,11 +54,9 @@ export default function WhatsNextButton({ events }: WhatsNextButtonProps) {
   })
 
   return <div>
-    <button onClick={() => playAudioMutation.mutate()} disabled={playAudioMutation.isPending}>
+    <button className={twMerge("p-2 px-4 bg-gray-800 text-gray-100 rounded cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed", className)} onClick={() => playAudioMutation.mutate()} disabled={playAudioMutation.isPending}>
       What's Next
     </button>
-    <audio ref={audioRef} style={{
-      display: 'none'
-    }}></audio>
+    <audio ref={audioRef} className="hidden"></audio>
   </div>;
 }
