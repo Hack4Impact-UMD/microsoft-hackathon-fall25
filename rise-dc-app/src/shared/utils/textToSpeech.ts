@@ -21,6 +21,10 @@ export async function getAudioBlobFromText(text: string): Promise<Blob> {
         reject('speech synthesis canceled');
       }
       synthesizer.close();
-    }, (error: string) => console.error(error));
+    }, (error: string) => {
+      console.error(error)
+      synthesizer.close()
+      reject(error)
+    });
   });
 }
