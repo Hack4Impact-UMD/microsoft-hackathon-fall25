@@ -26,11 +26,11 @@ export default function Servings({ count = 4, onChange, className = "" }: Servin
         const showHover = hovered === n && !filled;
 
         const base =
-          "relative w-10 aspect-square rounded-full border flex items-center justify-center select-none cursor-pointer transition-colors";
+          "relative w-10 aspect-square rounded-full border flex items-center justify-center select-none cursor-pointer transition-colors hover:border-2 hover:border-[#0C77D9]";
         const colors = filled
-          ? "bg-[#0E4775] border-[#0E4775] text-white"
+          ? "bg-[#0E4775] text-white"
           : showHover
-          ? "bg-[#0C77D9] border-[#0C77D9] text-white"
+          ? "bg-[#0C77D9] text-white"
           : "bg-white border-black text-black";
 
         return (
