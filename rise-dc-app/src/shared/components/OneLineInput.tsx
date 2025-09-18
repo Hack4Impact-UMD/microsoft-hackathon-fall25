@@ -1,5 +1,5 @@
 interface OneLineInputProps {
-  title: string;
+  title?: string;
   isRequired?: boolean;
   value: string;
   onChange: (value: string) => void;
