@@ -17,16 +17,16 @@ export default function Servings({ count = 4, onChange, className = "" }: Servin
     onChange?.(n);
   };
 
-  
+  const intCount = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
   return (
-    <div className={`flex flex-wrap gap-3 ${className}`} aria-label="Servings selector">
-      {Array.from({ length: Math.max(0, count) }, (_, idx) => {
+    <div role="group" className={`flex flex-wrap gap-3 ${className}`} aria-label="Servings selector">
+      {Array.from({ length: intCount }, (_, idx) => {
         const n = idx + 1;
         const filled = selected >= n;
         const showHover = hovered === n && !filled;
 
         const base =
-          "relative w-10 aspect-square rounded-full border flex items-center justify-center select-none cursor-pointer transition-colors hover:border-2 hover:border-[#0C77D9]";
+          "relative w-10 aspect-square rounded-full border flex items-center justify-center select-none cursor-pointer transition-colors hover:-2 hover:border-[#0C77D9]";
         const colors = filled
           ? "bg-[#0E4775] text-white"
           : showHover
@@ -34,24 +34,21 @@ export default function Servings({ count = 4, onChange, className = "" }: Servin
           : "bg-white border-black text-black";
 
         return (
-          <div
+          <button
             key={n}
+            type="button"
             className={`${base} ${colors}`}
-            role="button"
             tabIndex={0}
             aria-label={`${n} serving${n > 1 ? "s" : ""}`}
+            aria-pressed={filled}
             onMouseEnter={() => setHovered(n)}
             onMouseLeave={() => setHovered(null)}
             onClick={() => handleSelect(n)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                handleSelect(n);
-              }
-            }}
+            onFocus={() => setHovered(n)}
+            onBlur={() => setHovered(null)}
           >
             <span className="font-semibold">{n}</span>
-          </div>
+          </button>
         );
       })}
     </div>
