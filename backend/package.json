@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build",
+    "shell": "npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "build": "^0.1.4",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "npm": "^11.6.0",
+    "run": "^1.5.0",
+    "typescript": "^5.9.2"
+  }
+}
