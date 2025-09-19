@@ -1,6 +1,7 @@
 import moment from "moment";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
 import styles from "./Page.module.css";
+import MoreInfoButton from "../components/Scheduler/MoreInfoButton";
 
 export default function Scheduler() {
   return (
@@ -29,6 +30,7 @@ export default function Scheduler() {
           },
         ]}
       />
+      <MoreInfoButton></MoreInfoButton>
     </div>
   );
 }
