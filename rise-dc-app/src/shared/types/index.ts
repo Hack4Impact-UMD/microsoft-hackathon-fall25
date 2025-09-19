@@ -100,8 +100,10 @@ export interface Task {
   id: string;
   name: string;
   icon: string;
+  steps: string[];
   category: 'Hobbies' | 'Hygiene' | 'Chores' | 'Skills' | 'Quiet Hobbies' | 'Miscellaneous';
 }
+
 
 export interface Feedback {
   id: string;
