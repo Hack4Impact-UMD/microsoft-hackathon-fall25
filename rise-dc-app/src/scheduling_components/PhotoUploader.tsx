@@ -1,5 +1,6 @@
 // PhotoUploader.tsx
 import React, { useEffect, useRef, useState } from "react";
+import { CameraAlt } from "@mui/icons-material";
 
 export type ImageRec = { id: string; caption: string }; // matches your Image type
 
@@ -43,7 +44,7 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
   helperText = "Optional",
   accept = "image/*",
   multiple = true,
-  maxFiles = 4,
+  maxFiles = 1,
   maxSizeMB = 10,
   disabled,
   onFilesChange,
@@ -151,7 +152,7 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-[80%]">
       <div
         role="button"
         tabIndex={0}
@@ -174,13 +175,16 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
           addFiles(e.dataTransfer.files);
         }}
         className={[
-          "rounded-2xl border-2 border-dashed p-4 md:p-6 transition",
+          "rounded-2xl border-2 border-dashed p-4 md:p-6 transition flex flex-col items-center",
           dragOver ? "border-indigo-500 bg-indigo-50" : "border-gray-300",
           disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
         ].join(" ")}
       >
         <p className="text-lg font-semibold">
-          {label} <span className="text-gray-500 text-sm">{helperText}</span>
+          {label}{" "}
+          <span className="ml-2 inline-block bg-gray-300 text-gray-500 text-sm px-3 py-1 rounded-full shadow-sm">
+            {helperText}
+          </span>
         </p>
 
         <input
@@ -221,7 +225,7 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
                   e.stopPropagation();
                   if (!disabled && !busy) removeOne(it.id);
                 }}
-                className="absolute right-1 top-1 rounded-full bg-white/90 px-2 py-0.5 text-xs shadow"
+                className="absolute right-1 top-1 rounded-full bg-white/90 px-2 py-0.5 text-xs shadow cursor-pointer"
               >
                 ✕
               </button>
@@ -234,9 +238,7 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
           ))}
 
           {items.length < maxFiles && (
-            <div className="w-28 h-28 md:w-32 md:h-32 grid place-items-center text-sm text-gray-600 border rounded-xl">
-              + Add
-            </div>
+            <CameraAlt className="text-gray-300 !w-16 !h-16 my-10" />
           )}
         </div>
       </div>

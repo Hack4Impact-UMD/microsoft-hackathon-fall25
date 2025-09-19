@@ -35,7 +35,12 @@ export default function Scheduler() {
         ]}
       />
 
-      <button onClick={openPopup}>test</button>
+      <button
+        className="p-2 px-4 bg-[#1BBB57]/50 rounded-lg text-white cursor-pointer"
+        onClick={openPopup}
+      >
+        ✓ Mark as Done
+      </button>
       {isEventComplete && (
         <EventComplete event="brush your teeth" onClose={closePopup} />
       )}
