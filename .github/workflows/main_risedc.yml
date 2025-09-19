@@ -70,4 +70,5 @@ jobs:
         with:
           app-name: 'risedc'
           slot-name: 'Production'
-          package: rise-dc-app
+          package: .
+          app_location: "/rise-dc-app"
