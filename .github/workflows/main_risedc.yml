@@ -5,7 +5,7 @@ name: Build and deploy Node.js app to Azure Web App - risedc
 
 defaults:
   run:
-    working-directory: ./rise-dc-app
+    working-directory: rise-dc-app
 
 on:
   push:
@@ -21,6 +21,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Log directory
+        run: pwd
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
@@ -70,4 +73,5 @@ jobs:
         with:
           app-name: 'risedc'
           slot-name: 'Production'
-          package: rise-dc-app
+          package: .
+          app_location: "./rise-dc-app"
