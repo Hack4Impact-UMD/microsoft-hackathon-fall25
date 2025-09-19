@@ -1,23 +1,26 @@
 import ProgressBar from "./ProgressBar";
 import InstructionCard from "./InstructionCard";
-import { useState } from "react";
 import { Instruction } from "../shared/types";
 
-export default function StepCard({ id, step_number, instructions, image_id="" } : Instruction) {
-    const [stepCounter, setStepCounter] = useState<number>(1);
+type StepCardProp = {
+    instruction: Instruction
+    total_steps: number
+}
 
+export default function StepCard({instruction, total_steps}: StepCardProp) {
     return (
-        <div className="flex flex-col gap-4 p-3 items-center w-full max-w-md space-y-14">
+        <div className="flex flex-col gap-4 p-3 items-center w-full max-w-md space-y-5 h-full">
             <InstructionCard
                 instruction={{
-                    id: id,
-                    step_number: stepCounter,
-                    instructions: instructions,
-                    image_id: image_id
+                    id: instruction.id,
+                    step_number: instruction.step_number,
+                    instructions: instruction.instructions,
+                    image_id: instruction.image_id,
+                    warning: instruction.warning
                 }}
             />
 
-            <ProgressBar currentStep={stepCounter} totalSteps={4} onNext={() => setStepCounter(stepCounter+1)} />
+            <ProgressBar currentStep={instruction.step_number} totalSteps={total_steps}/>
         </div>
     );
-} 
+}
