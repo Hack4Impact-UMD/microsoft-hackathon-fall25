@@ -18,7 +18,7 @@
 .popupHeader {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .textarea {
@@ -69,10 +69,82 @@
   transition: opacity 0.2s ease, cursor 0.2s ease;
 }
 
-input, textarea, select {
-  border: 2px solid black
-}
-
 .stepNumber {
   width: 40px;
+}
+
+.addGoalButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(253, 135, 67, 1);
+  color: white;
+  width: 90%;
+  border-radius: 10px;
+  height: 40px;
+  margin-bottom: 10px
+}
+
+.goals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+  width: 90%;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.goal {
+  border: 1px solid rgba(253, 135, 67, 1);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px 2px 5px 5px;
+  border-radius: 7px;
+  width: 100%;
+}
+
+.step {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(253, 135, 67, 1);
+  color: white;
+  border-radius: 100px;
+  width: 20px;
+  height: 20px;
+}
+
+.goalContainer {
+  background: #fff;                    
+  border-radius: 12px;                 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);                 
+  margin: 16px auto;                   
+  width: 90%;                  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.goalImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(253, 135, 67, 1);
+  border-top-left-radius: 12px;  
+  border-top-right-radius: 12px;  
+  width: 100%;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.goalImage {
+  width: 90px;
+  height: 90px;
+  border-radius: 100px;
+  background-color: rgb(209, 209, 209);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
