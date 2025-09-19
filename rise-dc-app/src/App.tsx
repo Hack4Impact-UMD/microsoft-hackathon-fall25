@@ -9,6 +9,8 @@ import BreakfastRecipes from './pages/cookbook/recipe_types/BreakfastRecipes'
 import LunchDinnerRecipes from './pages/cookbook/recipe_types/LunchDinnerRecipes'
 import SnackRecipes from './pages/cookbook/recipe_types/SnackRecipes'
 import DessertRecipes from './pages/cookbook/recipe_types/DessertRecipes'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from './shared/constants/query'
 
 function App() {
   return (

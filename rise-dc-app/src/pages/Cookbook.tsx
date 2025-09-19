@@ -1,7 +1,7 @@
-import styles from './Page.module.css'
 import { useNavigate } from "react-router"; 
 import ImageCard from '../shared/components/ImageCard';
 import Slideshow from '../shared/components/Slideshow';
+import styles from "./Page.module.css";
 
 export default function Cookbook() {
   let navigate = useNavigate()
@@ -41,5 +41,5 @@ export default function Cookbook() {
         imagesPerRow={2} 
       />
     </div>
-  )
+  );
 }
