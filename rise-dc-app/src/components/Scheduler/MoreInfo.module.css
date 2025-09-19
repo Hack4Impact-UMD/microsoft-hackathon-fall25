@@ -3,7 +3,7 @@
     flex-direction: column;  
     align-items: center;
     background-color: #f5f5f5; 
-    width: 80%;             
+    width: 35%;             
     height: 80%;
     position: absolute;
     top: 50%;                  
@@ -77,7 +77,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(253, 135, 67, 1);
+  background-color: #EB5904;
   color: white;
   width: 90%;
   border-radius: 10px;
@@ -96,7 +96,7 @@
 }
 
 .goal {
-  border: 1px solid rgba(253, 135, 67, 1);
+  border: 1px solid #EB5904;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -109,7 +109,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(253, 135, 67, 1);
+  background-color: #EB5904;
   color: white;
   border-radius: 100px;
   width: 20px;
@@ -131,7 +131,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(253, 135, 67, 1);
+  background-color:#EB5904;
   border-top-left-radius: 12px;  
   border-top-right-radius: 12px;  
   width: 100%;
@@ -147,4 +147,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.goalRow {
+  display: flex;
+  align-items: center; 
+  gap: 8px; 
 }

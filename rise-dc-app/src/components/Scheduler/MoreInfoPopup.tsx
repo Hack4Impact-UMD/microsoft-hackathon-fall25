@@ -25,6 +25,10 @@ export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen, existingInfo
         }])
     }
 
+    const handleDelete = (stepNumber: number) => {
+  setInfo((prev) => prev.filter((goal) => goal.step_number !== stepNumber));
+};
+
     return (
         <>
             {popupIsOpen ? 
@@ -58,14 +62,27 @@ export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen, existingInfo
                     <div className={styles.goalContainer}>
                         <div className={styles.goalImageContainer}>
                             <div className={styles.goalImage}>
-                                <EditIcon sx={{fontSize: 50}}></EditIcon>
+                        <EditIcon sx={{fontSize: 50}}></EditIcon>
                             </div>
                         </div>
-                        <div className={styles.goals}>
-                            {info.map((goal)=>(
-                                <Goal step={goal.step_number}></Goal>
-                            ))}
+                    <div className={styles.goals}>
+                        {info.map((goal) => (
+                            <div key={goal.step_number} className={styles.goalRow}>
+                            <Goal step={goal.step_number} />
+                            <CloseIcon 
+                                sx={{
+                                fontSize: 20,
+                                color: "#EB5904",
+                                cursor: "pointer",
+                                marginLeft: "8px",
+                                '&:hover': { opacity: "80%" }
+                                }}
+                                onClick={() => handleDelete(goal.step_number)}
+                            />
+                            </div>
+                        ))}
                         </div>
+
                         <AddInfoButton addInfo={addInfo}/>
                     </div>
                 </div>    
