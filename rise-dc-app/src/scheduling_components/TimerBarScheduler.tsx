@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress'
-import styles from './ProgressBar.module.css'
+import styles from './TimerBarScheduler.module.css'
 import Button from '@mui/material/Button'
 import Fade from '@mui/material/Fade'
 import Box from '@mui/material/Box'
