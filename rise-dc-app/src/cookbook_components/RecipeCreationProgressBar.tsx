@@ -1,12 +1,18 @@
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+
+// Placeholder icons replace later
+import InfoIcon from "@mui/icons-material/Info";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import BuildIcon from "@mui/icons-material/Build";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import ListIcon from "@mui/icons-material/List";
 
 const recipeSteps = [
-  { name: "About Recipe" },
-  { name: "Time & Servings" },
-  { name: "Utensils & Tools" },
-  { name: "Ingredients" },
-  { name: "Instructions" },
+  { name: "About Recipe", icon: InfoIcon },
+  { name: "Time & Servings", icon: AccessTimeIcon },
+  { name: "Utensils & Tools", icon: BuildIcon },
+  { name: "Ingredients", icon: RestaurantIcon },
+  { name: "Instructions", icon: ListIcon },
 ];
 
 type ProgressBarProps = {
@@ -15,42 +21,61 @@ type ProgressBarProps = {
 
 const RecipeCreationProgressBar = ({ currentStep }: ProgressBarProps) => {
   return (
-    <div className="w-full px-4 py-4">
+    <div className="w-full px-4 py-8">
       <div className="relative">
-        <div className="absolute top-4 left-0 w-full h-0.5 bg-gray-300" />
-        <div className="relative flex justify-between">
+        <div
+          className="absolute top-6 h-3 flex items-center"
+          style={{ left: "10%", right: "10%" }}
+        >
+          <div className="w-full h-full bg-[#D9D9D9] rounded-full border border-black" />
+        </div>
+
+        {/* Orange progress line */}
+        <div
+          className="absolute top-6 h-3 flex items-center"
+          style={{ left: "10%", right: "10%" }}
+        >
+          <div
+            className="h-full bg-[#EB5904] rounded-full transition-all duration-300"
+            style={{
+              width: `${((currentStep - 1) / (recipeSteps.length - 1)) * 100}%`,
+            }}
+          />
+        </div>
+
+        {/* Icons */}
+        <div className="relative grid grid-cols-5 gap-0">
           {recipeSteps.map((step, index) => {
             const stepNumber = index + 1;
             const isActive = stepNumber === currentStep;
             const isCompleted = stepNumber < currentStep;
+            const IconComponent = step.icon;
 
             return (
-              <div key={step.name} className="flex flex-col items-center">
+              <div
+                key={step.name}
+                className="flex flex-col items-center relative"
+              >
                 {isActive && (
-                  <div className="absolute -top-6 text-orange-500">
-                    <ArrowDropDownIcon sx={{ fontSize: "2.5rem" }} />
+                  <div className="absolute -top-15 text-[#FD8743] z-20">
+                    <ArrowDropDownIcon sx={{ fontSize: "5rem" }} />
                   </div>
                 )}
 
-                <div className="w-8 h-8 flex items-center justify-center bg-white z-10">
-                  {isCompleted ? (
-                    <RadioButtonUncheckedIcon
-                      className={isActive ? "text-orange-500" : "text-gray-300"}
-                      sx={{ fontSize: "2rem" }}
-                    />
-                  ) : (
-                    <RadioButtonUncheckedIcon
-                      className={isActive ? "text-orange-500" : "text-gray-300"}
-                      sx={{ fontSize: "2rem" }}
-                    />
-                  )}
-                </div>
-
-                <p
-                  className={`mt-2 text-xs text-center whitespace-nowrap ${
-                    isActive ? "text-orange-500 font-bold" : "text-gray-500"
+                <div
+                  className={`w-16 h-16 flex items-center justify-center bg-white z-10 rounded-full border-2 ${
+                    isCompleted || isActive
+                      ? "border-[#EB5904]"
+                      : "border-gray-300"
                   }`}
                 >
+                  <IconComponent
+                    className="text-gray-600"
+                    sx={{ fontSize: "2rem" }}
+                  />
+                </div>
+
+                <p className="mt-2 text-md text-center whitespace-nowrap">
                   {step.name}
                 </p>
               </div>
