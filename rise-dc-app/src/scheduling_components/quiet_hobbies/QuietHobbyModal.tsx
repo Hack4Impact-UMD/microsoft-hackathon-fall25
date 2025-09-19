@@ -40,9 +40,32 @@ export default function QuietHobbyModal({
         };
     }, []);
 
+    // Handle video setup when camera opens
+    useEffect(() => {
+        if (isCameraOpen && streamRef.current && videoRef.current) {
+            const video = videoRef.current;
+            const stream = streamRef.current;
+            
+            video.srcObject = stream;
+            
+            // Set up event listeners
+            const handleVideoReady = () => {
+                setIsVideoReady(true);
+            };
+            
+            video.onloadedmetadata = handleVideoReady;
+            video.oncanplay = handleVideoReady;
+            video.onloadeddata = handleVideoReady;
+            
+            // Fallback timeout
+            setTimeout(() => {
+                setIsVideoReady(true);
+            }, 2000);
+        }
+    }, [isCameraOpen]);
+
     const startCamera = async () => {
         try {
-            console.log('Requesting camera access...');
             const stream = await navigator.mediaDevices.getUserMedia({ 
                 video: { 
                     facingMode: 'user', // Use front camera on MacBook
@@ -50,38 +73,9 @@ export default function QuietHobbyModal({
                     height: { ideal: 720 }
                 } 
             });
-            console.log('Camera stream obtained:', stream);
             streamRef.current = stream;
             setIsCameraOpen(true);
-            
-            if (videoRef.current) {
-                const video = videoRef.current;
-                console.log('Video element found:', video);
-                video.srcObject = stream;
-                console.log('Video srcObject set, current srcObject:', video.srcObject);
-                
-                // Set up event listeners
-                const handleVideoReady = () => {
-                    console.log('Video ready event fired');
-                    setIsVideoReady(true);
-                };
-                
-                video.onloadedmetadata = handleVideoReady;
-                video.oncanplay = handleVideoReady;
-                video.onloadeddata = handleVideoReady;
-                
-                // Fallback timeout
-                setTimeout(() => {
-                    console.log('Fallback: Setting video ready after timeout');
-                    console.log('Video dimensions:', video.videoWidth, 'x', video.videoHeight);
-                    console.log('Video readyState:', video.readyState);
-                    setIsVideoReady(true);
-                }, 2000);
-            } else {
-                console.error('Video element not found!');
-            }
         } catch (error) {
-            console.error('Error accessing camera:', error);
             alert('Unable to access camera. Please check permissions.');
         }
     };
@@ -111,11 +105,9 @@ export default function QuietHobbyModal({
                 onTakePhoto(photoDataUrl);
                 stopCamera();
             } else {
-                console.error('Video not ready for capture');
                 alert('Camera not ready. Please wait a moment and try again.');
             }
         } else {
-            console.error('Camera or video not ready');
             alert('Camera not ready. Please wait a moment and try again.');
         }
     };
@@ -200,8 +192,6 @@ return (
                   <div className="text-white text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
                     <p>Loading camera...</p>
-                    <p className="text-xs mt-2 opacity-75">Check browser console for details</p>
-                    <p className="text-xs mt-1 opacity-50">If you see your camera light, the video should appear soon</p>
                   </div>
                 </div>
               )}
@@ -232,7 +222,6 @@ return (
               <div className="mt-2 text-center">
                 <button
                   onClick={() => {
-                    console.log('Manual video ready trigger');
                     setIsVideoReady(true);
                   }}
                   className="text-sm text-blue-600 underline hover:text-blue-800"
