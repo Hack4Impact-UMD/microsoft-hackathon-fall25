@@ -71,5 +71,3 @@ jobs:
           app-name: 'risedc'
           slot-name: 'Production'
           package: rise-dc-app
-
-          
