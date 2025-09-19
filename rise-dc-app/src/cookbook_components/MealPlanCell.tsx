@@ -59,6 +59,7 @@ export default function MealPlanCell({
         baseClasses,
         stateClasses,
         isToday ? 'ring-2 ring-sky-500 ring-offset-1' : '',
+        !disabled && isEmpty ? 'cursor-pointer' : '',
         className
       )}
       {...rest}
