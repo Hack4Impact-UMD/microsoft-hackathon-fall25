@@ -43,7 +43,7 @@ const ChoiceGroup = <T extends {name: string, image_id: string}>({
         <div className="mb-2 text-sm text-gray-600">{label}</div>
       )}
       <div className="flex flex-wrap gap-4 mt-2">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <OptionButton
             key={(item as any).id}
             item={item}
@@ -51,7 +51,6 @@ const ChoiceGroup = <T extends {name: string, image_id: string}>({
             isSelected={(selectedOption as any)?.id === (item as any).id}
             onClick={() => handleSelectClick(item)}
             disabled={disabled}
-            itemIndex={index}
           />
         ))}
       </div>

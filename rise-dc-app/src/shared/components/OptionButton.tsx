@@ -9,7 +9,6 @@ interface OptionButtonProps<T extends {name: string, image_id: string}> {
   className?: string;
   disabled?: boolean;
   errorMessage?: string;
-  itemIndex?: number;
 }
 
 const OptionButton = <T extends {name: string, image_id: string}>({
@@ -20,7 +19,6 @@ const OptionButton = <T extends {name: string, image_id: string}>({
   className = "",
   disabled,
   errorMessage,
-  itemIndex,
 }: OptionButtonProps<T>) => {
   const [clicked, setClicked] = useState(isSelected);
 
@@ -126,11 +124,6 @@ const OptionButton = <T extends {name: string, image_id: string}>({
         />
       </div>
 
-      {buttonType === "choice" && typeof itemIndex === 'number' && (
-        <div className="absolute bottom-2 left-2 w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-sm font-bold">
-          {itemIndex + 1}
-        </div>
-      )}
 
       <span className="text-sm font-medium text-center text-gray-800 mt-1">
         {getItemDisplayText()}
