@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { SelectableItem } from "../types";
 
-interface OptionButtonProps {
-  item: SelectableItem;
+interface OptionButtonProps<T extends {name: string, image_id: string}> {
+  item: T;
   buttonType: "choice" | "multiSelect";
   isSelected: boolean;
   onClick: () => void;
@@ -13,7 +12,7 @@ interface OptionButtonProps {
   itemIndex?: number;
 }
 
-const OptionButton: React.FC<OptionButtonProps> = ({
+const OptionButton = <T extends {name: string, image_id: string}>({
   item,
   buttonType,
   isSelected,
@@ -22,7 +21,7 @@ const OptionButton: React.FC<OptionButtonProps> = ({
   disabled,
   errorMessage,
   itemIndex,
-}) => {
+}: OptionButtonProps<T>) => {
   const [clicked, setClicked] = useState(isSelected);
 
   useEffect(() => {
@@ -37,11 +36,12 @@ const OptionButton: React.FC<OptionButtonProps> = ({
   };
 
   const getItemDisplayText = () => {
-    switch (item.type) {
+    const itemAny = item as any;
+    switch (itemAny.type) {
       case 'ingredient':
-        return item.quantity ? `${item.quantity} ${item.name}` : item.name;
+        return itemAny.quantity ? `${itemAny.quantity} ${item.name}` : item.name;
       case 'custom':
-        return item.caption || item.name;
+        return itemAny.caption || item.name;
       default:
         return item.name;
     }

@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import OptionButton from "./OptionButton";
 import { twMerge } from "tailwind-merge";
-import { SelectableItem } from "../types";
 
-interface MultiSelectGroupProps {
+interface MultiSelectGroupProps<T extends {name: string, image_id: string}> {
   question: string;
   isRequired?: boolean;
   label?: string;
-  value?: SelectableItem[];
-  items: SelectableItem[];
-  onOptionSelect: (selected: SelectableItem[]) => void;
+  value?: T[];
+  items: T[];
+  onOptionSelect: (selected: T[]) => void;
   className?: string;
   disabled?: boolean;
   errorMessage?: string;
 }
 
-const MultiSelectGroup: React.FC<MultiSelectGroupProps> = ({
+const MultiSelectGroup = <T extends {name: string, image_id: string}>({
   question,
   isRequired,
   label,
@@ -25,16 +24,16 @@ const MultiSelectGroup: React.FC<MultiSelectGroupProps> = ({
   className = "",
   disabled,
   errorMessage,
-}) => {
-  const [selectedOptions, setSelectedOptions] = useState<SelectableItem[]>(value || []);
+}: MultiSelectGroupProps<T>) => {
+  const [selectedOptions, setSelectedOptions] = useState<T[]>(value || []);
 
   useEffect(() => {
     setSelectedOptions(value || []);
   }, [value]);
 
-  const handleSelectClick = (item: SelectableItem) => {
-    const updatedSelections = selectedOptions.some(selected => selected.id === item.id)
-      ? selectedOptions.filter((selected) => selected.id !== item.id)
+  const handleSelectClick = (item: T) => {
+    const updatedSelections = selectedOptions.some(selected => (selected as any).id === (item as any).id)
+      ? selectedOptions.filter((selected) => (selected as any).id !== (item as any).id)
       : [...selectedOptions, item];
     setSelectedOptions(updatedSelections);
     onOptionSelect(updatedSelections);
@@ -55,10 +54,10 @@ const MultiSelectGroup: React.FC<MultiSelectGroupProps> = ({
       <div className="flex flex-wrap gap-4 mt-2">
         {items.map((item) => (
           <OptionButton
-            key={item.id}
+            key={(item as any).id}
             item={item}
             buttonType="multiSelect"
-            isSelected={selectedOptions.some(selected => selected.id === item.id)}
+            isSelected={selectedOptions.some(selected => (selected as any).id === (item as any).id)}
             onClick={() => handleSelectClick(item)}
             disabled={disabled}
           />

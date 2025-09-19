@@ -1,10 +1,9 @@
 
 import { twMerge } from "tailwind-merge";
-import { SelectableItem } from "../types";
 
-interface RemoveButtonProps {
-  items: SelectableItem[];
-  onRemove: (item: SelectableItem) => void;
+interface RemoveButtonProps<T extends {name: string, image_id: string}> {
+  items: T[];
+  onRemove: (item: T) => void;
   className?: string;
   disabled?: boolean;
   question?: string;
@@ -13,7 +12,7 @@ interface RemoveButtonProps {
   errorMessage?: string;
 }
 
-const RemoveButton: React.FC<RemoveButtonProps> = ({
+const RemoveButton = <T extends {name: string, image_id: string}>({
   items,
   onRemove,
   className = "",
@@ -22,25 +21,26 @@ const RemoveButton: React.FC<RemoveButtonProps> = ({
   isRequired,
   label,
   errorMessage,
-}) => {
-  const handleRemove = (item: SelectableItem) => {
+}: RemoveButtonProps<T>) => {
+  const handleRemove = (item: T) => {
     if (!disabled) {
       onRemove(item);
     }
   };
 
-  const getItemDisplayText = (item: SelectableItem) => {
-    switch (item.type) {
+  const getItemDisplayText = (item: T) => {
+    const itemAny = item as any;
+    switch (itemAny.type) {
       case 'ingredient':
-        return item.quantity ? `${item.quantity} ${item.name}` : item.name;
+        return itemAny.quantity ? `${itemAny.quantity} ${item.name}` : item.name;
       case 'custom':
-        return item.caption || item.name;
+        return itemAny.caption || item.name;
       default:
         return item.name;
     }
   };
 
-  const getItemImageSrc = (item: SelectableItem) => {
+  const getItemImageSrc = (item: T) => {
     return `/images/${item.image_id}`;
   };
 
@@ -61,7 +61,7 @@ const RemoveButton: React.FC<RemoveButtonProps> = ({
       <div className="flex flex-wrap gap-4">
         {items.map((item) => (
           <div
-            key={item.id}
+            key={(item as any).id}
             className={twMerge(
               "relative flex flex-col items-center p-4 border-2 border-orange-500 rounded-lg bg-orange-50 min-w-[120px]",
               disabled && "opacity-50"

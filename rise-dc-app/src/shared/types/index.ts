@@ -109,13 +109,5 @@ export interface Feedback {
   taskAssignmentId: string;
   taskId: string;
   reaction: 'yes' | 'maybe' | 'no';
-}
-export interface SelectableItem {
-  id: string;
-  name: string;
-  type: 'ingredient' | 'tool' | 'utensil' | 'custom' | 'option';
-  image_id?: string;
-  quantity?: string;
-  caption?: string;
-  selected?: boolean;
+  
 }

@@ -1,21 +1,20 @@
 import { useState } from "react";
 import OptionButton from "./OptionButton";
 import { twMerge } from "tailwind-merge";
-import { SelectableItem } from "../types";
 
-interface ChoiceGroupProps {
+interface ChoiceGroupProps<T extends {name: string, image_id: string}> {
   question: string;
   isRequired?: boolean;
   label?: string;
-  value?: SelectableItem;
-  items: SelectableItem[];
+  value?: T;
+  items: T[];
   errorMessage?: string;
-  onOptionSelect: (selected: SelectableItem | null) => void;
+  onOptionSelect: (selected: T | null) => void;
   className?: string;
   disabled?: boolean;
 }
 
-const ChoiceGroup: React.FC<ChoiceGroupProps> = ({
+const ChoiceGroup = <T extends {name: string, image_id: string}>({
   question,
   isRequired,
   label,
@@ -25,10 +24,10 @@ const ChoiceGroup: React.FC<ChoiceGroupProps> = ({
   className = "",
   disabled,
   errorMessage,
-}) => {
-  const [selectedOption, setSelectedOption] = useState<SelectableItem | null>(value || null);
+}: ChoiceGroupProps<T>) => {
+  const [selectedOption, setSelectedOption] = useState<T | null>(value || null);
 
-  const handleSelectClick = (item: SelectableItem) => {
+  const handleSelectClick = (item: T) => {
     setSelectedOption(item);
     onOptionSelect(item);
   };
@@ -46,10 +45,10 @@ const ChoiceGroup: React.FC<ChoiceGroupProps> = ({
       <div className="flex flex-wrap gap-4 mt-2">
         {items.map((item, index) => (
           <OptionButton
-            key={item.id}
+            key={(item as any).id}
             item={item}
             buttonType="choice"
-            isSelected={selectedOption?.id === item.id}
+            isSelected={(selectedOption as any)?.id === (item as any).id}
             onClick={() => handleSelectClick(item)}
             disabled={disabled}
             itemIndex={index}
