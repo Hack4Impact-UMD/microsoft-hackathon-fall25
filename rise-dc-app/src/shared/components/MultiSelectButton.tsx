@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import OptionButton from "./OptionButton";
 import { twMerge } from "tailwind-merge";
 
-interface MultiSelectGroupProps<T extends {name: string, image_id: string}> {
+interface MultiSelectGroupProps<T extends { name: string; image_id: string }> {
   question: string;
   isRequired?: boolean;
   label?: string;
@@ -14,7 +14,7 @@ interface MultiSelectGroupProps<T extends {name: string, image_id: string}> {
   errorMessage?: string;
 }
 
-const MultiSelectGroup = <T extends {name: string, image_id: string}>({
+const MultiSelectGroup = <T extends { name: string; image_id: string }>({
   question,
   isRequired,
   label,
@@ -32,8 +32,12 @@ const MultiSelectGroup = <T extends {name: string, image_id: string}>({
   }, [value]);
 
   const handleSelectClick = (item: T) => {
-    const updatedSelections = selectedOptions.some(selected => (selected as any).id === (item as any).id)
-      ? selectedOptions.filter((selected) => (selected as any).id !== (item as any).id)
+    const updatedSelections = selectedOptions.some(
+      (selected) => (selected as any).id === (item as any).id
+    )
+      ? selectedOptions.filter(
+          (selected) => (selected as any).id !== (item as any).id
+        )
       : [...selectedOptions, item];
     setSelectedOptions(updatedSelections);
     onOptionSelect(updatedSelections);
@@ -47,9 +51,7 @@ const MultiSelectGroup = <T extends {name: string, image_id: string}>({
         {!isRequired && <span className="font-light text-xs"> (Optional)</span>}
       </span>
 
-      {label && (
-        <div className="mb-2 text-sm text-gray-600">{label}</div>
-      )}
+      {label && <div className="mb-2 text-sm text-gray-600">{label}</div>}
 
       <div className="flex flex-wrap gap-4 mt-2">
         {items.map((item) => (
@@ -57,7 +59,9 @@ const MultiSelectGroup = <T extends {name: string, image_id: string}>({
             key={(item as any).id}
             item={item}
             buttonType="multiSelect"
-            isSelected={selectedOptions.some(selected => (selected as any).id === (item as any).id)}
+            isSelected={selectedOptions.some(
+              (selected) => (selected as any).id === (item as any).id
+            )}
             onClick={() => handleSelectClick(item)}
             disabled={disabled}
           />
