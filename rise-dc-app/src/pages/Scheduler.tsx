@@ -1,6 +1,7 @@
 import moment from "moment";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
 import styles from "./Page.module.css";
+import ProgressBar from "../shared/components/ProgressBar";
 
 export default function Scheduler() {
   return (
@@ -10,6 +11,7 @@ export default function Scheduler() {
         Scheduling interface for users with first-grade or below reading/math
         levels
       </p>
+      <ProgressBar duration={20000} startHour={0} startMinute={16} />
       <WhatsNextButton
         assignments={[
           {
