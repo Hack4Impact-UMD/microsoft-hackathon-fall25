@@ -104,7 +104,6 @@ export interface Task {
   category: 'Hobbies' | 'Hygiene' | 'Chores' | 'Skills' | 'Quiet Hobbies' | 'Miscellaneous';
 }
 
-
 export interface Feedback {
   id: string;
   taskAssignmentId: string;
