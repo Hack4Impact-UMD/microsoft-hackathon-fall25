@@ -1,7 +1,7 @@
 import { cosmosClient } from "./app";
 // all purpose utility functions for cosmos
 import { BulkOperationType } from "@azure/cosmos";
-import { Task, Event, Assignment, Feedback, Recipe, Ingredient, Tool, Utensil, MealPrep, GroceryList } from "../../rise-dc-app/src/shared/types";
+import { Task, Event, Assignment, Feedback, Recipe, Ingredient, Tool, Utensil, MealPrep, GroceryList, Image } from "../../rise-dc-app/src/shared/types";
 
 // Get a container
 export function getContainer(database: string, container: string) {
@@ -35,6 +35,7 @@ export async function deleteItem(id: string, partitionKey: string, databaseName:
 /* ========= Domain Functions ========= */
 const SCHEDULING_DB = process.env.COSMOS_SCHEDULING_DB || "Scheduling";
 const COOKBOOK_DB = "Cookbook";
+const SHARED_DB = "Shared";
 
 //Recipe
 export const addRecipe = (recipe: Recipe) => addItem(recipe, COOKBOOK_DB, "Recipes");
@@ -75,6 +76,11 @@ export const deleteAssignment = (id: string) => deleteItem(id, id, SCHEDULING_DB
 // Feedback
 export const addFeedback = (feedback: Feedback) => addItem(feedback, SCHEDULING_DB, "Feedback");
 export const deleteFeedback = (id: string) => deleteItem(id, id, SCHEDULING_DB, "Feedback");
+
+// Image
+export const addImage = (image: Image) => addItem(image, SHARED_DB, "Images");
+export const deleteImage = (id: string) => deleteItem(id, id, SHARED_DB, "Images");
+
 export async function addItems(items, databaseName, containerName) {
     try {
         const container = await getContainer(databaseName, containerName);

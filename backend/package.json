@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "serve": "npm run build && node lib/app.js"
+    "serve": "npm run build && node lib/backend/src/app.js"
   },
   "author": "",
   "license": "ISC",

@@ -8,7 +8,8 @@ import {
   addAssignment, 
   addFeedback, 
   deleteTask, 
-  getContainer 
+  getContainer, 
+  addImage
 } from "./cosmos";
 import { Task, Event, Assignment, Feedback } from "../../rise-dc-app/src/shared/types";
 import multer from "multer";
@@ -235,29 +236,22 @@ app.get('/', (_, res: Response) => {
   res.send('Hello World!')
 })
 
-app.post("/upload", upload.single("file"), async (req: Request, res: Response) => {
+app.post("/api/upload_image", upload.single("file"), async (req: Request, res: Response) => {
   try {
     const file = req.file as Express.Multer.File | undefined;
+    const { caption } = req.body;
     if (!file) return res.status(400).json({ error: "No file uploaded under field 'file'." });
+    if (!caption) return res.status(400).json({ error: "No caption uploaded under field 'caption'." });
 
     const containerName = "uploads"; 
     const ext = path.extname(file.originalname) || ""; 
-    const blobName = `${crypto.randomUUID()}${ext}`;
+    const id = crypto.randomUUID();
+    const blobName = `${id}${ext}`;
 
     const url = await uploadBlob(containerName, blobName, file.buffer, file.mimetype);
+    await addImage({ "id": id, "url": url, "caption": caption });
 
-    // (TODO) write small record to Cosmos, etc.
-    // await addItem({ blobUrl: url, name: file.originalname, type: file.mimetype, size: file.size }, "Cookbook", "Recipes");
-
-    return res.json({
-      ok: true,
-      url,                      
-      originalName: file.originalname,
-      mimeType: file.mimetype,
-      size: file.size,
-      blobName,
-      containerName,
-    });
+    return res.status(200).json({ "url": url, "caption": caption });
   } catch (err) {
     return res.status(400).json({ error: "route failed: " + err.message })
   }

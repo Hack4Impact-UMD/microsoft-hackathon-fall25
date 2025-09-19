@@ -37,6 +37,7 @@ export function isUtensil(recipeItem: RecipeItem): recipeItem is Utensil { retur
 
 export interface Image {
   id: string;
+  url?: string;
   caption: string;
 }
 
