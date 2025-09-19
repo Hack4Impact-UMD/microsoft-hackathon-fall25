@@ -3,6 +3,10 @@
 
 name: Build and deploy Node.js app to Azure Web App - risedc
 
+defaults:
+  run:
+    working-directory: ./rise-dc-app
+
 on:
   push:
     branches:
@@ -25,7 +29,6 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          cd rise-dc-app
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -34,7 +37,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: |
+            rise-dc-app
+            !rise-dc-app/node_modules/**
+            !**/.git/**
+            !**/.github/**
+          if-no-files-found: error
 
   deploy:
     runs-on: ubuntu-latest
@@ -62,6 +70,4 @@ jobs:
         with:
           app-name: 'risedc'
           slot-name: 'Production'
-          package: .
-
-          
+          package: rise-dc-app
