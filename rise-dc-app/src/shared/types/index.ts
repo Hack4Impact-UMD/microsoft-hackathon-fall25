@@ -107,4 +107,5 @@ export interface Feedback {
   taskAssignmentId: string;
   taskId: string;
   reaction: 'yes' | 'maybe' | 'no';
+  
 }
