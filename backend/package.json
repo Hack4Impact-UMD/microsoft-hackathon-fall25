@@ -12,12 +12,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@azure/cosmos": "^4.5.1",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^5.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.9.2",
-    "@types/express": "^5.0.3"
+    "@types/express": "^5.0.3",
+    "typescript": "^5.9.2"
   }
 }
