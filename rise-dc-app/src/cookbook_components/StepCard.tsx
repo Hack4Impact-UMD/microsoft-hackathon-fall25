@@ -20,6 +20,10 @@ export default function StepCard({instruction, total_steps}: StepCardProp) {
                 }}
             />
 
+            {!instruction.warning && (
+                <div className="w-full mt-11.5 text-lg"></div>
+            )}
+
             <ProgressBar currentStep={instruction.step_number} totalSteps={total_steps}/>
         </div>
     );
