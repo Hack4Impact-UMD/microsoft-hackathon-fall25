@@ -70,6 +70,7 @@ export interface Instruction {
   id: string;
   step_number: number;
   instructions: string;
+  warning?: string;
   image_id?: string;
 }
 
