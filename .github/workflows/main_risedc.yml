@@ -36,6 +36,9 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Copy package.json for deployment
+        run: cp package.json dist/
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
