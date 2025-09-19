@@ -1,7 +1,7 @@
 // all purpose utility functions for cosmos
 
 import { BulkOperationType } from "@azure/cosmos";
-import { cosmosClient } from "./app";
+import { cosmosClient, blobServiceClient } from "./app";
 
 export async function getContainer(database, container) {
   return cosmosClient.database(database).container(container);
@@ -34,3 +34,17 @@ export async function addItems(items, databaseName, containerName) {
         throw error;
     }
 }
+
+export async function uploadBlob(containerName: string, blobName: string, buffer: Buffer, contentType?: string) {
+    console.log(blobServiceClient.getProperties());
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.createIfNotExists({ access: "container" });
+  
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+  
+    await blockBlobClient.uploadData(buffer, {
+        blobHTTPHeaders: { blobContentType: contentType || "application/octet-stream" },
+    });
+  
+    return blockBlobClient.url;
+  }
