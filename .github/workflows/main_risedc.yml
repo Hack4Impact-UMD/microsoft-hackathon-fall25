@@ -10,7 +10,7 @@ defaults:
 on:
   push:
     branches:
-      - deploy-fix
+      - main
   workflow_dispatch:
 
 jobs:
