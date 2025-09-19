@@ -2,6 +2,7 @@
 
 export interface Recipe {
   id: string;
+  image_id: string;
   user_id?: string;
   title: string;
   noCook: boolean;
