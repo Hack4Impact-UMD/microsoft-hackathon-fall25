@@ -1,4 +1,5 @@
 // Cookbook Types
+export type RecipeCategory = 'breakfast' | 'lunchDinner' | 'snack' | 'dessert';
 
 export interface Recipe {
   id: string;
