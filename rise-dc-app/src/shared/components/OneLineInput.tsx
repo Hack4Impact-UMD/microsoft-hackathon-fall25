@@ -11,6 +11,7 @@ interface OneLineInputProps {
 const OneLineInput: React.FC<OneLineInputProps> = ({
   title,
   isRequired,
+  value,
   onChange,
   placeholderText = "",
 }) => {
@@ -18,6 +19,7 @@ const OneLineInput: React.FC<OneLineInputProps> = ({
     <div>
       <h1 className="text-2xl mb-2">{title}</h1>
       <input
+        value={value}
         className="max-w-96 mt-auto p-2 w-full rounded-md border"
         style={{ borderColor: "#727272" }}
         required={isRequired}
