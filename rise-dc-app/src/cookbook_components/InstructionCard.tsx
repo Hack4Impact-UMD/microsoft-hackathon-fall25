@@ -5,6 +5,7 @@ import Warning from "./Warning";
 interface InstructionCardProps { instruction: Instruction }
 
 const InstructionCard: React.FC<InstructionCardProps> = ({ instruction }) => {
+  
   return (
     <div className="flex flex-col items-center w-full max-w-md">
       <div className="p-3 text-center" style={{ borderColor: "#707070" }}>
