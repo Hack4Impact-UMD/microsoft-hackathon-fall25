@@ -52,12 +52,12 @@
 
 .event-cards-container {
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   gap: 15px;
-  overflow-x: auto; 
-  white-space: nowrap; 
-  padding: 10px 10px; 
-  -webkit-overflow-scrolling: touch; 
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px 10px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .event-cards-container::-webkit-scrollbar {
@@ -77,21 +77,19 @@
   border-radius: 15px;
   padding: 15px;
   width: 200px;
+  height: 150px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
-  flex-shrink: 0; 
-  width: 220px;
-  height: 150px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative; /* Added for checkmark positioning */
+  flex-shrink: 0;
+  border: 2px solid transparent; /* Added for selection state */
 }
 
-.event-card:nth-child(1) .event-image-placeholder {
-  background-color: #f77092; 
-  border: none;
-}
-
-.event-card:nth-child(2) .event-image-placeholder {
-  background-color: #ff9955;
-  border: none; 
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .event-image-placeholder {
@@ -104,13 +102,30 @@
   align-items: center;
 }
 
+.make-bed-color {
+  background-color: #f77092;
+}
+
+.sweep-floor-color {
+  background-color: #ff9955;
+}
+
+.water-plants-color {
+  background-color: #5d9cec; /* A sample blue color */
+}
+
+.event-icon {
+  font-size: 40px;
+  color: #fff;
+}
+
 .event-name {
   font-size: 1em;
   font-weight: 500;
   color: #333;
-  white-space: normal; 
+  white-space: normal;
   word-wrap: break-word;
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
   max-height: 2.8em;
   line-height: 1.4em;
@@ -171,4 +186,33 @@
   font-weight: bold;
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+/* New CSS for selected state */
+.event-card.selected {
+  border: 2px solid #EB5904;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.selection-checkmark {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 20px;
+  color: #EB5904;
+}
+
+/* New CSS for selected state */
+.event-card.selected {
+  border: 2px solid #EB5904;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.add-time-button.enabled {
+  background-color: #0C77D9; /* This makes the button blue */
+  color: #fff; /* This makes the text white */
+  cursor: pointer;
+  opacity: 1;
 }
