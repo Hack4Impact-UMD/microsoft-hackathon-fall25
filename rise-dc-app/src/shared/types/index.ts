@@ -76,7 +76,7 @@ export interface Instruction {
 // Scheduling Types
 export interface Assignment {
   id: string;
-  name: string;
+  complete: boolean;
   date: string;
   startTime: string;
   endTime: string;
@@ -87,7 +87,6 @@ export interface Event {
   id: string;
   name: string;
   icon: string; 
-  complete: boolean;
   tasks: TaskAssignment[]; 
   image: Image;
 }
