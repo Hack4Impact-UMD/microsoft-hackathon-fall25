@@ -37,6 +37,9 @@ export default function AddInfoTextbox({textboxActive, setTextboxActive, setTitl
                         <CloseIcon
                             sx={{
                                 fontSize: 40,
+                                backgroundColor: "rgba(244, 77, 133, 1)",
+                                borderRadius: 100,
+                                color: "white",
                                 '&:hover': {
                                     opacity: "80%"
                                 }
@@ -45,6 +48,7 @@ export default function AddInfoTextbox({textboxActive, setTextboxActive, setTitl
                         />
                     </div>
                     <div style={{ width: "100%" }}>
+                            Step Number: <input placeholder="#" min={0} max={99} type="number" className = {styles.stepNumber} onChange={(e)=>{setStep(e.target.value)}}></input>
                             <p>Add existing:</p>
                             <select
                             onChange={(e) => {
@@ -52,6 +56,9 @@ export default function AddInfoTextbox({textboxActive, setTextboxActive, setTitl
                                 if (selected) {
                                     setTitle(selected.title);
                                     setDescription(selected.description);
+                                } else {
+                                    setTitle("");
+                                    setDescription("");
                                 }
                             }}
                             >
@@ -62,13 +69,21 @@ export default function AddInfoTextbox({textboxActive, setTextboxActive, setTitl
                                 </option>
                             ))}
                             </select>
+                            
                             <p>Create New:</p>
                             <div className={styles.createNew}>
                                 <input placeholder="Step Title" onChange={(e)=>{setTitle(e.target.value)}}></input>
-                                <input placeholder="Step Number" type="number" onChange={(e)=>{setStep(e.target.value)}}></input>
                                 <textarea placeholder="Add instructions here:" onChange={(e)=>{setDescription(e.target.value)}}></textarea>
                             </div>
-                            <button className={styles.createInfo} onClick={()=>{addInfo(title, description, step); setTextboxActive(false)}}>Done</button>
+
+                            <button 
+                                className={styles.createInfo} 
+                                onClick={()=>{
+                                    addInfo(title, description, step); 
+                                    setTextboxActive(false)
+                                }}
+                                disabled = {!step || !title}
+                            >Done</button>
                     </div>
                 </div>
             )}

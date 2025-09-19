@@ -54,7 +54,10 @@
 }
 
 .createInfo:hover {
-  transform: translateY(-2px);
+  opacity: 80%;
+}
+.createInfo:disabled {
+  opacity: 40%;
 }
 
 .moreInfoButton {
@@ -68,4 +71,8 @@
 
 input, textarea, select {
   border: 2px solid black
+}
+
+.stepNumber {
+  width: 40px;
 }

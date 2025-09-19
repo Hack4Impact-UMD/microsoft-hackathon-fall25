@@ -7,10 +7,11 @@ import { Instruction } from "../../shared/types";
 interface MoreInfoPopupProps {
     popupIsOpen: boolean
     setPopupIsOpen: Function
+    existingInfo: Instruction[]
 }
 
-export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen}: MoreInfoPopupProps) {
-    const [info, setInfo] = useState<Instruction[]>([])
+export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen, existingInfo}: MoreInfoPopupProps) {
+    const [info, setInfo] = useState<Instruction[]>(existingInfo)
 
     const addInfo = (title: string, description: string, stepNumber: number) => {
         setInfo([...info, {
@@ -18,25 +19,28 @@ export default function MoreInfoPopup ({popupIsOpen,setPopupIsOpen}: MoreInfoPop
             step_number: stepNumber
         }])
     }
+
     return (
         <>
             {popupIsOpen ? 
                 <div className={styles.popupContainer}>
                     <div className={styles.popupHeader}>
                         <div className={styles.headerActions}>
-                            <CloseIcon 
+                                <CloseIcon 
                                 sx={{
                                     fontSize: 40,
-                                    marginLeft: "12px",
-                                    cursor: "pointer",
+                                    backgroundColor: "rgba(244, 77, 133, 1)",
+                                    borderRadius: 100,
+                                    color: "white",
                                     '&:hover': {
                                         opacity: "80%"
                                     }
-                                }} 
+                                }}
                                 onClick={()=>{setPopupIsOpen(false)}}
                             />
-                        </div>
+                        </div>                        
                     </div>
+                    {info ? <h1 className="instructionsTitle">Create New Instructions</h1>: ""}
                     {info.slice().sort((a, b) => a.step_number - b.step_number).map((step)=>(
                         <>
 
