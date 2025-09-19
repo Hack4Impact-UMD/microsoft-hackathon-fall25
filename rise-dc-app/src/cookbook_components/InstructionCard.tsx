@@ -2,17 +2,10 @@ import React from "react";
 import { Instruction } from "../shared/types";
 import Warning from "./Warning";
 
-interface InstructionCardProps {
-  instruction: Instruction;
-  showWarning?: boolean;
-  warningLabel?: string;
-}
+interface InstructionCardProps { instruction: Instruction }
 
-const InstructionCard: React.FC<InstructionCardProps> = ({
-  instruction,
-  showWarning,
-  warningLabel,
-}) => {
+const InstructionCard: React.FC<InstructionCardProps> = ({ instruction }) => {
+  
   return (
     <div className="flex flex-col items-center w-full max-w-md">
       <div className="p-3 text-center" style={{ borderColor: "#707070" }}>
@@ -39,9 +32,9 @@ const InstructionCard: React.FC<InstructionCardProps> = ({
       >
         {instruction.instructions}
       </div>
-      {showWarning && (
+      {instruction.warning && (
         <div className="w-full mt-5 text-lg" style={{ borderColor: "#0C343D" }}>
-          <Warning label={warningLabel ?? "Be careful with this step!"} />
+          <Warning label={"Be careful with this step!"} />
         </div>
       )}
     </div>

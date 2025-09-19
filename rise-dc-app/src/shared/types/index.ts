@@ -2,6 +2,7 @@
 
 export interface Recipe {
   id: string;
+  image_id: string;
   user_id?: string;
   title: string;
   noCook: boolean;
@@ -20,23 +21,19 @@ export interface RecipeIngredient {
   quantity: string;
 }
 
-export interface Ingredient {
+export interface RecipeItem {
+  type: 'ingredient' | 'tool' | 'utensil';
   id: string;
   name: string;
   image_id: string;
 }
+export interface Ingredient extends RecipeItem { type: 'ingredient' };
+export interface Tool extends RecipeItem { type: 'tool' };
+export interface Utensil extends RecipeItem { type: 'utensil' };
 
-export interface Tool {
-  id: string;
-  name: string;
-  image_id: string;
-}
-
-export interface Utensil {
-  id: string;
-  name: string;
-  image_id: string;
-}
+export function isIngredient(recipeItem: RecipeItem): recipeItem is Ingredient { return recipeItem.type === 'ingredient'; }
+export function isTool(recipeItem: RecipeItem): recipeItem is Tool { return recipeItem.type === 'tool'; }
+export function isUtensil(recipeItem: RecipeItem): recipeItem is Utensil { return recipeItem.type === 'utensil'; }
 
 export interface Image {
   id: string;
