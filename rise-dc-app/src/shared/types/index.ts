@@ -7,7 +7,7 @@ export interface Recipe {
   noCook: boolean;
   time: string;
   servingSize: number;
-  meal: ('snack' | 'dessert' | 'breakfast' | 'lunch' | 'dinner')[];
+  meal: ("snack" | "dessert" | "breakfast" | "lunch" | "dinner")[];
   ingredients: RecipeIngredient[];
   tools: Tool[];
   utensils: Utensil[];
@@ -86,10 +86,10 @@ export interface Assignment {
 export interface Event {
   id: string;
   name: string;
-  icon: string; 
+  icon: string;
   complete: boolean;
-  tasks: TaskAssignment[]; 
-  image: Image;
+  tasks: TaskAssignment[];
+  image?: Image | null;
 }
 
 export interface TaskAssignment {
@@ -101,12 +101,29 @@ export interface Task {
   id: string;
   name: string;
   icon: string;
-  category: 'Hobbies' | 'Hygiene' | 'Chores' | 'Skills' | 'Quiet Hobbies' | 'Miscellaneous';
+  category:
+    | "Hobbies"
+    | "Hygiene"
+    | "Chores"
+    | "Skills"
+    | "Quiet Hobbies"
+    | "Miscellaneous";
 }
 
 export interface Feedback {
   id: string;
   taskAssignmentId: string;
   taskId: string;
-  reaction: 'yes' | 'maybe' | 'no';
+  reaction: "yes" | "maybe" | "no";
 }
+
+export interface ImageDoc {
+  id: string;
+  blobUrl: string;
+  caption: string;
+  userId?: string;
+  eventId?: string;
+  createdAt: string;
+}
+
+export type UploadedImage = Pick<ImageDoc, "id" | "caption">;
