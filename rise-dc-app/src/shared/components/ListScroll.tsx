@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-type ListScrollProps<T extends { name: string }> = {
+type ListScrollProps<T extends { name: string, id: string }> = {
   items: T[];
 };
 
-export default function ListScroll<T extends { name: string }>({ items }: ListScrollProps<T>) {
-  const [selected, setSelected] = useState<string>(items[0].name);
+export default function ListScroll<T extends { name: string, id: string }>({ items }: ListScrollProps<T>) {
+  const [selected, setSelected] = useState<string>(items[0].id);
 
   return (
     <div className="flex flex-col gap-2">
@@ -13,7 +13,7 @@ export default function ListScroll<T extends { name: string }>({ items }: ListSc
         {items.map((item) => (
           <div
             key={item.name}
-            onClick={() => setSelected(item.name)}
+            onClick={() => setSelected(item.id)}
             className={`border-gray-200 border-t border-b p-3 cursor-pointer font-medium ${
               selected.includes(item.name)
                 ? "bg-gray-200"
