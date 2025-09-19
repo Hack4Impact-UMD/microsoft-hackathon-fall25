@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { QuietHobbyModalProps, QuietHobby } from "./types";
+import { QuietHobbyModalProps } from "./types";
 
 export default function QuietHobbyModal({
     isOpen,
@@ -11,21 +11,122 @@ export default function QuietHobbyModal({
     initialHobbyId = "",
 }: QuietHobbyModalProps) {
     const [selectedId, setSelectedId] = useState(initialHobbyId);
-    const [selectedHobby, setSelectedHobby] = useState<QuietHobby | null>(null);
+    const [isCameraOpen, setIsCameraOpen] = useState(false);
+    const [isVideoReady, setIsVideoReady] = useState(false);
+    const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
     const dialogRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const streamRef = useRef<MediaStream | null>(null);
     
     useEffect(() => {
         if (isOpen) {
             setSelectedId(initialHobbyId);
-            setTimeout(() => dialogRef.current?.querySelector("select")?.focus(), 0);
+        } else {
+            // Reset camera states when modal closes
+            if (isCameraOpen) {
+                stopCamera();
+            }
+            setCapturedPhoto(null);
         }
     }, [isOpen, initialHobbyId]);
 
-    // Update selected hobby when selectedId changes
+    // Cleanup camera stream when component unmounts or modal closes
     useEffect(() => {
-        const hobby = hobbies.find(h => h.id === selectedId);
-        setSelectedHobby(hobby || null);
-    }, [selectedId, hobbies]);
+        return () => {
+            if (streamRef.current) {
+                streamRef.current.getTracks().forEach(track => track.stop());
+            }
+        };
+    }, []);
+
+    const startCamera = async () => {
+        try {
+            console.log('Requesting camera access...');
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    facingMode: 'user', // Use front camera on MacBook
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                } 
+            });
+            console.log('Camera stream obtained:', stream);
+            streamRef.current = stream;
+            setIsCameraOpen(true);
+            
+            if (videoRef.current) {
+                const video = videoRef.current;
+                console.log('Video element found:', video);
+                video.srcObject = stream;
+                console.log('Video srcObject set, current srcObject:', video.srcObject);
+                
+                // Set up event listeners
+                const handleVideoReady = () => {
+                    console.log('Video ready event fired');
+                    setIsVideoReady(true);
+                };
+                
+                video.onloadedmetadata = handleVideoReady;
+                video.oncanplay = handleVideoReady;
+                video.onloadeddata = handleVideoReady;
+                
+                // Fallback timeout
+                setTimeout(() => {
+                    console.log('Fallback: Setting video ready after timeout');
+                    console.log('Video dimensions:', video.videoWidth, 'x', video.videoHeight);
+                    console.log('Video readyState:', video.readyState);
+                    setIsVideoReady(true);
+                }, 2000);
+            } else {
+                console.error('Video element not found!');
+            }
+        } catch (error) {
+            console.error('Error accessing camera:', error);
+            alert('Unable to access camera. Please check permissions.');
+        }
+    };
+
+    const stopCamera = () => {
+        if (streamRef.current) {
+            streamRef.current.getTracks().forEach(track => track.stop());
+            streamRef.current = null;
+        }
+        setIsCameraOpen(false);
+        setIsVideoReady(false);
+    };
+
+    const capturePhoto = () => {
+        if (videoRef.current && canvasRef.current && isVideoReady) {
+            const canvas = canvasRef.current;
+            const video = videoRef.current;
+            const context = canvas.getContext('2d');
+            
+            if (context && video.videoWidth > 0 && video.videoHeight > 0) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0);
+                
+                const photoDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                setCapturedPhoto(photoDataUrl);
+                onTakePhoto(photoDataUrl);
+                stopCamera();
+            } else {
+                console.error('Video not ready for capture');
+                alert('Camera not ready. Please wait a moment and try again.');
+            }
+        } else {
+            console.error('Camera or video not ready');
+            alert('Camera not ready. Please wait a moment and try again.');
+        }
+    };
+
+    const handleTakePhoto = () => {
+        if (isCameraOpen) {
+            capturePhoto();
+        } else {
+            startCamera();
+        }
+    };
 
     if (!isOpen) return null;
 return (
@@ -33,114 +134,150 @@ return (
       role="dialog"
       aria-modal="true"
       aria-labelledby="qh-title"
-      className="fixed inset-0 z-50 grid place-items-center bg-black/60 px-4"
+      className="fixed inset-0 z-50 grid place-items-center bg-black/60 px-6 py-8"
       onKeyDown={(e) => e.key === "Escape" && onClose()}
     >
       <div
         ref={dialogRef}
-        className="w-[360px] rounded-3xl bg-white shadow-2xl p-5"
+        className="w-full max-w-sm rounded-lg bg-white shadow-2xl p-6"
       >
         {/* header */}
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl" aria-hidden>
-              :broom:
-            </span>
-            <h2 id="qh-title" className="text-[22px] font-semibold">
-              Quiet Time
-            </h2>
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
+              <div className="w-6 h-6 bg-gray-300 rounded-sm"></div>
+            </div>
+            <div>
+              <h2 id="qh-title" className="text-2xl font-bold text-gray-800">
+                Quiet Time
+              </h2>
+              <p className="text-sm text-gray-600">{timeRange}</p>
+            </div>
           </div>
           <button
             aria-label="Close"
             onClick={onClose}
-            className="ml-3 h-8 w-8 grid place-items-center rounded-full bg-pink-500 text-white text-lg hover:brightness-95"
+            className="ml-4 h-8 w-8 grid place-items-center rounded-full bg-pink-500 text-white text-lg hover:brightness-95 active:scale-95 transition-transform"
           >
             ×
           </button>
         </div>
-        {/* subheader */}
-        <p className="mt-2 text-[15px] text-gray-700">
-          Choose a quiet activity to enjoy.
+        <p className="text-base text-gray-700 mb-4">
+          Choose a quiet activity to enjoy!
         </p>
-        <p className="mt-1 text-[13px] text-gray-500">
-          <span className="font-medium">Time:</span> {timeRange}
-        </p>
-        {/* form */}
-        <div className="mt-5">
-          <label
-            htmlFor="qh-select"
-            className="block text-[15px] font-medium text-gray-800 mb-2"
-          >
+        <div className="mb-6">
+          <label className="block text-base font-semibold text-gray-800 mb-3">
             Choose an activity:
           </label>
-          <div className="relative">
-            <select
-              id="qh-select"
-              className="w-full appearance-none rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 pr-10 text-[15px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={selectedId}
-              onChange={(e) => setSelectedId(e.target.value)}
-            >
-              <option value="" disabled>
-                Select…
-              </option>
-              {hobbies.map((h) => (
-                <option key={h.id} value={h.id}>
-                  {h.name}
-                </option>
-              ))}
-            </select>
-            {/* chevron */}
-            <span
-              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-              aria-hidden
-            >
-              ▼
-            </span>
+          <div className="max-h-64 overflow-y-auto border border-gray-200 rounded-lg">
+            {hobbies.map((hobby) => (
+              <button
+                key={hobby.id}
+                onClick={() => setSelectedId(hobby.id)}
+                className={`w-full text-left px-4 py-3 text-base text-gray-800 hover:bg-gray-50 transition-colors ${
+                  selectedId === hobby.id ? 'bg-gray-100' : ''
+                }`}
+              >
+                {hobby.name}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Selected hobby display */}
-        {selectedHobby && (
-          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                {selectedHobby.icon ? (
-                  <img 
-                    src={selectedHobby.icon} 
-                    alt={selectedHobby.name}
-                    className="w-8 h-8 object-contain"
-                  />
-                ) : (
-                  <span className="text-blue-600 text-xl">📝</span>
-                )}
-              </div>
-              <div>
-                <h3 className="font-semibold text-blue-900">{selectedHobby.name}</h3>
-                <p className="text-sm text-blue-700">Selected Activity</p>
-              </div>
+        {/* Camera interface */}
+        {isCameraOpen && (
+          <div className="mb-6">
+            <div className="relative bg-black rounded-lg overflow-hidden">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="w-full h-64 object-cover"
+              />
+              {!isVideoReady && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
+                  <div className="text-white text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                    <p>Loading camera...</p>
+                    <p className="text-xs mt-2 opacity-75">Check browser console for details</p>
+                    <p className="text-xs mt-1 opacity-50">If you see your camera light, the video should appear soon</p>
+                  </div>
+                </div>
+              )}
+              {isVideoReady && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-16 h-16 border-4 border-white rounded-full opacity-50"></div>
+                </div>
+              )}
             </div>
+            <div className="flex gap-3 mt-3">
+              <button
+                onClick={capturePhoto}
+                disabled={!isVideoReady}
+                className="flex-1 rounded-lg bg-green-600 px-4 py-3 text-white text-base font-semibold hover:brightness-95 active:scale-98 transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="mr-2 text-lg">📸</span>
+                {isVideoReady ? 'Capture Photo' : 'Loading...'}
+              </button>
+              <button
+                onClick={stopCamera}
+                className="flex-1 rounded-lg bg-gray-600 px-4 py-3 text-white text-base font-semibold hover:brightness-95 active:scale-98 transition-all flex items-center justify-center"
+              >
+                <span className="mr-2 text-lg">✕</span>
+                Cancel
+              </button>
+            </div>
+            {!isVideoReady && (
+              <div className="mt-2 text-center">
+                <button
+                  onClick={() => {
+                    console.log('Manual video ready trigger');
+                    setIsVideoReady(true);
+                  }}
+                  className="text-sm text-blue-600 underline hover:text-blue-800"
+                >
+                  Camera not loading? Click here to continue
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Captured photo preview */}
+        {capturedPhoto && !isCameraOpen && (
+          <div className="mb-6">
+            <p className="text-sm text-gray-600 mb-2">Photo captured:</p>
+            <img
+              src={capturedPhoto}
+              alt="Captured photo"
+              className="w-full h-48 object-cover rounded-lg border border-gray-200"
+            />
           </div>
         )}
 
         {/* actions */}
-        <div className="mt-6 space-y-3">
+        <div className="space-y-3">
           <button
             onClick={() => selectedId && onChooseActivity(selectedId)}
             disabled={!selectedId}
-            className="w-full rounded-xl bg-green-600 px-4 py-3 text-white text-[16px] font-semibold enabled:hover:brightness-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full rounded-lg bg-green-600 px-4 py-3 text-white text-base font-semibold enabled:hover:brightness-95 enabled:active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center"
           >
-            <span className="mr-2">✓</span> Choose Activity
+            <span className="mr-2 text-lg">✓</span> Select Activity
           </button>
           <button
-            onClick={onTakePhoto}
-            className="w-full rounded-xl bg-blue-600 px-4 py-3 text-white text-[16px] font-semibold hover:brightness-95"
+            onClick={handleTakePhoto}
+            className="w-full rounded-lg bg-blue-600 px-4 py-3 text-white text-base font-semibold hover:brightness-95 active:scale-98 transition-all flex items-center justify-center"
           >
-            <span className="mr-2" aria-hidden>
-              📷
+            <span className="mr-2 text-lg" aria-hidden>
+              📸
             </span>
-            Take Photo
+            {isCameraOpen ? 'Capture Photo' : 'Take Photo'}
           </button>
         </div>
+
+        {/* Hidden canvas for photo capture */}
+        <canvas ref={canvasRef} className="hidden" />
       </div>
     </div>
   );

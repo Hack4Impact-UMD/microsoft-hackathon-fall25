@@ -40,47 +40,49 @@ export default function QuietHobbiesParticipant({
     setOpen(false);
   };
 
-  const handleTakePhoto = () => {
-    console.log("Take photo flow initiated");
+  const handleTakePhoto = (photoDataUrl: string) => {
+    console.log("Photo captured:", photoDataUrl);
     onPhotoTaken?.();
-    // In a real app, this would open camera or photo picker
-    alert("Photo capture functionality will be implemented");
+    // TODO: Save the photo to rea database
+    alert("Photo captured successfully!");
   };
 
   return (
-    <div className="p-6">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+    <div className="p-8 max-w-4xl mx-auto">
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Quiet Time Activities
         </h1>
-        <p className="text-gray-600 mb-4">
+        <p className="text-xl text-gray-600 mb-6">
           Choose from available quiet activities for your scheduled quiet time.
         </p>
       </div>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-600">{error}</p>
+        <div className="mb-6 p-6 bg-red-50 border-2 border-red-200 rounded-2xl">
+          <p className="text-lg text-red-600 mb-3">{error}</p>
           <button
             onClick={loadHobbies}
-            className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
+            className="px-6 py-3 bg-red-600 text-white rounded-xl text-lg font-semibold hover:bg-red-700 active:scale-98 transition-all"
           >
-            Try again
+            Try Again
           </button>
         </div>
       )}
 
-      <button
-        className="rounded-xl bg-gray-900 text-white px-6 py-3 text-lg font-medium hover:bg-gray-800 transition-colors"
-        onClick={() => setOpen(true)}
-        disabled={loading || hobbies.length === 0}
-      >
-        {loading ? "Loading Activities..." : "Open Quiet Time"}
-      </button>
+      <div className="text-center">
+        <button
+          className="rounded-2xl bg-gray-900 text-white px-12 py-6 text-2xl font-bold hover:bg-gray-800 active:scale-98 transition-all shadow-lg"
+          onClick={() => setOpen(true)}
+          disabled={loading || hobbies.length === 0}
+        >
+          {loading ? "Loading Activities..." : "Open Quiet Time"}
+        </button>
+      </div>
 
       {hobbies.length === 0 && !loading && (
-        <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <p className="text-yellow-800">
+        <div className="mt-8 p-8 bg-yellow-50 border-2 border-yellow-200 rounded-2xl text-center">
+          <p className="text-xl text-yellow-800">
             No quiet activities are currently available. Please check back later or contact staff.
           </p>
         </div>

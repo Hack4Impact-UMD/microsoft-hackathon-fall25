@@ -15,7 +15,6 @@ export default function QuietHobbiesStaff({
   const [newHobbyName, setNewHobbyName] = useState('');
   const [editingName, setEditingName] = useState('');
 
-  // Load hobbies on component mount
   useEffect(() => {
     loadHobbies();
   }, []);
@@ -41,7 +40,7 @@ export default function QuietHobbiesStaff({
     try {
       const request: CreateQuietHobbyRequest = {
         name: newHobbyName.trim(),
-        // icon will be added later when upload component is integrated
+        // TODO: Add real icon
       };
 
       const newHobby = await quietHobbiesApi.create(request);
@@ -105,60 +104,62 @@ export default function QuietHobbiesStaff({
 
   if (loading) {
     return (
-      <div className="p-6">
-        <div className="flex items-center justify-center h-32">
-          <div className="text-gray-500">Loading quiet hobbies...</div>
+      <div className="p-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-2xl text-gray-500">Loading quiet hobbies...</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+    <div className="p-8 max-w-6xl mx-auto">
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Manage Quiet Hobbies
         </h1>
-        <p className="text-gray-600">
+        <p className="text-xl text-gray-600">
           Create and manage the list of quiet activities that participants can choose from.
         </p>
       </div>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-600">{error}</p>
+        <div className="mb-6 p-6 bg-red-50 border-2 border-red-200 rounded-2xl">
+          <p className="text-lg text-red-600 mb-3">{error}</p>
           <button
             onClick={loadHobbies}
-            className="mt-2 text-sm text-red-600 hover:text-red-800 underline"
+            className="px-6 py-3 bg-red-600 text-white rounded-xl text-lg font-semibold hover:bg-red-700 active:scale-98 transition-all"
           >
-            Try again
+            Try Again
           </button>
         </div>
       )}
 
       {/* Create new hobby form */}
-      <div className="mb-6">
+      <div className="mb-8">
         {!isCreating ? (
-          <button
-            onClick={() => setIsCreating(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            + Add New Quiet Hobby
-          </button>
+          <div className="text-center">
+            <button
+              onClick={() => setIsCreating(true)}
+              className="px-8 py-4 bg-blue-600 text-white rounded-2xl text-xl font-bold hover:bg-blue-700 active:scale-98 transition-all shadow-lg"
+            >
+              + Add New Quiet Hobby
+            </button>
+          </div>
         ) : (
-          <form onSubmit={handleCreateHobby} className="flex gap-2">
+          <form onSubmit={handleCreateHobby} className="flex gap-4 max-w-2xl mx-auto">
             <input
               type="text"
               value={newHobbyName}
               onChange={(e) => setNewHobbyName(e.target.value)}
               placeholder="Enter hobby name..."
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 px-6 py-4 border-2 border-gray-300 rounded-2xl text-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-400 transition-all"
               autoFocus
             />
             <button
               type="submit"
               disabled={!newHobbyName.trim()}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-8 py-4 bg-green-600 text-white rounded-2xl text-lg font-bold hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed active:scale-98 transition-all"
             >
               Save
             </button>
@@ -168,7 +169,7 @@ export default function QuietHobbiesStaff({
                 setIsCreating(false);
                 setNewHobbyName('');
               }}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+              className="px-8 py-4 bg-gray-500 text-white rounded-2xl text-lg font-bold hover:bg-gray-600 active:scale-98 transition-all"
             >
               Cancel
             </button>
@@ -177,72 +178,74 @@ export default function QuietHobbiesStaff({
       </div>
 
       {/* Hobbies list */}
-      <div className="space-y-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {hobbies.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
+          <div className="col-span-full text-center py-16 text-2xl text-gray-500">
             No quiet hobbies created yet. Add one above to get started.
           </div>
         ) : (
           hobbies.map((hobby) => (
             <div
               key={hobby.id}
-              className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm"
+              className="bg-white border-2 border-gray-200 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                  {/* Icon placeholder - will be replaced with upload component later */}
-                  <span className="text-gray-400 text-lg">📝</span>
+              <div className="flex flex-col h-full">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center">
+                    {/* Icon placeholder - will be replaced with upload component later */}
+                    <span className="text-gray-400 text-2xl">📝</span>
+                  </div>
+                  <div className="flex-1">
+                    {editingId === hobby.id ? (
+                      <input
+                        type="text"
+                        value={editingName}
+                        onChange={(e) => setEditingName(e.target.value)}
+                        className="w-full px-4 py-2 border-2 border-gray-300 rounded-xl text-lg focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-400"
+                        autoFocus
+                      />
+                    ) : (
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">{hobby.name}</h3>
+                    )}
+                    <p className="text-base text-gray-500">
+                      Created: {new Date(hobby.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  {editingId === hobby.id ? (
-                    <input
-                      type="text"
-                      value={editingName}
-                      onChange={(e) => setEditingName(e.target.value)}
-                      className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      autoFocus
-                    />
-                  ) : (
-                    <h3 className="font-medium text-gray-900">{hobby.name}</h3>
-                  )}
-                  <p className="text-sm text-gray-500">
-                    Created: {new Date(hobby.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
 
-              <div className="flex items-center gap-2">
-                {editingId === hobby.id ? (
-                  <>
-                    <button
-                      onClick={() => handleUpdateHobby(hobby.id)}
-                      className="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={cancelEditing}
-                      className="px-3 py-1 bg-gray-500 text-white text-sm rounded hover:bg-gray-600 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => startEditing(hobby)}
-                      className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDeleteHobby(hobby.id)}
-                      className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
+                <div className="mt-auto">
+                  {editingId === hobby.id ? (
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => handleUpdateHobby(hobby.id)}
+                        className="flex-1 px-4 py-3 bg-green-600 text-white text-lg font-semibold rounded-xl hover:bg-green-700 active:scale-98 transition-all"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={cancelEditing}
+                        className="flex-1 px-4 py-3 bg-gray-500 text-white text-lg font-semibold rounded-xl hover:bg-gray-600 active:scale-98 transition-all"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => startEditing(hobby)}
+                        className="flex-1 px-4 py-3 bg-blue-600 text-white text-lg font-semibold rounded-xl hover:bg-blue-700 active:scale-98 transition-all"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteHobby(hobby.id)}
+                        className="flex-1 px-4 py-3 bg-red-600 text-white text-lg font-semibold rounded-xl hover:bg-red-700 active:scale-98 transition-all"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))
@@ -250,9 +253,9 @@ export default function QuietHobbiesStaff({
       </div>
 
       {/* Icon upload placeholder */}
-      <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-        <h3 className="font-medium text-yellow-800 mb-2">Icon Upload Integration</h3>
-        <p className="text-sm text-yellow-700">
+      <div className="mt-12 p-8 bg-yellow-50 border-2 border-yellow-200 rounded-2xl text-center">
+        <h3 className="text-2xl font-bold text-yellow-800 mb-4">Icon Upload Integration</h3>
+        <p className="text-lg text-yellow-700">
           Icon upload functionality will be integrated in the next round of tasks. 
           Each quiet hobby will have space for an icon to be uploaded and displayed.
         </p>
