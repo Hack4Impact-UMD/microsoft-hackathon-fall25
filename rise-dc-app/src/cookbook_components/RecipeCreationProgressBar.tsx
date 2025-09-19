@@ -75,7 +75,7 @@ const RecipeCreationProgressBar = ({ currentStep }: ProgressBarProps) => {
                   />
                 </div>
 
-                <p className="mt-2 text-md text-center whitespace-nowrap">
+                <p className="mt-2 text-sm text-center whitespace-normal break-words">
                   {step.name}
                 </p>
               </div>
