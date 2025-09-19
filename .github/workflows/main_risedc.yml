@@ -36,15 +36,14 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Copy package.json for deployment
+        run: cp package.json dist/
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: |
-            rise-dc-app
-            !rise-dc-app/node_modules/**
-            !**/.git/**
-            !**/.github/**
+          path: rise-dc-app/dist
           if-no-files-found: error
 
   deploy:
@@ -74,4 +73,3 @@ jobs:
           app-name: 'risedc'
           slot-name: 'Production'
           package: .
-          app_location: "./rise-dc-app"
