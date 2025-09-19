@@ -265,8 +265,6 @@ app.post("/upload", upload.single("file"), async (req: Request, res: Response) =
 
 app.post("/test", async (req: Request, res: Response) => {
   try {
-    await verifyBlobAuth()
-
     return res.status(200)
   } catch (err) {
     return res.status(400).json({ error: "route failed: " + err.message })

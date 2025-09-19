@@ -1,7 +1,7 @@
 import { cosmosClient, blobServiceClient} from "./app";
-import { Task, Event, Assignment, Feedback } from "../../rise-dc-app/src/shared/types";
 // all purpose utility functions for cosmos
 import { BulkOperationType } from "@azure/cosmos";
+import { Task, Event, Assignment, Feedback, Recipe, Ingredient, Tool, Utensil, MealPrep, GroceryList } from "../../rise-dc-app/src/shared/types";
 
 // Get a container
 export function getContainer(database: string, container: string) {
@@ -34,6 +34,31 @@ export async function deleteItem(id: string, partitionKey: string, databaseName:
 
 /* ========= Domain Functions ========= */
 const SCHEDULING_DB = process.env.COSMOS_SCHEDULING_DB || "Scheduling";
+const COOKBOOK_DB = "Cookbook";
+
+//Recipe
+export const addRecipe = (recipe: Recipe) => addItem(recipe, COOKBOOK_DB, "Recipes");
+export const deleteRecipe = (id: string) => deleteItem(id, id, COOKBOOK_DB, "Recipes");
+
+//Ingredient
+export const addIngredient = (ingredient: Ingredient) => addItem(ingredient, COOKBOOK_DB, "Ingredients");
+export const deleteIngredient = (id: string) => deleteItem(id, id, COOKBOOK_DB, "Ingredients");
+
+//Tool
+export const addTool = (tool: Tool) => addItem(tool, COOKBOOK_DB, "Tools");
+export const deleteTool = (id: string) => deleteItem(id, id, COOKBOOK_DB, "Tools");
+
+//Utensil
+export const addUtensil = (utensil: Utensil) => addItem(utensil, COOKBOOK_DB, "Utensils");
+export const deleteUtensil = (id: string) => deleteItem(id, id, COOKBOOK_DB, "Utensils");
+
+//Meal Prep
+export const addMealPrep = (mealPrep: MealPrep) => addItem(mealPrep, COOKBOOK_DB, "Meal Preps");
+export const deleteMealPrep = (id: string) => deleteItem(id, id, COOKBOOK_DB, "Meal Preps");
+
+//Grocery list
+export const addGroceryList = (groceryList: GroceryList) => addItem(groceryList, COOKBOOK_DB, "Grocery Lists");
+export const deleteGroceryList = (id: string) => deleteItem(id, id, COOKBOOK_DB, "Grocery Lists");
 
 // Tasks
 export const addTask = (task: Task) => addItem(task, SCHEDULING_DB, "Tasks");
