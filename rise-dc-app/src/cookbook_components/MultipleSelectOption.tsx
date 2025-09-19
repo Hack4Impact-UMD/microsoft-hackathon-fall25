@@ -1,9 +1,9 @@
 import React, { useState} from "react";
 import ImageCard from "../shared/components/ImageCard";
-import Button from "../cookbook_components/Button";
+import Button from "./Button";
 import { RecipeIngredient } from "../shared/types";
 
-interface IngredientDisplayProps {
+interface MultipleSelectOptionProps {
     src: string;
     ingredient: RecipeIngredient;
     height?: number;
@@ -13,7 +13,7 @@ interface IngredientDisplayProps {
     onToggle?: (ingredient: RecipeIngredient, hasIngredient: boolean) => void;
 }
 
-const IngredientDisplay: React.FC<IngredientDisplayProps> = ({ src, ingredient, height, width, alt, className, onToggle }) => {
+const MultipleSelectOption: React.FC<MultipleSelectOptionProps> = ({ src, ingredient, height, width, alt, className, onToggle }) => {
     const [hasIngredient, setHasIngredient] = useState(false);
 
     const handleToggle = () => {
@@ -63,5 +63,5 @@ const IngredientDisplay: React.FC<IngredientDisplayProps> = ({ src, ingredient, 
   );
 };
 
-export default IngredientDisplay;
+export default MultipleSelectOption;
     
