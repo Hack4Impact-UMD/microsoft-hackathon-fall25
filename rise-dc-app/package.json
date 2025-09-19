@@ -1,6 +1,9 @@
 {
   "name": "rise-dc-app",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "version": "0.0.0",
   "type": "module",
   "scripts": {
