@@ -27,7 +27,7 @@ const RecipeCreationProgressBar = ({ currentStep }: ProgressBarProps) => {
           className="absolute top-6 h-3 flex items-center"
           style={{ left: "10%", right: "10%" }}
         >
-          <div className="w-full h-full bg-[#D9D9D9] rounded-full border border-black" />
+          <div className="w-full h-full bg-[#D9D9D9] rounded-full border border-[#616161]" />
         </div>
 
         {/* Orange progress line */}
@@ -66,7 +66,7 @@ const RecipeCreationProgressBar = ({ currentStep }: ProgressBarProps) => {
                   className={`w-16 h-16 flex items-center justify-center bg-white z-10 rounded-full border-2 ${
                     isCompleted || isActive
                       ? "border-[#EB5904]"
-                      : "border-gray-300"
+                      : "border-[#D9D9D9]"
                   }`}
                 >
                   <IconComponent
