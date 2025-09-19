@@ -1,4 +1,4 @@
-import { cosmosClient, blobServiceClient} from "./app";
+import { cosmosClient } from "./app";
 // all purpose utility functions for cosmos
 import { BulkOperationType } from "@azure/cosmos";
 import { Task, Event, Assignment, Feedback, Recipe, Ingredient, Tool, Utensil, MealPrep, GroceryList } from "../../rise-dc-app/src/shared/types";
@@ -92,17 +92,3 @@ export async function addItems(items, databaseName, containerName) {
         throw error;
     }
 }
-
-export async function uploadBlob(containerName: string, blobName: string, buffer: Buffer, contentType?: string) {
-    console.log(blobServiceClient.getProperties());
-    const containerClient = blobServiceClient.getContainerClient(containerName);
-    await containerClient.createIfNotExists({ access: "container" });
-  
-    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  
-    await blockBlobClient.uploadData(buffer, {
-        blobHTTPHeaders: { blobContentType: contentType || "application/octet-stream" },
-    });
-  
-    return blockBlobClient.url;
-  }

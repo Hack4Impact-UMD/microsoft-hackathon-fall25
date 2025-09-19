@@ -14,7 +14,7 @@ import { Task, Event, Assignment, Feedback } from "../../rise-dc-app/src/shared/
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { uploadBlob } from "./cosmos";
+import { uploadBlob } from "./blob";
 import crypto from "crypto";
 
 dotenv.config(); 
