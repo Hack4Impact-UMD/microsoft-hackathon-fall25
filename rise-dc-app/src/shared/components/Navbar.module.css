@@ -3,6 +3,7 @@
   border-bottom: 1px solid #ddd;
   display: flex;
   gap: 30px;
+  background: #FFFFFF;
 }
 
 .logo {
