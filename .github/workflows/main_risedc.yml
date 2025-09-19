@@ -39,6 +39,9 @@ jobs:
       - name: Copy package.json for deployment
         run: cp package.json dist/
 
+      - name: Copy startup.sh for deployment
+        run: cp startup.sh dist/
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -73,3 +76,4 @@ jobs:
           app-name: 'risedc'
           slot-name: 'Production'
           package: .
+
