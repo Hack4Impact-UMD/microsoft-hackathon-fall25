@@ -66,5 +66,3 @@ jobs:
           app-name: 'risedc'
           slot-name: 'Production'
           package: .
-
-          
