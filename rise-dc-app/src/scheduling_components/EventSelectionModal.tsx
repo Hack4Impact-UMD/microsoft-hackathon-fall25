@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import './EventSelectionModal.css';
+import ModalHeader from './ModalHeader';
+import SelectEventStep from './SelectEventStep';
+import CreateTaskNameStep from './CreateTaskNameStep';
+import AddSteps from './AddSteps';
 
 // Placeholder for the new time selection modal
 const TimeSelectionModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
@@ -21,7 +25,27 @@ interface EventSelectionModalProps {
   onClose: () => void;
 }
 
+type Step = {
+  id: number;
+  text: string;
+};
+
+type TimeSlot = {
+  hour: number;
+  minute: number;
+  period: 'AM' | 'PM';
+};
+
+type ModalStep = 'SELECT_EVENT' | 'CREATE_TASK_NAME' | 'ADD_STEPS';
+
 const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClose }) => {
+  const [currentStep, setCurrentStep] = useState<ModalStep>('SELECT_EVENT');
+  const [taskName, setTaskName] = useState('');
+  const [steps, setSteps] = useState<Step[]>([]);
+  const [startTime, setStartTime] = useState<TimeSlot>({ hour: 10, minute: 15, period: 'AM' });
+  const [endTime, setEndTime] = useState<TimeSlot>({ hour: 11, minute: 15, period: 'AM' });
+  
+  // New functionality from the other person
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [isTimeModalOpen, setIsTimeModalOpen] = useState(false);
 
@@ -48,70 +72,142 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     return null;
   }
 
+  const handleCustomTaskClick = () => {
+    setCurrentStep('CREATE_TASK_NAME');
+  };
+
+  const handleBackToSelectEvent = () => {
+    setCurrentStep('SELECT_EVENT');
+  };
+
+  const handleTaskNameNext = () => {
+    setCurrentStep('ADD_STEPS');
+  };
+
+  const handleBackToTaskName = () => {
+    setCurrentStep('CREATE_TASK_NAME');
+  };
+
+  const handleStepsNext = () => {
+    // Finish the task creation process
+    handleFinish();
+  };
+
+  const handleFinish = () => {
+    // Here you would typically save the task data
+    console.log('Task created:', {
+      name: taskName,
+      steps: steps,
+      startTime: startTime,
+      endTime: endTime
+    });
+    
+    // Reset state and close modal
+    setCurrentStep('SELECT_EVENT');
+    setTaskName('');
+    setSteps([]);
+    setStartTime({ hour: 10, minute: 15, period: 'AM' });
+    setEndTime({ hour: 11, minute: 15, period: 'AM' });
+    onClose();
+  };
+
+  const handleClose = () => {
+    // Reset state when closing
+    setCurrentStep('SELECT_EVENT');
+    setTaskName('');
+    setSteps([]);
+    setStartTime({ hour: 10, minute: 15, period: 'AM' });
+    setEndTime({ hour: 11, minute: 15, period: 'AM' });
+    onClose();
+  };
+
   return (
     <>
       <div className="modal-overlay">
-        <div className="modal-content">
-          <div className="modal-header">
-            <span className="edit-icon">✏️</span>
-            <h3 className="modal-title">Select Event</h3>
-            <button className="close-button" onClick={onClose}>❌</button>
-          </div>
-          <div className="event-cards-container">
-            {/* Make Bed Card */}
-            <div
-              className={`event-card ${selectedEvent === 'Make Bed' ? 'selected' : ''}`}
-              onClick={() => handleEventClick('Make Bed')}
-            >
-              <div className="event-image-placeholder make-bed-color">
-                <span className="event-icon">🛏️</span>
+        {currentStep === 'SELECT_EVENT' && (
+          <div className="modal-content">
+            <ModalHeader 
+              onClose={handleClose}
+              title="Select Event"
+              iconType="edit"
+            />
+            <div className="event-cards-container">
+              {/* Make Bed Card */}
+              <div
+                className={`event-card ${selectedEvent === 'Make Bed' ? 'selected' : ''}`}
+                onClick={() => handleEventClick('Make Bed')}
+              >
+                <div className="event-image-placeholder make-bed-color">
+                  <span className="event-icon">🛏️</span>
+                </div>
+                <p className="event-name">Make Bed</p>
+                {selectedEvent === 'Make Bed' && (
+                  <span className="selection-checkmark">✔️</span>
+                )}
               </div>
-              <p className="event-name">Make Bed</p>
-              {selectedEvent === 'Make Bed' && (
-                <span className="selection-checkmark">✔️</span>
-              )}
-            </div>
 
-            {/* Sweep Floor Card */}
-            <div
-              className={`event-card ${selectedEvent === 'Sweep floor' ? 'selected' : ''}`}
-              onClick={() => handleEventClick('Sweep floor')}
-            >
-              <div className="event-image-placeholder sweep-floor-color">
-                <span className="event-icon">🧹</span>
+              {/* Sweep Floor Card */}
+              <div
+                className={`event-card ${selectedEvent === 'Sweep floor' ? 'selected' : ''}`}
+                onClick={() => handleEventClick('Sweep floor')}
+              >
+                <div className="event-image-placeholder sweep-floor-color">
+                  <span className="event-icon">🧹</span>
+                </div>
+                <p className="event-name">Sweep floor</p>
+                {selectedEvent === 'Sweep floor' && (
+                  <span className="selection-checkmark">✔️</span>
+                )}
               </div>
-              <p className="event-name">Sweep floor</p>
-              {selectedEvent === 'Sweep floor' && (
-                <span className="selection-checkmark">✔️</span>
-              )}
-            </div>
-            
-            {/* Water plants Card */}
-            <div
-              className={`event-card ${selectedEvent === 'Water plants' ? 'selected' : ''}`}
-              onClick={() => handleEventClick('Water plants')}
-            >
-              <div className="event-image-placeholder water-plants-color">
-                <span className="event-icon">💧</span>
+              
+              {/* Water plants Card */}
+              <div
+                className={`event-card ${selectedEvent === 'Water plants' ? 'selected' : ''}`}
+                onClick={() => handleEventClick('Water plants')}
+              >
+                <div className="event-image-placeholder water-plants-color">
+                  <span className="event-icon">💧</span>
+                </div>
+                <p className="event-name">Water plants</p>
+                {selectedEvent === 'Water plants' && (
+                  <span className="selection-checkmark">✔️</span>
+                )}
               </div>
-              <p className="event-name">Water plants</p>
-              {selectedEvent === 'Water plants' && (
-                <span className="selection-checkmark">✔️</span>
-              )}
             </div>
+            <div className="or-separator">OR</div>
+            <button className="custom-task-button" onClick={handleCustomTaskClick}>
+              <span className="plus-icon">+</span> Custom Task
+            </button>
+            <button
+              className={`add-time-button ${selectedEvent ? 'enabled' : ''}`}
+              disabled={!selectedEvent}
+              onClick={handleAddTimeClick}
+            >
+              Add Time
+            </button>
           </div>
-          <div className="or-separator">OR</div>
-          <button className="custom-task-button">
-            <span className="plus-icon">+</span> Custom Task
-          </button>
-          <button
-            className={`add-time-button ${selectedEvent ? 'enabled' : ''}`}
-            disabled={!selectedEvent}
-            onClick={handleAddTimeClick}
-          >
-            Add Time
-          </button>
-        </div>
+        )}
+        
+        {currentStep === 'CREATE_TASK_NAME' && (
+          <CreateTaskNameStep
+            onBack={handleBackToSelectEvent}
+            onNext={handleTaskNameNext}
+            onClose={handleClose}
+            taskName={taskName}
+            onTaskNameChange={setTaskName}
+          />
+        )}
+        
+        {currentStep === 'ADD_STEPS' && (
+          <AddSteps
+            onBack={handleBackToTaskName}
+            onNext={handleStepsNext}
+            onClose={handleClose}
+            taskName={taskName}
+            steps={steps}
+            onStepsChange={setSteps}
+          />
+        )}
       </div>
       <TimeSelectionModal isOpen={isTimeModalOpen} onClose={closeTimeModal} />
     </>
