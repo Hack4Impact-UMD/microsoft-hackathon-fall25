@@ -10,6 +10,11 @@ type EventData = {
   endTime: { hour: number; minute: number; period: 'AM' | 'PM' };
 };
 
+
+
+
+
+
 export function PlanYourDayButton() {
     const [isModalOpen, setIsModalOpen] = useState(false);
       const [events, setEvents] = useState<EventData[]>([]);
@@ -32,6 +37,9 @@ export function PlanYourDayButton() {
     setIsModalOpen(false); // close modal after adding
   };
 
+
+
+
     return (
         <>
          {events.length === 0 && (
@@ -47,6 +55,10 @@ export function PlanYourDayButton() {
 
           {events.length > 0 && (
         <><div className="events-container">
+          
+
+          
+          
                     {events.map((event, idx) => (
                         <div key={idx} className="event-card-main">
                             <EventCard
@@ -55,11 +67,10 @@ export function PlanYourDayButton() {
                                 endTime={event.endTime}
                                 //   icon={event.name === 'Make Bed' ? '🛏️' : event.name === 'Sweep Floor' ? '🧹' : '💧'}
                                 color={'#fffef2ff'} />
-                            {/* <p className="event-name-main">{event.name}</p>
-              <p className="event-time">
-                {event.startTime.hour}:{event.startTime.minute.toString().padStart(2, '0')} {event.startTime.period} –{' '}
-                {event.endTime.hour}:{event.endTime.minute.toString().padStart(2, '0')} {event.endTime.period}
-              </p> */}
+                      
+                      
+                     
+
                         </div>
                     ))}
                 </div><div

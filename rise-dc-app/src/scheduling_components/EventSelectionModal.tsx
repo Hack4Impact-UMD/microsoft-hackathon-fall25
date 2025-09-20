@@ -246,7 +246,6 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
         onClose={closeTimeModal}
         selectedEvent={selectedEvent || taskName}
         onTimeConfirmed={handleTimeConfirmed}
-        initialStep="CREATE_TASK_NAME"
       />
     </>
   );
