@@ -19,7 +19,7 @@ export default function Scheduler() {
         Scheduling interface for users with first-grade or below reading/math
         levels
       </p>
-      <IconCard onIconSelect={handleIconSelect} />
+      {/* <IconCard onIconSelect={handleIconSelect} /> */}
       <ProgressBar duration={20000} startHour={0} startMinute={16} />
       <WhatsNextButton
         assignments={[
