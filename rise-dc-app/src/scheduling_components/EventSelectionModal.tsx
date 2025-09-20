@@ -9,6 +9,13 @@ import TimeSelectionModal from './TimeSelectionModal'; // Import the new time mo
 interface EventSelectionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onEventCreated: (event: {
+    name: string;
+    startTime: TimeSlot;
+    endTime: TimeSlot;
+    steps?: Step[];
+  }) => void;
+   initialStep?: ModalStep;  
 }
 
 type Step = {
@@ -22,10 +29,10 @@ type TimeSlot = {
   period: 'AM' | 'PM';
 };
 
-type ModalStep = 'SELECT_EVENT' | 'CREATE_TASK_NAME' | 'ADD_STEPS';
+type ModalStep = 'SELECT_EVENT' | 'CREATE_TASK_NAME' | 'SET_TIME' | 'ADD_STEPS';
 
-const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClose }) => {
-  const [currentStep, setCurrentStep] = useState<ModalStep>('SELECT_EVENT');
+const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClose, onEventCreated, initialStep }) => {
+  const [currentStep, setCurrentStep] = useState<ModalStep>(initialStep || 'SELECT_EVENT');
   const [taskName, setTaskName] = useState('');
   const [steps, setSteps] = useState<Step[]>([]);
   const [startTime, setStartTime] = useState<TimeSlot>({ hour: 10, minute: 15, period: 'AM' });
@@ -45,7 +52,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
   };
 
   const handleAddTimeClick = () => {
-    if (selectedEvent) {
+    if (selectedEvent || taskName) {
       setIsTimeModalOpen(true);
     }
   };
@@ -58,6 +65,12 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     setStartTime(newStartTime);
     setEndTime(newEndTime);
     setIsTimeModalOpen(false);
+
+  onEventCreated({
+    name: selectedEvent || taskName,
+    startTime: newStartTime,
+    endTime: newEndTime,
+  });
     
     // Create the task with the selected event and times
     console.log('Task created:', {
@@ -67,6 +80,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     });
     
     // Reset and close the main modal
+    
     setSelectedEvent(null);
     onClose();
   };
@@ -85,6 +99,8 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
 
   const handleTaskNameNext = () => {
     setCurrentStep('ADD_STEPS');
+    setCurrentStep('SET_TIME');
+    setIsTimeModalOpen(true);
   };
 
   const handleBackToTaskName = () => {
@@ -97,6 +113,16 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
   };
 
   const handleFinish = () => {
+
+     const newEvent = {
+      name: taskName,
+      steps,
+      startTime,
+      endTime,
+    };
+
+     onEventCreated(newEvent);
+
     // Here you would typically save the task data
     console.log('Task created:', {
       name: taskName,
@@ -218,11 +244,14 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
       <TimeSelectionModal 
         isOpen={isTimeModalOpen} 
         onClose={closeTimeModal}
-        selectedEvent={selectedEvent || 'Sweep floor'}
+        selectedEvent={selectedEvent || taskName}
         onTimeConfirmed={handleTimeConfirmed}
+        initialStep="CREATE_TASK_NAME"
       />
     </>
   );
 };
 
 export default EventSelectionModal;
+
+

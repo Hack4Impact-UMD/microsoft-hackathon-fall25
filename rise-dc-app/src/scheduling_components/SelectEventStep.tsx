@@ -3,10 +3,11 @@ import ModalHeader from './ModalHeader';
 
 interface SelectEventStepProps {
   onCustomTaskClick: () => void;
+  onAddTimeClick: () => void;
   onClose: () => void;
 }
 
-const SelectEventStep: React.FC<SelectEventStepProps> = ({ onCustomTaskClick, onClose }) => {
+const SelectEventStep: React.FC<SelectEventStepProps> = ({ onCustomTaskClick, onAddTimeClick, onClose }) => {
   return (
     <div className="bg-white rounded-lg p-6 w-full max-w-md mx-auto">
       <ModalHeader 
