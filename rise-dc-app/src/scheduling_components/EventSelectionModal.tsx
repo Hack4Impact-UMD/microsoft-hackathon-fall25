@@ -4,21 +4,7 @@ import ModalHeader from './ModalHeader';
 import SelectEventStep from './SelectEventStep';
 import CreateTaskNameStep from './CreateTaskNameStep';
 import AddSteps from './AddSteps';
-
-// Placeholder for the new time selection modal
-const TimeSelectionModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h3 className="modal-title">Select Time</h3>
-        <p>This is where the time selection UI will go.</p>
-        <button onClick={onClose}>Close Time Modal</button>
-      </div>
-    </div>
-  );
-};
+import TimeSelectionModal from './TimeSelectionModal'; // Import the new time modal
 
 interface EventSelectionModalProps {
   isOpen: boolean;
@@ -44,7 +30,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
   const [steps, setSteps] = useState<Step[]>([]);
   const [startTime, setStartTime] = useState<TimeSlot>({ hour: 10, minute: 15, period: 'AM' });
   const [endTime, setEndTime] = useState<TimeSlot>({ hour: 11, minute: 15, period: 'AM' });
-  
+
   // New functionality from the other person
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [isTimeModalOpen, setIsTimeModalOpen] = useState(false);
@@ -66,6 +52,23 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
 
   const closeTimeModal = () => {
     setIsTimeModalOpen(false);
+  };
+
+  const handleTimeConfirmed = (newStartTime: TimeSlot, newEndTime: TimeSlot) => {
+    setStartTime(newStartTime);
+    setEndTime(newEndTime);
+    setIsTimeModalOpen(false);
+    
+    // Create the task with the selected event and times
+    console.log('Task created:', {
+      name: selectedEvent,
+      startTime: newStartTime,
+      endTime: newEndTime
+    });
+    
+    // Reset and close the main modal
+    setSelectedEvent(null);
+    onClose();
   };
 
   if (!isOpen) {
@@ -101,7 +104,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
       startTime: startTime,
       endTime: endTime
     });
-    
+
     // Reset state and close modal
     setCurrentStep('SELECT_EVENT');
     setTaskName('');
@@ -118,6 +121,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     setSteps([]);
     setStartTime({ hour: 10, minute: 15, period: 'AM' });
     setEndTime({ hour: 11, minute: 15, period: 'AM' });
+    setSelectedEvent(null);
     onClose();
   };
 
@@ -126,7 +130,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
       <div className="modal-overlay">
         {currentStep === 'SELECT_EVENT' && (
           <div className="modal-content">
-            <ModalHeader 
+            <ModalHeader
               onClose={handleClose}
               title="Select Event"
               iconType="edit"
@@ -159,7 +163,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
                   <span className="selection-checkmark">✔️</span>
                 )}
               </div>
-              
+
               {/* Water plants Card */}
               <div
                 className={`event-card ${selectedEvent === 'Water plants' ? 'selected' : ''}`}
@@ -187,7 +191,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
             </button>
           </div>
         )}
-        
+
         {currentStep === 'CREATE_TASK_NAME' && (
           <CreateTaskNameStep
             onBack={handleBackToSelectEvent}
@@ -197,7 +201,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
             onTaskNameChange={setTaskName}
           />
         )}
-        
+
         {currentStep === 'ADD_STEPS' && (
           <AddSteps
             onBack={handleBackToTaskName}
@@ -209,7 +213,14 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
           />
         )}
       </div>
-      <TimeSelectionModal isOpen={isTimeModalOpen} onClose={closeTimeModal} />
+
+      {/* Time Selection Modal */}
+      <TimeSelectionModal 
+        isOpen={isTimeModalOpen} 
+        onClose={closeTimeModal}
+        selectedEvent={selectedEvent || 'Sweep floor'}
+        onTimeConfirmed={handleTimeConfirmed}
+      />
     </>
   );
 };
