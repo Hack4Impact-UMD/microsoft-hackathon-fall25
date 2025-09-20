@@ -1,33 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Card, 
   CardContent, 
   Typography, 
   Box, 
-  Paper,
-  Collapse,
+  TextField,
+  Chip,
+  Tooltip,
+  Card as MuiCard,
+  CardActionArea,
   IconButton
 } from '@mui/material';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
-import IconDropdown from './IconDropdown';
 
 /**
  * IconCard Component
  * 
- * A collapsible card component that displays different activity categories
- * (hobbies, chores, skills, hygiene) in a vertical stack. Each category can be
- * expanded/collapsed to show/hide the icon selection interface.
+ * A single grid component that displays all activity icons in one searchable interface.
+ * Users can search for specific activities and select them by clicking.
+ * Designed for accessibility with large touch targets and clear visual feedback.
  * 
  * Features:
- * - Collapsible categories for better mobile UX
- * - Visual feedback with expand/collapse icons
- * - Selected activities summary display
+ * - Single search bar for all icons
+ * - Large responsive grid layout
+ * - Visual selection feedback with orange highlighting
+ * - Tooltips for better accessibility
  * - Orange and grey color scheme for accessibility
  */
+
+// Import all the icons we need
+import {
+  SportsSoccer,
+  MenuBook,
+  MusicNote,
+  Palette,
+  SportsEsports,
+  CameraAlt,
+  Restaurant,
+  LocalFlorist,
+  CleaningServices,
+  LocalLaundryService,
+  DinnerDining,
+  Delete,
+  ShoppingCart,
+  Inventory,
+  Build,
+  Code,
+  DesignServices,
+  Edit,
+  Translate,
+  Calculate,
+  Science,
+  PresentToAll,
+  Group,
+  Shower,
+  Face,
+  ContentCut,
+  FitnessCenter,
+  Psychology,
+  Bedtime,
+  Medication,
+  Search
+} from '@mui/icons-material';
+
+/**
+ * Icon Mapping Configuration
+ * 
+ * Maps icon names (strings) to their corresponding MUI icon components.
+ * This allows dynamic icon rendering based on the icon name from the data.
+ */
+const iconMap: { [key: string]: React.ComponentType<any> } = {
+  SportsSoccer,
+  MenuBook,
+  MusicNote,
+  Palette,
+  SportsEsports,
+  CameraAlt,
+  Restaurant,
+  LocalFlorist,
+  CleaningServices,
+  LocalLaundryService,
+  DinnerDining,
+  Delete,
+  ShoppingCart,
+  Inventory,
+  Build,
+  Code,
+  DesignServices,
+  Edit,
+  Translate,
+  Calculate,
+  Science,
+  PresentToAll,
+  Group,
+  Shower,
+  Face,
+  ContentCut,
+  FitnessCenter,
+  Psychology,
+  Bedtime,
+  Medication
+};
+
 /**
  * Icon Categories Configuration
  * 
- * Defines the four main activity categories with their respective icons.
+ * Defines all activity categories with their respective icons.
  * Each category contains a title and an array of icon objects with name and MUI icon type.
  */
 const iconCategories = {
@@ -86,6 +163,18 @@ const iconCategories = {
 };
 
 /**
+ * Interface for individual icon options
+ */
+interface IconOption {
+  /** Display name of the activity */
+  name: string;
+  /** MUI icon component name */
+  icon: string;
+  /** Category the icon belongs to */
+  category: string;
+}
+
+/**
  * Props interface for IconCard component
  */
 interface IconCardProps {
@@ -94,145 +183,283 @@ interface IconCardProps {
 }
 
 const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
-  // State to track which icons are selected in each category
-  const [selectedIcons, setSelectedIcons] = useState<{[key: string]: string}>({});
+  // State for search functionality
+  const [searchTerm, setSearchTerm] = useState('');
   
-  // State to track which categories are expanded/collapsed
-  const [expandedCategories, setExpandedCategories] = useState<{[key: string]: boolean}>({});
+  // State to track selected icon (only one can be selected at a time)
+  const [selectedIcon, setSelectedIcon] = useState<{category: string, name: string, icon: string} | null>(null);
 
   /**
-   * Handles icon selection from child IconDropdown components
-   * @param category - The category key (hobbies, chores, skills, hygiene)
-   * @param iconName - The name of the selected activity
-   * @param iconType - The MUI icon type
+   * Flatten all icons from all categories into a single array
+   * Each icon gets a category property for identification
    */
-  const handleIconSelect = (category: string, iconName: string, iconType: string) => {
-    // Update local state with selected icon
-    setSelectedIcons(prev => ({
-      ...prev,
-      [category]: iconName
-    }));
+  const allIcons: IconOption[] = useMemo(() => {
+    const flattened: IconOption[] = [];
+    Object.entries(iconCategories).forEach(([categoryKey, category]) => {
+      category.icons.forEach(icon => {
+        flattened.push({
+          ...icon,
+          category: categoryKey
+        });
+      });
+    });
+    return flattened;
+  }, []);
+
+  /**
+   * Filter icons based on search term
+   * Uses useMemo for performance optimization
+   */
+  const filteredIcons = useMemo(() => {
+    if (!searchTerm) return allIcons;
+    return allIcons.filter(icon => 
+      icon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      iconCategories[icon.category as keyof typeof iconCategories].title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [allIcons, searchTerm]);
+
+  /**
+   * Handles icon selection when user clicks on an icon
+   * Only one icon can be selected at a time across all categories
+   * @param iconOption - The selected icon option
+   */
+  const handleIconClick = (iconOption: IconOption) => {
+    // If clicking the same icon, deselect it
+    if (selectedIcon && 
+        selectedIcon.category === iconOption.category && 
+        selectedIcon.name === iconOption.name) {
+      setSelectedIcon(null);
+      return;
+    }
+    
+    // Select the new icon (replaces any previously selected icon)
+    setSelectedIcon({
+      category: iconOption.category,
+      name: iconOption.name,
+      icon: iconOption.icon
+    });
     
     // Call parent callback if provided
     if (onIconSelect) {
-      onIconSelect(category, iconName, iconType);
+      onIconSelect(iconOption.category, iconOption.name, iconOption.icon);
     }
-  };
-
-  /**
-   * Toggles the expanded/collapsed state of a category
-   * 
-   * This function handles the click events on category headers to expand/collapse
-   * the icon selection interface. It uses a functional state update to toggle
-   * the boolean value for the specific category.
-   * 
-   * @param categoryKey - The category key to toggle (hobbies, chores, skills, hygiene)
-   * 
-   * How it works:
-   * 1. Takes the current expandedCategories state
-   * 2. Spreads all existing category states (...prev)
-   * 3. Toggles the specific category's boolean value (!prev[categoryKey])
-   * 4. Updates the state with the new object
-   */
-  const handleCategoryToggle = (categoryKey: string) => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      [categoryKey]: !prev[categoryKey]  // Toggle: true becomes false, false becomes true
-    }));
   };
 
   return (
     <Card 
       sx={{ 
-        maxWidth: 500, 
+        maxWidth: 600, 
         margin: 'auto', 
         marginTop: 3,
         boxShadow: 3,
-        borderRadius: 2
+        borderRadius: 2,
+        color: '#F9FAFB',
+        fontFamily: 'Lexend, sans-serif',
+        '& *': {
+          fontFamily: 'Lexend, sans-serif !important'
+        }
       }}
     >
-      <CardContent sx={{ p: 3 }}>
+      {/* TODO: implement back arrow logic */}
+      <CardContent sx={{ p: 3, pt: 8, position: 'relative' }}>
+        <Box sx={{ position: 'absolute', top: 16, left: 16 }}>
+          <IconButton 
+            sx={{ 
+              p: 1,
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.04)'
+              }
+            }}
+          >
+            <img 
+              src="/src/scheduling_components/icon_components/back.png" 
+              alt="Back" 
+              style={{ 
+                width: '2.3rem', 
+                height: '2.3rem',
+                cursor: 'pointer'
+              }} 
+            />
+          </IconButton>
+        </Box>
+
         <Typography 
           variant="h5" 
           component="h1" 
           gutterBottom 
           align="center"
           sx={{ 
-            fontWeight: 'bold',
-            color: '#FD8743',
-            mb: 3,
-            fontFamily: 'Lexend, sans-serif'
+            color: '#0C343D',
+            mb: 2,
+            fontWeight: 400,
+            size: '32px'
           }}
         >
-          Activity Icon Selector
+          Pick an Icon
         </Typography>
         
-        <Box sx={{ 
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          maxWidth: '400px',
-          margin: '0 auto'
-        }}>
-          {/* Render each category as a collapsible section */}
-          {Object.entries(iconCategories).map(([categoryKey, category]) => (
-            // paper component creates the raised surface effect, can remove if needed
-            <Paper 
-              key={categoryKey}
-              elevation={2} 
+        {/* Search Field */}
+        <TextField
+          fullWidth
+          size="medium"
+          placeholder="Type to Search"
+          variant="outlined"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          slotProps={{
+            input: {
+              startAdornment: <Search sx={{ color: '#8C8C8C'}} />
+            }
+          }}
+          sx={{ 
+            mb: 3,
+            '& .MuiInputBase-input': {
+              fontSize: '1rem',
+              padding: '16px 14px',
+                '&::placeholder': {
+                  fontSize: '1.2rem',
+                  color: '#8C8C8C',
+                  fontWeight: 300,
+                  opacity: 1
+                }
+            },
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 3,
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#FD8743',
+                borderWidth: 2
+              }
+            }
+          }}
+        />
+
+        {/* Selected Icon Display */}
+        {selectedIcon && (
+          <Box sx={{ mb: 3 }}>
+            <Typography 
+              variant="subtitle1" 
               sx={{ 
-                borderRadius: 2,
-                backgroundColor: '#F5F5F5',
-                overflow: 'hidden'  // Ensures content doesn't overflow rounded corners
+                fontWeight: 'bold',
+                color: '#666666',
+                mb: 1
               }}
             >
-              {/* Clickable header that toggles collapse state */}
-              <Box 
-                sx={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  p: 2,
-                  cursor: 'pointer',  // Shows hand cursor on hover
-                  '&:hover': {
-                    backgroundColor: '#EEEEEE'  // Visual feedback on hover
-                  }
-                }}
-                onClick={() => handleCategoryToggle(categoryKey)}  // Toggle collapse on click
-              >
-                {/* Category title */}
-                <Typography 
-                  variant="subtitle1" 
+              Selected Activity:
+            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+              <Tooltip title={`${iconCategories[selectedIcon.category as keyof typeof iconCategories].title}: ${selectedIcon.name}`}>
+                <Chip
+                  icon={iconMap[selectedIcon.icon] ? React.createElement(iconMap[selectedIcon.icon]) : undefined}
+                  label={selectedIcon.name}
+                  variant="filled"
                   sx={{ 
-                    fontWeight: 'bold',
-                    color: '#666666',
-                    fontFamily: 'Lexend, sans-serif'
+                    backgroundColor: '#FD8743', 
+                    color: 'white',
+                    fontSize: '0.8rem',
+                    height: '32px',
+                    '& .MuiChip-icon': {
+                      fontSize: '1.1rem'
+                    }
+                  }}
+                />
+              </Tooltip>
+            </Box>
+          </Box>
+        )}
+
+        {/* Icon Grid */}
+        <Box sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(5, 1fr)',
+          gap: 2,
+          maxHeight: '500px',
+          overflowY: 'auto',
+          p: 2,
+          borderRadius: 2,
+          backgroundColor: 'white'
+        }}>
+          {filteredIcons.map((iconOption) => {
+            const IconComponent = iconMap[iconOption.icon];
+            const isSelected = selectedIcon && 
+                              selectedIcon.category === iconOption.category && 
+                              selectedIcon.name === iconOption.name;
+            
+            return (
+              <Tooltip key={`${iconOption.category}-${iconOption.name}`} title={`${iconCategories[iconOption.category as keyof typeof iconCategories].title}: ${iconOption.name}`} placement="top">
+                <MuiCard 
+                  sx={{ 
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+                    border: isSelected ? 2 : 1,
+                    borderColor: isSelected ? '#FD8743' : '#E0E0E0',
+                    backgroundColor: isSelected ? '#FD8743' : 'white',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                      boxShadow: 2,
+                      borderColor: '#FD8743'
+                    }
                   }}
                 >
-                  {category.title}
-                </Typography>
-                
-                {/* expand/collapse icon that changes based on state */}
-                <IconButton size="small">
-                  {expandedCategories[categoryKey] ? <ExpandLess /> : <ExpandMore />}
-                </IconButton>
-              </Box>
-              
-              {/* collapsible content area */}
-              <Collapse in={expandedCategories[categoryKey]}>
-                <Box sx={{ p: 2, pt: 0 }}>
-                  <IconDropdown
-                    category={categoryKey}
-                    title={category.title}
-                    icons={category.icons}
-                    selectedIcon={selectedIcons[categoryKey]}
-                    onIconSelect={handleIconSelect}
-                  />
-                </Box>
-              </Collapse>
-            </Paper>
-          ))}
+                  <CardActionArea 
+                    onClick={() => handleIconClick(iconOption)}
+                    sx={{ 
+                      p: 2, 
+                      minHeight: '100px', 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      width: '100%'
+                    }}
+                  >
+                    <Box sx={{ 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      width: '100%',
+                      height: '100%'
+                    }}>
+                      {IconComponent && (
+                        <IconComponent 
+                          sx={{ 
+                            fontSize: 32,
+                            color: isSelected ? 'white' : '#FD8743',
+                            mb: 1
+                          }} 
+                        />
+                      )}
+                      <Typography 
+                        variant="caption" 
+                        sx={{ 
+                          fontSize: '0.7rem',
+                          textAlign: 'center',
+                        color: isSelected ? 'white' : '#666666',
+                        lineHeight: 1.2,
+                        display: 'block',
+                        maxWidth: '100%',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {iconOption.name}
+                      </Typography>
+                    </Box>
+                  </CardActionArea>
+                </MuiCard>
+              </Tooltip>
+            );
+          })}
         </Box>
+
+        {/* No results message */}
+        {filteredIcons.length === 0 && searchTerm && (
+          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mt: 2, fontSize: '0.9rem' }}>
+            No activities found matching "{searchTerm}"
+          </Typography>
+        )}
 
       </CardContent>
     </Card>
