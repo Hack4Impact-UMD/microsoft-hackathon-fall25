@@ -1,4 +1,3 @@
-// src/api/uploadImage.ts
 export type ImageRec = { id: string; url: string; caption: string };
 
 const API_BASE =
