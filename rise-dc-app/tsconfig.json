@@ -16,6 +16,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../backend/src/photoUpload.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
