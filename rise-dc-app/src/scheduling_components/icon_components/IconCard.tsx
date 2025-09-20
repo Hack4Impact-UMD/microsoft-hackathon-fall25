@@ -112,50 +112,50 @@ const iconCategories = {
     title: 'Hobbies',
     icons: [
       { name: 'Sports', icon: 'SportsSoccer' },
-      { name: 'Reading', icon: 'MenuBook' },
+      { name: 'Read', icon: 'MenuBook' },
       { name: 'Music', icon: 'MusicNote' },
       { name: 'Art', icon: 'Palette' },
-      { name: 'Gaming', icon: 'SportsEsports' },
-      { name: 'Photography', icon: 'CameraAlt' },
-      { name: 'Cooking', icon: 'Restaurant' },
-      { name: 'Gardening', icon: 'LocalFlorist' }
+      { name: 'Game', icon: 'SportsEsports' },
+      { name: 'Photo', icon: 'CameraAlt' },
+      { name: 'Cook', icon: 'Restaurant' },
+      { name: 'Garden', icon: 'LocalFlorist' }
     ]
   },
   chores: {
     title: 'Chores',
     icons: [
-      { name: 'Cleaning', icon: 'CleaningServices' },
+      { name: 'Clean', icon: 'CleaningServices' },
       { name: 'Laundry', icon: 'LocalLaundryService' },
       { name: 'Dishes', icon: 'DinnerDining' },
       { name: 'Vacuum', icon: 'CleaningServices' },
       { name: 'Trash', icon: 'Delete' },
-      { name: 'Shopping', icon: 'ShoppingCart' },
+      { name: 'Shop', icon: 'ShoppingCart' },
       { name: 'Organize', icon: 'Inventory' },
-      { name: 'Maintenance', icon: 'Build' }
+      { name: 'Fix', icon: 'Build' }
     ]
   },
   skills: {
     title: 'Skills',
     icons: [
-      { name: 'Coding', icon: 'Code' },
+      { name: 'Code', icon: 'Code' },
       { name: 'Design', icon: 'DesignServices' },
-      { name: 'Writing', icon: 'Edit' },
+      { name: 'Write', icon: 'Edit' },
       { name: 'Language', icon: 'Translate' },
       { name: 'Math', icon: 'Calculate' },
       { name: 'Science', icon: 'Science' },
-      { name: 'Presentation', icon: 'PresentToAll' },
-      { name: 'Leadership', icon: 'Group' }
+      { name: 'Present', icon: 'PresentToAll' },
+      { name: 'Lead', icon: 'Group' }
     ]
   },
   hygiene: {
     title: 'Hygiene',
     icons: [
       { name: 'Shower', icon: 'Shower' },
-      { name: 'Brush Teeth', icon: 'CleaningServices' },
-      { name: 'Skincare', icon: 'Face' },
-      { name: 'Hair Care', icon: 'ContentCut' },
+      { name: 'Teeth', icon: 'CleaningServices' },
+      { name: 'Skin', icon: 'Face' },
+      { name: 'Hair', icon: 'ContentCut' },
       { name: 'Exercise', icon: 'FitnessCenter' },
-      { name: 'Meditation', icon: 'Psychology' },
+      { name: 'Meditate', icon: 'Psychology' },
       { name: 'Sleep', icon: 'Bedtime' },
       { name: 'Vitamins', icon: 'Medication' }
     ]
@@ -433,10 +433,10 @@ const IconCard: React.FC<IconCardProps> = ({ onIconSelect }) => {
                       <Typography 
                         variant="caption" 
                         sx={{ 
-                          fontSize: '0.7rem',
+                          fontSize: '0.6rem',
                           textAlign: 'center',
                         color: isSelected ? 'white' : '#666666',
-                        lineHeight: 1.2,
+                        lineHeight: 1.1,
                         display: 'block',
                         maxWidth: '100%',
                         overflow: 'hidden',
