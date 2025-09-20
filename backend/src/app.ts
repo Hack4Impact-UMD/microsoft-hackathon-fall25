@@ -1,24 +1,30 @@
 import express, { Request, Response } from "express";
-import { CosmosClient } from '@azure/cosmos';
+import { CosmosClient } from "@azure/cosmos";
 import { BlobServiceClient } from "@azure/storage-blob";
 import dotenv from "dotenv";
-import { 
-  addTask, 
-  addEvent, 
-  addAssignment, 
-  addFeedback, 
-  deleteTask, 
-  getContainer, 
-  addImage
+import {
+  addTask,
+  addEvent,
+  addAssignment,
+  addFeedback,
+  deleteTask,
+  getContainer,
+  addImage,
 } from "./cosmos";
-import { Task, Event, Assignment, Feedback } from "../../rise-dc-app/src/shared/types";
+import {
+  Task,
+  Event,
+  Assignment,
+  Feedback,
+} from "../../rise-dc-app/src/shared/types";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { uploadBlob } from "./blob";
 import crypto from "crypto";
+import photoUploadRouter from "./photoUpload";
 
-dotenv.config(); 
+dotenv.config();
 
 const app = express();
 const port = 3000;
@@ -28,9 +34,9 @@ app.use(express.json());
 
 // Enable CORS
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 
@@ -45,7 +51,10 @@ if (!COSMOS_ENDPOINT || !COSMOS_KEY || !BLOB_CONNECTION_STRING) {
   console.warn("Missing Azure env vars; Cosmos/Blob clients not initialized.");
 }
 
-export const cosmosClient = new CosmosClient({ endpoint: COSMOS_ENDPOINT, key: COSMOS_KEY });
+export const cosmosClient = new CosmosClient({
+  endpoint: COSMOS_ENDPOINT,
+  key: COSMOS_KEY,
+});
 
 // Helper functions
 async function getAllItems<T>(containerName: string): Promise<T[]> {
@@ -54,22 +63,30 @@ async function getAllItems<T>(containerName: string): Promise<T[]> {
   return resources;
 }
 
-async function queryItems<T>(containerName: string, query: string, parameters?: any[]): Promise<T[]> {
+async function queryItems<T>(
+  containerName: string,
+  query: string,
+  parameters?: any[]
+): Promise<T[]> {
   const container = getContainer(SCHEDULING_DB, containerName);
-  const { resources } = await container.items.query<T>({
-    query,
-    parameters: parameters || []
-  }).fetchAll();
+  const { resources } = await container.items
+    .query<T>({
+      query,
+      parameters: parameters || [],
+    })
+    .fetchAll();
   return resources;
 }
 
 /* ========= API ROUTES ========= */
 
 // Test route
-app.get('/', (_, res: Response) => res.send('RISE DC Scheduling API is running!'));
+app.get("/", (_, res: Response) =>
+  res.send("RISE DC Scheduling API is running!")
+);
 
 // ===== TASKS =====
-app.post('/api/tasks', async (req: Request, res: Response) => {
+app.post("/api/tasks", async (req: Request, res: Response) => {
   try {
     const { taskName, steps } = req.body;
     const task: Task = {
@@ -77,17 +94,17 @@ app.post('/api/tasks', async (req: Request, res: Response) => {
       name: taskName,
       icon: "",
       steps: steps || [],
-      category: 'Miscellaneous'
+      category: "Miscellaneous",
     };
     const createdTask = await addTask(task);
     return res.status(201).json(createdTask);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to create task' });
+    return res.status(500).json({ error: "Failed to create task" });
   }
 });
 
-app.get('/api/tasks', async (req: Request, res: Response) => {
+app.get("/api/tasks", async (req: Request, res: Response) => {
   try {
     const { search } = req.query;
     let tasks: Task[];
@@ -103,36 +120,36 @@ app.get('/api/tasks', async (req: Request, res: Response) => {
     return res.json(tasks);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to fetch tasks' });
+    return res.status(500).json({ error: "Failed to fetch tasks" });
   }
 });
 
-app.get('/api/tasks/:id', async (req: Request, res: Response) => {
+app.get("/api/tasks/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const container = getContainer(SCHEDULING_DB, "Tasks");
     const { resource } = await container.item(id, id).read<Task>();
-    if (!resource) return res.status(404).json({ error: 'Task not found' });
+    if (!resource) return res.status(404).json({ error: "Task not found" });
     return res.json(resource);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to fetch task' });
+    return res.status(500).json({ error: "Failed to fetch task" });
   }
 });
 
-app.delete('/api/tasks/:id', async (req: Request, res: Response) => {
+app.delete("/api/tasks/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await deleteTask(id);
-    return res.json({ message: 'Task deleted successfully', id });
+    return res.json({ message: "Task deleted successfully", id });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to delete task' });
+    return res.status(500).json({ error: "Failed to delete task" });
   }
 });
 
 // ===== EVENTS =====
-app.post('/api/events', async (req: Request, res: Response) => {
+app.post("/api/events", async (req: Request, res: Response) => {
   try {
     const { name, icon, tasks, image } = req.body;
     const event: Event = {
@@ -140,28 +157,28 @@ app.post('/api/events', async (req: Request, res: Response) => {
       name,
       icon: icon || "",
       tasks: tasks || [],
-      image: image || { id: "", caption: "" }
+      image: image || { id: "", caption: "" },
     };
     const createdEvent = await addEvent(event);
     return res.status(201).json(createdEvent);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to create event' });
+    return res.status(500).json({ error: "Failed to create event" });
   }
 });
 
-app.get('/api/events', async (_, res: Response) => {
+app.get("/api/events", async (_, res: Response) => {
   try {
     const events = await getAllItems<Event>("Events");
     return res.json(events);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to fetch events' });
+    return res.status(500).json({ error: "Failed to fetch events" });
   }
 });
 
 // ===== ASSIGNMENTS =====
-app.post('/api/assignments', async (req: Request, res: Response) => {
+app.post("/api/assignments", async (req: Request, res: Response) => {
   try {
     const { complete, date, startTime, endTime, event } = req.body;
     const assignment: Assignment = {
@@ -170,17 +187,17 @@ app.post('/api/assignments', async (req: Request, res: Response) => {
       date,
       startTime,
       endTime,
-      event
+      event,
     };
     const createdAssignment = await addAssignment(assignment);
     return res.status(201).json(createdAssignment);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to create assignment' });
+    return res.status(500).json({ error: "Failed to create assignment" });
   }
 });
 
-app.get('/api/assignments', async (req: Request, res: Response) => {
+app.get("/api/assignments", async (req: Request, res: Response) => {
   try {
     const { date } = req.query;
     let assignments: Assignment[];
@@ -196,32 +213,35 @@ app.get('/api/assignments', async (req: Request, res: Response) => {
     return res.json(assignments);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to fetch assignments' });
+    return res.status(500).json({ error: "Failed to fetch assignments" });
   }
 });
 
 // ===== FEEDBACK =====
-app.post('/api/feedback', async (req: Request, res: Response) => {
+app.post("/api/feedback", async (req: Request, res: Response) => {
   try {
     const { taskAssignmentId, taskId, reaction } = req.body;
     const feedback: Feedback = {
       id: `feedback_${Date.now()}`,
       taskAssignmentId,
       taskId,
-      reaction
+      reaction,
     };
     const createdFeedback = await addFeedback(feedback);
     return res.status(201).json(createdFeedback);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Failed to submit feedback' });
+    return res.status(500).json({ error: "Failed to submit feedback" });
   }
 });
+
+// photo upload
+app.use("/api", photoUploadRouter);
 
 // Error handler
 app.use((err: any, _: Request, res: Response, __: any) => {
   console.error(err);
-  return res.status(500).json({ error: 'Internal server error' });
+  return res.status(500).json({ error: "Internal server error" });
 });
 
 // Start server
@@ -232,36 +252,51 @@ if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-app.get('/', (_, res: Response) => {
-  res.send('Hello World!')
-})
-
-app.post("/api/upload_image", upload.single("file"), async (req: Request, res: Response) => {
-  try {
-    const file = req.file as Express.Multer.File | undefined;
-    const { caption } = req.body;
-    if (!file) return res.status(400).json({ error: "No file uploaded under field 'file'." });
-    if (!caption) return res.status(400).json({ error: "No caption uploaded under field 'caption'." });
-
-    const containerName = "uploads"; 
-    const ext = path.extname(file.originalname) || ""; 
-    const id = crypto.randomUUID();
-    const blobName = `${id}${ext}`;
-
-    const url = await uploadBlob(containerName, blobName, file.buffer, file.mimetype);
-    await addImage({ "id": id, "url": url, "caption": caption });
-
-    return res.status(200).json({ "url": url, "caption": caption });
-  } catch (err) {
-    return res.status(400).json({ error: "route failed: " + err.message })
-  }
+app.get("/", (_, res: Response) => {
+  res.send("Hello World!");
 });
+
+app.post(
+  "/api/upload_image",
+  upload.single("file"),
+  async (req: Request, res: Response) => {
+    try {
+      const file = req.file as Express.Multer.File | undefined;
+      const { caption } = req.body;
+      if (!file)
+        return res
+          .status(400)
+          .json({ error: "No file uploaded under field 'file'." });
+      if (!caption)
+        return res
+          .status(400)
+          .json({ error: "No caption uploaded under field 'caption'." });
+
+      const containerName = "uploads";
+      const ext = path.extname(file.originalname) || "";
+      const id = crypto.randomUUID();
+      const blobName = `${id}${ext}`;
+
+      const url = await uploadBlob(
+        containerName,
+        blobName,
+        file.buffer,
+        file.mimetype
+      );
+      await addImage({ id: id, url: url, caption: caption });
+
+      return res.status(200).json({ url: url, caption: caption });
+    } catch (err) {
+      return res.status(400).json({ error: "route failed: " + err.message });
+    }
+  }
+);
 
 app.post("/test", async (req: Request, res: Response) => {
   try {
-    return res.status(200)
+    return res.status(200);
   } catch (err) {
-    return res.status(400).json({ error: "route failed: " + err.message })
+    return res.status(400).json({ error: "route failed: " + err.message });
   }
 });
 
