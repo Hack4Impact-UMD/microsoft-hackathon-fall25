@@ -1,6 +1,6 @@
 import { cosmosClient } from "./app";
 // all purpose utility functions for cosmos
-import { BulkOperationType } from "@azure/cosmos";
+import { BulkOperationType, SqlParameter } from "@azure/cosmos";
 import { Task, Event, Assignment, Feedback, Recipe, Ingredient, Tool, Utensil, MealPrep, GroceryList, Image } from "../../rise-dc-app/src/shared/types";
 
 // Get a container
@@ -45,7 +45,7 @@ export async function getItem<T>(id: string, databaseName: string, containerName
 }
 
 // Generic query items
-export async function queryItems<T>(databaseName: string, containerName: string, query: string, parameters?: any[]): Promise<T[]> {
+export async function queryItems<T>(databaseName: string, containerName: string, query: string, parameters?: SqlParameter[]): Promise<T[]> {
   try {
     const container = getContainer(databaseName, containerName);
     const { resources } = await container.items.query<T>({
@@ -143,19 +143,19 @@ export const getImage = (id: string) => getItem<Image>(id, SHARED_DB, "Images");
 export const deleteImage = (id: string) => deleteItem(id, id, SHARED_DB, "Images");
 
 export async function addItems(items, databaseName, containerName) {
-    try {
-        const container = await getContainer(databaseName, containerName);
-        
-        // Create bulk operations array with id as partition key
-        const bulkOperations = items.map(item => ({
-            operationType: BulkOperationType.Upsert,
-            partitionKey: item.id,
-            resourceBody: item
-        }));
+  try {
+    const container = await getContainer(databaseName, containerName);
 
-        await container.items.executeBulkOperations(bulkOperations);
-    } catch (error) {
-        console.error("Error bulk upserting items:", error);
-        throw error;
-    }
+    // Create bulk operations array with id as partition key
+    const bulkOperations = items.map(item => ({
+      operationType: BulkOperationType.Upsert,
+      partitionKey: item.id,
+      resourceBody: item
+    }));
+
+    await container.items.executeBulkOperations(bulkOperations);
+  } catch (error) {
+    console.error("Error bulk upserting items:", error);
+    throw error;
+  }
 }
