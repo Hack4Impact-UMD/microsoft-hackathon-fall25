@@ -11,6 +11,7 @@ interface MultipleSelectOptionProps<
   className?: string;
   onToggle?: (item: T, hasItem: boolean) => void;
   quantity: number;
+  checked?: boolean;
 }
 
 function MultipleSelectOption<T extends { image_id: string; name: string }>({
@@ -22,12 +23,10 @@ function MultipleSelectOption<T extends { image_id: string; name: string }>({
   className,
   onToggle,
   quantity,
+  checked,
 }: MultipleSelectOptionProps<T>) {
-  const [hasItem, setHasItem] = useState(false);
-
   const handleToggle = () => {
-    const currState = !hasItem;
-    setHasItem(currState);
+    const currState = !checked;
     onToggle?.(item, currState);
   };
 
@@ -38,13 +37,13 @@ function MultipleSelectOption<T extends { image_id: string; name: string }>({
       <div
         onClick={handleToggle}
         className={`absolute top-1 right-1 w-6 h-6 sm:w-8 sm:h-8 rounded border border-gray-800 flex items-center justify-center transition-colors duration-200 z-10 ${
-          hasItem
+          checked
             ? "bg-gray-800 text-white"
             : "bg-white text-transparent hover:bg-gray-100"
         }`}
         aria-label={`Toggle ${item} availability`}
       >
-        {hasItem && (
+        {checked && (
           <svg
             className="w-3 h-3 sm:w-5 sm:h-5"
             fill="none"
