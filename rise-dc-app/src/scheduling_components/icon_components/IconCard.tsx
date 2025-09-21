@@ -5,12 +5,13 @@ import {
   Typography, 
   Box, 
   TextField,
-  Chip,
   Tooltip,
   Card as MuiCard,
   CardActionArea,
   IconButton
 } from '@mui/material';
+
+import back from './back.png';
 
 /**
  * IconCard Component
@@ -100,7 +101,7 @@ const IconCard: React.FC<IconCardProps> = ({ onIconSelect, onBackClick }) => {
           >
             <Box
               component="img"
-              src="/src/scheduling_components/icon_components/back.png"
+              src={back}
               alt="Back"
               style={{
                 width: '2.3rem',

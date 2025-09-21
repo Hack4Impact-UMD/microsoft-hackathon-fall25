@@ -38,7 +38,7 @@ const IconButton: React.FC<IconButtonProps> = ({
    * @param iconName - The name of the selected activity
    * @param iconType - The MUI icon type
    */
-  const handleIconSelect = (category: string, iconName: string, iconType: string) => {
+  const handleIconSelect = (iconName: string) => {
     // Find the icon component from iconList
     const iconOption = iconList.find(icon => icon.name === iconName);
     
