@@ -1,10 +1,12 @@
 
 import moment from "moment";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
+
 import styles from "./Page.module.css";
 import ProgressBar from "../scheduling_components/TimerBarScheduler";
 
 export default function Scheduler() {
+
   const [viewMode, setViewMode] = useState<'staff' | 'participant'>('staff');
   const [selectedActivity, setSelectedActivity] = useState<QuietHobby | null>(null);
 
