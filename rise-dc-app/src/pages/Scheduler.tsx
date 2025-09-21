@@ -1,3 +1,4 @@
+
 import moment from "moment";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
 
@@ -6,8 +7,20 @@ import ProgressBar from "../scheduling_components/TimerBarScheduler";
 
 export default function Scheduler() {
 
+  const [viewMode, setViewMode] = useState<'staff' | 'participant'>('staff');
+  const [selectedActivity, setSelectedActivity] = useState<QuietHobby | null>(null);
+
+  const handleActivityChosen = (hobby: QuietHobby) => {
+    setSelectedActivity(hobby);
+    console.log('Activity chosen:', hobby);
+  };
+
+  const handlePhotoTaken = () => {
+    console.log('Photo taken');
+  };
 
   return (
+
     <div className={styles.container}>
       <h1>Visual Scheduling & Daily Routines</h1>
       <p>
