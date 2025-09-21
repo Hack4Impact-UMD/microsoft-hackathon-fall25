@@ -243,6 +243,105 @@ export const recipes: Recipe[] = [
     instructions: [],
     nutrition: [],
     isFavorite: false
+  },
+  {
+    id: "grilled-cheese",
+    title: "Grilled Cheese Sandwich",
+    image_id: "/grilled-cheese-img.png",
+    noCook: false,
+    time: "10 minutes",
+    servingSize: 1,
+    meal: ["lunch", "dinner"],
+    ingredients: [
+      {
+        ingredient: {
+          type: "ingredient",
+          id: "bread",
+          name: "Bread",
+          image_id: placeholderImage
+        },
+        quantity: "2 slices"
+      },
+      {
+        ingredient: {
+          type: "ingredient",
+          id: "cheese",
+          name: "Cheddar Cheese",
+          image_id: placeholderImage
+        },
+        quantity: "2 slices"
+      },
+      {
+        ingredient: {
+          type: "ingredient",
+          id: "butter",
+          name: "Butter",
+          image_id: placeholderImage
+        },
+        quantity: "1 tbsp"
+      }
+    ],
+    tools: [
+      {
+        type: "tool",
+        id: "skillet",
+        name: "Skillet",
+        image_id: placeholderImage
+      }
+    ],
+    utensils: [
+      {
+        type: "utensil",
+        id: "spatula",
+        name: "Spatula",
+        image_id: placeholderImage
+      },
+      {
+        type: "utensil",
+        id: "butter-knife",
+        name: "Butter Knife",
+        image_id: placeholderImage
+      }
+    ],
+    instructions: [
+      {
+        id: "step1",
+        step_number: 1,
+        instructions: "Spread butter on one side of each bread slice."
+      },
+      {
+        id: "step2",
+        step_number: 2,
+        instructions: "Place one slice of bread, butter-side down, in a skillet over medium heat."
+      },
+      {
+        id: "step3",
+        step_number: 3,
+        instructions: "Top with cheese slices and the second slice of bread, butter-side up."
+      },
+      {
+        id: "step4",
+        step_number: 4,
+        instructions: "Cook until the bottom slice is golden brown (about 3–4 minutes)."
+      },
+      {
+        id: "step5",
+        step_number: 5,
+        instructions: "Flip the sandwich carefully with a spatula and cook until the other side is golden brown and cheese is melted."
+      },
+      {
+        id: "step6",
+        step_number: 6,
+        instructions: "Remove from skillet, slice in half, and serve hot."
+      }
+    ],
+    nutrition: [
+      { number: 400, field: "Calories" },
+      { number: 12, field: "Protein (g)" },
+      { number: 28, field: "Carbohydrates (g)" },
+      { number: 24, field: "Fat (g)" }
+    ],
+    isFavorite: false
   }
 ];
 

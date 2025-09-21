@@ -4,11 +4,10 @@
 body {
   margin: 0;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color: #1e293b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  background-color: #FFFFFF;
+  background-color: white;
   color: #213547;
 }
 
