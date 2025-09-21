@@ -1,9 +1,8 @@
-// Cookbook Types
-
 export interface Recipe {
   id: string;
   image_id: string;
   user_id?: string;
+  isFavorite: boolean;
   title: string;
   noCook: boolean;
   time: string;
