@@ -16,6 +16,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "src/scheduling_components/icon_components/IconCard.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
