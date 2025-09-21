@@ -1,10 +1,14 @@
 @import "tailwindcss";
 
+/* Tablet-optimized base styles */
 body {
   margin: 0;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
   color: #213547;
 }
 
@@ -13,4 +17,59 @@ body {
   font-family: "Lexend", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+}
+
+/* Tablet-specific optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  body {
+    font-size: 18px;
+  }
+  
+  /* Ensure touch targets are at least 44px */
+  button, input, select, textarea {
+    min-height: 44px;
+  }
+  
+  /* Improve touch interactions */
+  button:active, 
+  input:active, 
+  select:active {
+    transform: scale(0.98);
+  }
+  
+  /* Better spacing for tablet layouts */
+  .container {
+    padding: 2rem;
+  }
+}
+
+/* Prevent zoom on input focus for tablets */
+@media (max-width: 1024px) {
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* Smooth scrolling for better tablet experience */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for tablets */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

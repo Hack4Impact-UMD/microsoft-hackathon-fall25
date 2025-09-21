@@ -3,10 +3,10 @@ import Button from "./Button";
 type ProgressBarProps = {
   currentStep: number;
   totalSteps: number;
-  onNext: () => void;
+  // onNext: () => void;
 };
 
-const ProgressBar = ({ currentStep, totalSteps, onNext }: ProgressBarProps) => {
+const ProgressBar = ({ currentStep, totalSteps }: ProgressBarProps) => {
   return (
     <div className="w-full max-w-lg mx-auto flex flex-col items-center">
       <p className="text-lg font-semibold mb-2">
@@ -30,15 +30,6 @@ const ProgressBar = ({ currentStep, totalSteps, onNext }: ProgressBarProps) => {
             />
           );
         })}
-      </div>
-
-      {/* Next Step Button */}
-      <div className="mt-6">
-        {currentStep < totalSteps ? (
-          <Button label="Next Step" onClick={onNext} />
-        ) : (
-          <Button label="Done" />
-        )}
       </div>
     </div>
   );

@@ -9,12 +9,16 @@ interface MoreInfoButtonProps {
     title: string               //title of action that the steps describe 
 }   
 export default function MoreInfoButton ({info}: MoreInfoButtonProps) {
+
+
     const [popupIsOpen, setPopupIsOpen] = useState(false)
 
     return (
         <>
             <InfoIcon onClick={()=>{setPopupIsOpen(!popupIsOpen)}}>More Info</InfoIcon>
             <MoreInfoPopup popupIsOpen={popupIsOpen} setPopupIsOpen={setPopupIsOpen} existingInfo={info ? info : []}></MoreInfoPopup>
+            <button onClick={()=>{setPopupIsOpen(!popupIsOpen)}}>More Info</button>
+            <MoreInfoPopup popupIsOpen={popupIsOpen} setPopupIsOpen={setPopupIsOpen}></MoreInfoPopup>
         </>
     )
 }
