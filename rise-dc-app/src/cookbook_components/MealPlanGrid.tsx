@@ -98,41 +98,7 @@ export default function MealPlanGrid({
   const scale = Math.max(0.6, Math.min(1, Math.min(scaleWidth, scaleHeight)));
   const dayColWidth = baseCellW * scale;
 
-  //  const allRecipes = useAllRecipes();
-
-  const allRecipes: { data: Recipe[] } = {
-    data: [
-      {
-        id: "123",
-        image_id: "../scheduling_components/icon_components/back.png",
-        ingredients: [],
-        instructions: [],
-        meal: ["breakfast"],
-        name: "test",
-        noCook: false,
-        servingSize: 1,
-        time: "",
-        utensils: [],
-        tools: [],
-        nutrition: [],
-      },
-      {
-        id: "456",
-        image_id: "456",
-        ingredients: [],
-        instructions: [],
-        meal: ["breakfast"],
-        name: "test",
-        noCook: false,
-        servingSize: 1,
-        time: "",
-        utensils: [],
-        tools: [],
-        nutrition: [],
-      },
-    ],
-  };
-
+  const allRecipes = useAllRecipes();
   const recipesByMeal = useMemo(() => {
     const recipesByMeal: { [key in MealType]: Recipe[] } = {
       breakfast: [],
