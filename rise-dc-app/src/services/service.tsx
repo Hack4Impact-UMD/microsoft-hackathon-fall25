@@ -71,6 +71,10 @@ export async function getTask(id: string): Promise<Task> {
   return getJSON<Task>(`/api/tasks/${id}`);
 }
 
+export async function listTasks(): Promise<Task[]> {
+  return getJSON<Task[]>("/api/tasks");
+}
+
 export async function deleteTask(id: string): Promise<{ message: string; id: string }> {
   return delJSON<{ message: string; id: string }>(`/api/tasks/${id}`,);
 }
