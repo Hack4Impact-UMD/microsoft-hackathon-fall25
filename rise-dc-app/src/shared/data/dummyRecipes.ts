@@ -1,118 +1,254 @@
-import { RecipeCategory } from "../types";
-
-export interface RecipeCardData {
-  id: string;
-  title: string;
-  image: string;
-  category: RecipeCategory;
-}
+import { Recipe } from "../types";
 
 const placeholderImage =
   "https://www.cranfield-colours.co.uk/wp-content/uploads/2022/01/cranfield-traditional-etching-ink-mid-black-400x221.jpg";
 
-export const recipeCards: RecipeCardData[] = [
+export const recipes: Recipe[] = [
   {
     id: "breakfast-overnight-oats",
     title: "Overnight Oats",
-    image: placeholderImage,
-    category: "breakfast",
+    image_id: placeholderImage,
+    noCook: true,
+    time: "5 minutes",
+    servingSize: 1,
+    meal: ["breakfast"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "breakfast-egg-muffins",
     title: "Veggie Egg Muffins",
-    image: placeholderImage,
-    category: "breakfast",
+    image_id: placeholderImage,
+    noCook: false,
+    time: "30 minutes",
+    servingSize: 6,
+    meal: ["breakfast"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "breakfast-yogurt-parfait",
     title: "Berry Yogurt Parfait",
-    image: placeholderImage,
-    category: "breakfast",
+    image_id: placeholderImage,
+    noCook: true,
+    time: "10 minutes",
+    servingSize: 1,
+    meal: ["breakfast"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "breakfast-banana-pancakes",
     title: "Banana Pancakes",
-    image: placeholderImage,
-    category: "breakfast",
+    image_id: placeholderImage,
+    noCook: false,
+    time: "20 minutes",
+    servingSize: 4,
+    meal: ["breakfast"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "lunchDinner-sheet-pan-chicken",
     title: "Sheet Pan Chicken",
-    image: placeholderImage,
-    category: "lunchDinner",
+    image_id: placeholderImage,
+    noCook: false,
+    time: "45 minutes",
+    servingSize: 4,
+    meal: ["lunch", "dinner"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "lunchDinner-stir-fry",
     title: "Veggie Stir-Fry",
-    image: placeholderImage,
-    category: "lunchDinner",
+    image_id: placeholderImage,
+    noCook: false,
+    time: "25 minutes",
+    servingSize: 4,
+    meal: ["lunch", "dinner"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "lunchDinner-turkey-chili",
     title: "Turkey Chili",
-    image: placeholderImage,
-    category: "lunchDinner",
+    image_id: placeholderImage,
+    noCook: false,
+    time: "60 minutes",
+    servingSize: 6,
+    meal: ["lunch", "dinner"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "lunchDinner-taco-bowls",
     title: "Taco Bowls",
-    image: placeholderImage,
-    category: "lunchDinner",
+    image_id: placeholderImage,
+    noCook: false,
+    time: "30 minutes",
+    servingSize: 4,
+    meal: ["lunch", "dinner"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "snack-energy-balls",
     title: "Energy Bites",
-    image: placeholderImage,
-    category: "snack",
+    image_id: placeholderImage,
+    noCook: true,
+    time: "15 minutes",
+    servingSize: 12,
+    meal: ["snack"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "snack-veggie-dippers",
     title: "Veggie Dippers",
-    image: placeholderImage,
-    category: "snack",
+    image_id: placeholderImage,
+    noCook: true,
+    time: "10 minutes",
+    servingSize: 4,
+    meal: ["snack"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "snack-fruit-salsa",
     title: "Fruit Salsa",
-    image: placeholderImage,
-    category: "snack",
+    image_id: placeholderImage,
+    noCook: true,
+    time: "15 minutes",
+    servingSize: 6,
+    meal: ["snack"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "snack-hummus-plate",
     title: "Hummus Plate",
-    image: placeholderImage,
-    category: "snack",
+    image_id: placeholderImage,
+    noCook: true,
+    time: "5 minutes",
+    servingSize: 4,
+    meal: ["snack"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "dessert-chia-pudding",
     title: "Chia Pudding",
-    image: placeholderImage,
-    category: "dessert",
+    image_id: placeholderImage,
+    noCook: true,
+    time: "5 minutes + chill time",
+    servingSize: 2,
+    meal: ["dessert"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "dessert-fruit-crisp",
     title: "Berry Crisp",
-    image: placeholderImage,
-    category: "dessert",
+    image_id: placeholderImage,
+    noCook: false,
+    time: "45 minutes",
+    servingSize: 6,
+    meal: ["dessert"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "dessert-frozen-yogurt",
     title: "Frozen Yogurt Bark",
-    image: placeholderImage,
-    category: "dessert",
+    image_id: placeholderImage,
+    noCook: true,
+    time: "10 minutes + freeze time",
+    servingSize: 8,
+    meal: ["dessert"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
   },
   {
     id: "dessert-banana-nice-cream",
     title: "Banana Nice Cream",
-    image: placeholderImage,
-    category: "dessert",
-  },
+    image_id: placeholderImage,
+    noCook: true,
+    time: "10 minutes",
+    servingSize: 2,
+    meal: ["dessert"],
+    ingredients: [],
+    tools: [],
+    utensils: [],
+    instructions: [],
+    nutrition: [],
+    isFavorite: false
+  }
 ];
 
-export const recipesByCategory: Record<RecipeCategory, RecipeCardData[]> = 
-  recipeCards.reduce((acc, recipe) => {
-    acc[recipe.category] = acc[recipe.category] || [];
-    acc[recipe.category].push(recipe);
-    return acc;
-  }, {} as Record<RecipeCategory, RecipeCardData[]>);
-
+export function toggleFavorite(recipeId: string) {
+  const recipe = recipes.find((r) => r.id === recipeId);
+  if (recipe) {
+    recipe.isFavorite = !recipe.isFavorite;
+  }
+}

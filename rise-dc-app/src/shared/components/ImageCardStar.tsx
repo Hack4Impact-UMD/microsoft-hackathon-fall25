@@ -1,61 +1,42 @@
-import { useEffect, useMemo } from "react";
-
-import { FavoriteRecipe, useFavorites } from "../state/FavoritesContext";
-import { RecipeCategory } from "../types";
+import { Recipe } from "../types";
 
 interface ImageCardStarProps {
-  recipeId: string;
-  src: string;
-  caption: string;
-  category: RecipeCategory;
-  defaultFavorite?: boolean;
+  recipe: Recipe;
   className?: string;
+  onClick?: () => void | Promise<void>;
+  onFavorite?: () => void;
 }
 
 export default function ImageCardStar({
-  recipeId,
-  src,
-  caption,
-  category,
-  defaultFavorite = false,
+  recipe,
   className,
+  onClick,
+  onFavorite
 }: ImageCardStarProps) {
-  const { isFavorite, toggleFavorite, addFavorite } = useFavorites();
-
-  const isFav = isFavorite(recipeId);
-
-  const recipe: FavoriteRecipe = useMemo(
-    () => ({
-      id: recipeId,
-      src,
-      caption,
-      category,
-    }),
-    [category, caption, recipeId, src],
-  );
-
-  useEffect(() => {
-    if (defaultFavorite) {
-      addFavorite(recipe);
-    }
-  }, [addFavorite, defaultFavorite, recipe]);
 
   return (
-    <div className={`flex flex-col border-2 rounded-lg w-fit ${className}`}>
+    <div 
+      className={`flex flex-col border-2 rounded-lg w-fit ${className}`}
+      onClick={onClick}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
+    >
       <div className="relative w-full">
         <img
-          src={src}
-          alt={caption}
+          src={recipe.image_id}
+          alt={recipe.title}
           className="object-cover rounded-t-lg w-full"
         />
 
         {/* Heart inside the image area */}
         <button
           type="button"
-          onClick={() => toggleFavorite(recipe)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onFavorite?.();
+          }}
           className="absolute top-2 right-2 p-1 rounded-full bg-white/80 hover:bg-white shadow"
         >
-          {isFav ? (
+          {recipe.isFavorite ? (
             // Filled heart (pink)
             <svg viewBox="0 0 24 24" className="h-6 w-6 fill-pink-500">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41 1 4.13 2.44h.74C14.09 5 15.76 4 17.5 4 20 4 22 6 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
@@ -74,11 +55,9 @@ export default function ImageCardStar({
       </div>
 
       {/* Caption below the image */}
-      {caption && (
-        <div className="w-full text-xl text-center py-5 font-bold rounded-b-lg">
-          {caption}
-        </div>
-      )}
+      <div className="w-full text-xl text-center py-5 font-bold rounded-b-lg">
+        {recipe.title}
+      </div>
     </div>
   );
 }

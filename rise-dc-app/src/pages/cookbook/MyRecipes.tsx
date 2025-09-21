@@ -1,38 +1,42 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router";
-
 import Slideshow from "../../shared/components/Slideshow";
 import ImageCardStar from "../../shared/components/ImageCardStar";
-import { useFavorites, FavoriteRecipe } from "../../shared/state/FavoritesContext";
-import { RecipeCategory } from "../../shared/types";
+import { Recipe } from "../../shared/types";
+import { recipes } from "../../shared/data/dummyRecipes";
+import ImageCard from "../../shared/components/ImageCard";
 
-const CATEGORY_ORDER: RecipeCategory[] = [
+const MEAL_ORDER = [
   "breakfast",
-  "lunchDinner",
+  "lunch",
+  "dinner",
   "snack",
   "dessert",
 ];
 
-const CATEGORY_LABELS: Record<RecipeCategory, string> = {
+const MEAL_LABELS: Record<string, string> = {
   breakfast: "Breakfast",
-  lunchDinner: "Lunch/Dinner",
+  lunch: "Lunch",
+  dinner: "Dinner",
   snack: "Snack",
   dessert: "Dessert",
 };
 
 export default function MyRecipes() {
   const navigate = useNavigate();
-  const { favoriteList } = useFavorites();
+  const favoriteList = useMemo(() => recipes.filter(recipe => recipe.isFavorite), []);
 
-  const favoritesByCategory = useMemo(
+  const favoritesByMeal = useMemo(
     () =>
       favoriteList.reduce(
         (acc, recipe) => {
-          acc[recipe.category] = acc[recipe.category] || [];
-          acc[recipe.category]!.push(recipe);
+          recipe.meal.forEach(mealType => {
+            acc[mealType] = acc[mealType] || [];
+            acc[mealType]!.push(recipe);
+          });
           return acc;
         },
-        {} as Partial<Record<RecipeCategory, FavoriteRecipe[]>>,
+        {} as Record<string, Recipe[]>,
       ),
     [favoriteList],
   );
@@ -66,27 +70,26 @@ export default function MyRecipes() {
           Star recipes to save them. Your favorites will appear here.
         </p>
       ) : (
-        CATEGORY_ORDER.map((category) => {
-          const recipes = favoritesByCategory[category];
+        MEAL_ORDER.map((meal) => {
+          const recipes = favoritesByMeal[meal];
 
           if (!recipes || recipes.length === 0) {
             return null;
           }
 
           return (
-            <div key={category} className="space-y-3">
+            <div key={meal} className="space-y-3">
               <h2 className="text-2xl font-semibold">
-                {CATEGORY_LABELS[category]}
+                {MEAL_LABELS[meal]}
               </h2>
               <Slideshow
                 title=""
                 images={recipes.map((recipe) => (
-                  <ImageCardStar
+                  <ImageCard
                     key={recipe.id}
-                    recipeId={recipe.id}
-                    src={recipe.src}
-                    caption={recipe.caption}
-                    category={recipe.category}
+                    src={recipe.image_id}
+                    caption={recipe.title}
+                    onClick={() => navigate(`/cookbook/recipe/${recipe.id}`)}
                   />
                 ))}
                 imagesPerRow={2}
