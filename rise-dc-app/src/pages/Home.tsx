@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import ImageCard from "../shared/components/ImageCard";
-import LongFormInput from "../shared/components/LongFormInput";
 
 export default function Home() {
   const navigate = useNavigate();
