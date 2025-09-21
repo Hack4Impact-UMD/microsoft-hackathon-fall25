@@ -1,6 +1,8 @@
 
 import moment from "moment";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
+
+import styles from "./Page.module.css";
 import ProgressBar from "../scheduling_components/TimerBarScheduler";
 import { DayDisplay } from '../scheduling_components/DayDisplay';
 import { PlanYourDayButton } from '../scheduling_components/PlanYourDayButton';
