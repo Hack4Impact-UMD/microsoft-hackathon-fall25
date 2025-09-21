@@ -38,7 +38,7 @@ export default function ImageCardStar({
     >
       {/* Fixed rectangle container for image */}
       <div
-        className="relative w-full flex items-center justify-center bg-gray-100"
+        className="relative w-full flex items-center justify-center bg-white"
         style={{ height: 200, width: 300 }}
       >
         <img
