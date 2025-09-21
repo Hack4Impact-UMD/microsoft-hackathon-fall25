@@ -5,14 +5,11 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <Link to="/" className={styles.logo}>
-        RISE DC
-      </Link>
-      <Link to="/cookbook" className={styles.link}>
-        Cookbook
-      </Link>
-      <Link to="/scheduler" className={styles.link}>
-        Scheduler
+        <div className={styles.logoCircle}>
+          <img src={"/logo.png"} alt="Logo" className={styles.logoImg}/>
+        </div>
       </Link>
     </nav>
   )
 }
+
