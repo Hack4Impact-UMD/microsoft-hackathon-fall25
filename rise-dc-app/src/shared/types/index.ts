@@ -4,7 +4,7 @@ export interface Recipe {
   id: string;
   image_id: string;
   user_id?: string;
-  title: string;
+  name: string;
   noCook: boolean;
   time: string;
   servingSize: number;
@@ -85,8 +85,8 @@ export interface Assignment {
 export interface Event {
   id: string;
   name: string;
-  icon: string; 
-  tasks: TaskAssignment[]; 
+  icon: string;
+  tasks: TaskAssignment[];
   image: Image;
 }
 
@@ -108,5 +108,5 @@ export interface Feedback {
   taskAssignmentId: string;
   taskId: string;
   reaction: 'yes' | 'maybe' | 'no';
-  
+
 }
