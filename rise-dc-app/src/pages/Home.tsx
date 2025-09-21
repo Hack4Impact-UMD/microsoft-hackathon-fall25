@@ -1,5 +1,7 @@
+
 import { useNavigate } from "react-router-dom";
 import ImageCard from "../shared/components/ImageCard";
+import styles from './Page.module.css'
 
 export default function Home() {
   const navigate = useNavigate();

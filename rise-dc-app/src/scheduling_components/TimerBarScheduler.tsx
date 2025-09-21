@@ -54,7 +54,7 @@ const getColor = () => {
   }
 
    return (
-      <Box position="relative" width="100%" height="40px">
+   <Box position="relative" width="100%" height="40px" sx={{ opacity: completed ? 0.7 : 1, pointerEvents: completed ? 'none' : 'auto' }}>
   {/* Progress bar */}
   <Fade in={!completed} timeout={500}>
     <LinearProgress
