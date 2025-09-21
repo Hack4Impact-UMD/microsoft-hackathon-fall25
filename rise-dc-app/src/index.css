@@ -4,11 +4,12 @@
 body {
   margin: 0;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f8fafc;
   color: #1e293b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  background-color: #0C343D;
+  color: #213547;
 }
 
 * {
