@@ -35,7 +35,7 @@ function MultipleSelectOption<T extends { image_id: string; name: string }>({
     <div
       className={`flex flex-col border-2 rounded-lg items-center w-fit relative ${className}`}
     >
-      <button
+      <div
         onClick={handleToggle}
         className={`absolute top-1 right-1 w-6 h-6 sm:w-8 sm:h-8 rounded border border-gray-800 flex items-center justify-center transition-colors duration-200 z-10 ${
           hasItem
@@ -59,7 +59,7 @@ function MultipleSelectOption<T extends { image_id: string; name: string }>({
             />
           </svg>
         )}
-      </button>
+      </div>
 
       <img
         src={src}
