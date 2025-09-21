@@ -36,7 +36,7 @@ export default function Scheduler() {
           assignments={[
             {
               id: "1",
-              name: "Test Event",
+              complete: false,
               date: moment().toString(),
               startTime: moment(moment.now()).add(10, "minutes").toString(),
               endTime: moment(moment.now()).add(40, "minutes").toString(),
@@ -44,7 +44,6 @@ export default function Scheduler() {
                 id: "1",
                 name: "Test Event",
                 icon: "",
-                complete: false,
                 tasks: [],
                 image: { id: "image-1", caption: "Temp Caption" },
               },
