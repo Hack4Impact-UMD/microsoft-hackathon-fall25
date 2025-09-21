@@ -28,7 +28,7 @@ export default function AudioButton(props: AudioButtonProps) {
 
   return (
     <button 
-      className="rounded-full border p-2"
+      className="rounded-full border p-2 cursor-pointer"
       onClick={() => playAudioMutation.mutate()}
       disabled={playAudioMutation.isPending}
     >
