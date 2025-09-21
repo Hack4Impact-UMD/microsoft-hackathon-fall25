@@ -1,4 +1,4 @@
-import { Recipe } from "../types";
+import { Recipe } from "../shared/types";
 
 interface ImageCardStarProps {
   recipe: Recipe;

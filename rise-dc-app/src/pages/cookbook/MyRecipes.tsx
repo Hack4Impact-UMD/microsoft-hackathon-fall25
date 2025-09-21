@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router";
 import Slideshow from "../../shared/components/Slideshow";
-import ImageCardStar from "../../shared/components/ImageCardStar";
 import { Recipe } from "../../shared/types";
 import { recipes } from "../../shared/data/dummyRecipes";
 import ImageCard from "../../shared/components/ImageCard";
