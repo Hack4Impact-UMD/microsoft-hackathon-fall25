@@ -1,9 +1,8 @@
-// Cookbook Types
-
 export interface Recipe {
   id: string;
   image_id: string;
   user_id?: string;
+  isFavorite: boolean;
   title: string;
   noCook: boolean;
   time: string;
@@ -37,6 +36,7 @@ export function isUtensil(recipeItem: RecipeItem): recipeItem is Utensil { retur
 
 export interface Image {
   id: string;
+  url?: string;
   caption: string;
 }
 
@@ -107,4 +107,5 @@ export interface Feedback {
   taskAssignmentId: string;
   taskId: string;
   reaction: 'yes' | 'maybe' | 'no';
+  
 }
