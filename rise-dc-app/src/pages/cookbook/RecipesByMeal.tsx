@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "../Page.module.css";
-import ImageCardStar from "../../shared/components/ImageCardStar";
+import ImageCardStar from "../../cookbook_components/ImageCardFavorite";
 import { Recipe } from "../../shared/types";
 import {
   recipes as dummyRecipes,
