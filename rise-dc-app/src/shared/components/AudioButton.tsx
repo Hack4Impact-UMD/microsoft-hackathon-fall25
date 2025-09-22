@@ -1,38 +1,46 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import speakerIcon from "../../assets/speaker_icon.png";
 import { getAudioBlobFromText } from "../utils/textToSpeech";
-import { useMutation } from "@tanstack/react-query";
 
 interface AudioButtonProps {
   text: string;
+  className?: string;
 }
 
-export default function AudioButton(props: AudioButtonProps) {
+export default function AudioButton({ text, className }: AudioButtonProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const playAudioMutation = useMutation({
-    mutationFn: async () => {
-    audioRef.current?.pause(); // if already playing
-  
-    const audioBlob = await getAudioBlobFromText(props.text); // create audio file
-    if (!audioRef.current) throw new Error("No audio ref");
-  
-    audioRef.current.src = URL.createObjectURL(audioBlob); // set audioRef's audio file
-    audioRef.current.play(); // play audio
-    },
-    onError: (err) => {
+  const handlePlay = async () => {
+    if (!audioRef.current) return;
+
+    try {
+      setIsPlaying(true);
+
+      // Pause if already playing
+      audioRef.current.pause();
+
+      // Generate audio blob
+      const audioBlob = await getAudioBlobFromText(text);
+
+      // Set audio src and play
+      audioRef.current.src = URL.createObjectURL(audioBlob);
+      await audioRef.current.play();
+    } catch (err) {
+      console.error("Failed to play audio", err);
       alert("Failed to play audio!");
-      console.error(err);
-    },
-    });
+    } finally {
+      setIsPlaying(false);
+    }
+  };
 
   return (
-    <button 
-      className="rounded-full border p-2 cursor-pointer"
-      onClick={() => playAudioMutation.mutate()}
-      disabled={playAudioMutation.isPending}
+    <button
+      className={`rounded-full border p-2 cursor-pointer bg-white ${className ?? ""}`}
+      onClick={handlePlay}
+      disabled={isPlaying}
     >
-      <img src={speakerIcon} height="24px" width="24px"/>
+      <img src={speakerIcon} height="24px" width="24px" />
       <audio ref={audioRef} className="hidden"></audio>
     </button>
   );

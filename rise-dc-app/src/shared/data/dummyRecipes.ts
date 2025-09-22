@@ -258,7 +258,7 @@ export const recipes: Recipe[] = [
           type: "ingredient",
           id: "bread",
           name: "Bread",
-          image_id: placeholderImage
+          image_id: "/bread.jpg"
         },
         quantity: "2 slices"
       },
@@ -267,7 +267,7 @@ export const recipes: Recipe[] = [
           type: "ingredient",
           id: "cheese",
           name: "Cheddar Cheese",
-          image_id: placeholderImage
+          image_id: "/cheese.png"
         },
         quantity: "2 slices"
       },
@@ -276,7 +276,7 @@ export const recipes: Recipe[] = [
           type: "ingredient",
           id: "butter",
           name: "Butter",
-          image_id: placeholderImage
+          image_id: "/butter.png"
         },
         quantity: "1 tbsp"
       }
@@ -286,7 +286,7 @@ export const recipes: Recipe[] = [
         type: "tool",
         id: "skillet",
         name: "Skillet",
-        image_id: placeholderImage
+        image_id: "/skillet.png"
       }
     ],
     utensils: [
@@ -294,13 +294,13 @@ export const recipes: Recipe[] = [
         type: "utensil",
         id: "spatula",
         name: "Spatula",
-        image_id: placeholderImage
+        image_id: "/spatula.png"
       },
       {
         type: "utensil",
         id: "butter-knife",
         name: "Butter Knife",
-        image_id: placeholderImage
+        image_id: "/butter_knife.webp"
       }
     ],
     instructions: [
@@ -350,4 +350,8 @@ export function toggleFavorite(recipeId: string) {
   if (recipe) {
     recipe.isFavorite = !recipe.isFavorite;
   }
+}
+
+export function getRecipe(recipeId: string) {
+  return recipes.find((r) => r.id === recipeId);
 }

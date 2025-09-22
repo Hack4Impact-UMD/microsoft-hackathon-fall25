@@ -9,12 +9,13 @@ export interface ServingsProps {
 
 // Servings component
 export default function Servings({ count = 4, onChange, className = "" }: ServingsProps) {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(1);
   const [hovered, setHovered] = useState<number | null>(null);
 
   const handleSelect = (n: number) => {
-    setSelected(n);
-    onChange?.(n);
+    // Commented out click functionality
+    // setSelected(n);
+    // onChange?.(n);
   };
 
   const intCount = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
@@ -26,7 +27,7 @@ export default function Servings({ count = 4, onChange, className = "" }: Servin
         const showHover = hovered === n && !filled;
 
         const base =
-          "relative w-10 aspect-square rounded-full border flex items-center justify-center select-none cursor-pointer transition-colors hover:-2 hover:border-[#0C77D9]";
+          "relative w-15 aspect-square rounded-full border flex items-center justify-center select-none cursor-pointer transition-colors hover:-2 hover:border-[#0C77D9]";
         const colors = filled
           ? "bg-[#0E4775] text-white"
           : showHover
@@ -43,7 +44,7 @@ export default function Servings({ count = 4, onChange, className = "" }: Servin
             aria-pressed={filled}
             onMouseEnter={() => setHovered(n)}
             onMouseLeave={() => setHovered(null)}
-            onClick={() => handleSelect(n)}
+            onClick={() => handleSelect(n)} // Click does nothing now
             onFocus={() => setHovered(n)}
             onBlur={() => setHovered(null)}
           >
@@ -54,15 +55,3 @@ export default function Servings({ count = 4, onChange, className = "" }: Servin
     </div>
   );
 }
-
-
-// Demo: for 5 bubbles
-// export default function Example() {
-//   const [servings, setServings] = useState<number>(0)
-//   return (
-//     <>
-//       <Servings count={6} onChange={setServings} />
-//       <div>Selected servings: {servings}</div>
-//     </>
-//   )
-// }
