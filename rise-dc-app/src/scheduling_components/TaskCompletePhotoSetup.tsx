@@ -1,4 +1,3 @@
-// Example: Task completion step
 import { PhotoUploader } from "./PhotoUploader";
 import { uploadImageWithMeta } from "../services/uploadImage";
 
