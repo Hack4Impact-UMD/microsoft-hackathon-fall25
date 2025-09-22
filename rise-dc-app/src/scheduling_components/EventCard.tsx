@@ -1,33 +1,31 @@
-import MoreInfoButton from "../components/Scheduler/MoreInfoButton";
-import TimerBarScheduler from "./TimerBarScheduler";
-import styles from './EventCard.module.css'
-import { useState } from "react";
-import IconButton from "./icon_components/IconButton";
+import React, { useState } from 'react';
+import styles from './EventCard.module.css';
+import IconButton from '../scheduling_components/icon_components/IconButton'
+import MoreInfoButton from '../components/Scheduler/MoreInfoButton';
+import TimerBarScheduler from './TimerBarScheduler';
+import EventCompletionPopup from './EventCompletion';
 
-// Define the TimeSlot type
 type TimeSlot = {
   hour: number;
   minute: number;
   period: 'AM' | 'PM';
 };
 
-// Define the EventCardProps type
-type EventCardProps = {
+interface EventCardProps {
   name: string;
   startTime: TimeSlot;
   endTime: TimeSlot;
-  icon?: React.ComponentType<any>;
+  icon?: string;
   color?: string;
-};
+}
 
 const EventCard: React.FC<EventCardProps> = ({ name, startTime, endTime, icon, color }) => {
-  // Add shared icon state
   const [selectedIcon, setSelectedIcon] = useState<{name: string, icon: React.ComponentType<any>} | null>(null);
+  const [showCompletionPopup, setShowCompletionPopup] = useState(false); // Add this state
 
   const formatTime = (time: TimeSlot) =>
     `${time.hour}:${time.minute.toString().padStart(2, '0')} ${time.period}`;
 
-  // Convert TimeSlot to 24-hour format and calculate duration
   const convertTo24Hour = (time: TimeSlot) => {
     let hour = time.hour;
     if (time.period === 'PM' && hour !== 12) hour += 12;
@@ -48,30 +46,57 @@ const EventCard: React.FC<EventCardProps> = ({ name, startTime, endTime, icon, c
   const start24 = convertTo24Hour(startTime);
   const duration = calculateDuration(startTime, endTime);
 
+  // Handle when "Mark as Done" is clicked
+  const handleMarkAsDone = (eventName: string) => {
+    setShowCompletionPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowCompletionPopup(false);
+  };
+
   return (
-    <div className={styles.eventCard} style={{ backgroundColor: color || '#ffe5d1' }}>
-      <div className={styles.titleRow}>
-        <div className={styles.eventIcon}>
-          <IconButton />
+    <>
+      <div className={styles.eventCard} style={{ backgroundColor: color || '#ffe5d1' }}>
+        <div className={styles.titleRow}>
+          <div className={styles.eventIcon}>
+            <IconButton 
+             
+            />
+          </div>
+          <div className={styles.textContent}>
+            <p className={styles.eventTitle}>{name}</p>
+            <p className={styles.eventTime}>{formatTime(startTime)} - {formatTime(endTime)}</p>
+          </div>
+
+        <div className="relative bottom-5 left-38 z-10">
+          <MoreInfoButton 
+            title={name}
+            selectedIcon={selectedIcon}
+            onIconChange={setSelectedIcon}
+            
+          />
+
+          </div>
+
         </div>
-        <div className={styles.textContent}>
-          <p className={styles.eventTitle}>{name}</p>
-          <p className={styles.eventTime}>{formatTime(startTime)} - {formatTime(endTime)}</p>
-        </div>
-        <MoreInfoButton 
-          title={name}
-          selectedIcon={selectedIcon}
-          onIconChange={setSelectedIcon}
+        
+        <TimerBarScheduler 
+          duration={duration}
+          startHour={start24.hour}
+          startMinute={start24.minute}
+          onMarkAsDone={handleMarkAsDone} 
+          eventName={''}        />
+      </div>
+
+      {/* Show completion popup when needed */}
+      {showCompletionPopup && (
+        <EventCompletionPopup 
+          event={name}
+          onClose={handleClosePopup}
         />
-      </div>
-      <div className="mt-2">
-      <TimerBarScheduler 
-        duration={duration}
-        startHour={start24.hour}
-        startMinute={start24.minute}
-      />
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

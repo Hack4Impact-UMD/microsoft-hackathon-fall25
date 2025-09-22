@@ -9,9 +9,19 @@ interface ProgressBarProps extends Omit<LinearProgressProps, "value"> {
   duration: number
   startHour: number
   startMinute: number
+  eventName: string
+  onMarkAsDone?: (eventName: string) => void
 }
 
-export default function ProgressBar({ duration, startHour, startMinute = 0, className, ...rest }: ProgressBarProps) {
+export default function ProgressBar({ 
+  duration, 
+  startHour, 
+  startMinute = 0, 
+  eventName,
+  onMarkAsDone,
+  className, 
+  ...rest 
+}: ProgressBarProps) {
   const [progress, setProgress] = useState(0)
   const [completed, setCompleted] = useState(false)
   const [showProgressBar, setShowProgressBar] = useState(false)
@@ -62,6 +72,12 @@ export default function ProgressBar({ duration, startHour, startMinute = 0, clas
     return '#4caf50'
   }
 
+  const handleMarkAsDone = () => {
+    if (onMarkAsDone) {
+      onMarkAsDone(eventName)
+    }
+  }
+
   // Show "Mark as Done" button for events that have completely passed
   if (eventPassed) {
     return (
@@ -76,6 +92,7 @@ export default function ProgressBar({ duration, startHour, startMinute = 0, clas
         >
           <Button
             variant="contained"
+            onClick={handleMarkAsDone}
             sx={{
               textTransform: 'none',
               backgroundColor: '#2DA75A',
@@ -141,6 +158,7 @@ export default function ProgressBar({ duration, startHour, startMinute = 0, clas
         >
           <Button
             variant="contained"
+            onClick={handleMarkAsDone}
             sx={{
               textTransform: 'none',
               backgroundColor: '#2DA75A',
