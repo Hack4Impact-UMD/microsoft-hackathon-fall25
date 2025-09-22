@@ -5,7 +5,7 @@ import { quietHobbiesApi } from "../quiet_hobbies/api";
 
 export default function QuietHobbiesParticipant({
   onActivityChosen,
-  onPhotoTaken
+  onClose
 }: QuietHobbiesParticipantProps) {
   const [hobbies, setHobbies] = useState<QuietHobby[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +30,11 @@ export default function QuietHobbiesParticipant({
     loadHobbies();
   }, []);
 
+   const handleCloseModal = () => {
+    console.log('Closing modal, current open state:', open);
+    setOpen(false);
+  };
+
   const handleChooseActivity = (hobbyId: string) => {
     const selectedHobby = hobbies.find(hobby => hobby.id === hobbyId);
     if (selectedHobby) {
@@ -37,13 +42,6 @@ export default function QuietHobbiesParticipant({
       onActivityChosen?.(selectedHobby);
     }
     setOpen(false);
-  };
-
-  const handleTakePhoto = (photoDataUrl: string) => {
-    console.log("Photo captured:", photoDataUrl);
-    onPhotoTaken?.();
-    // TODO: Save the photo to rea database
-    alert("Photo captured successfully!");
   };
 
   return (
@@ -84,10 +82,9 @@ export default function QuietHobbiesParticipant({
 
       <QuietHobbyModal
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={handleCloseModal}
         hobbies={hobbies}
         onChooseActivity={handleChooseActivity}
-        onTakePhoto={handleTakePhoto}
       />
     </div>
   );

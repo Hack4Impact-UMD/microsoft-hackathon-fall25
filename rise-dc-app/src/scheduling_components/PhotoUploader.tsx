@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CameraAlt } from "@mui/icons-material";
 
-export type ImageRec = { id: string; caption: string }; // matches your Image type
+export type ImageRec = { id: string; caption: string };
 
 type UploadItem = {
   id: string;
   file: File;
   previewUrl: string;
-  progress: number; // 0..100
+  progress: number;
   status: "pending" | "uploading" | "done" | "error";
   error?: string;
 };
@@ -20,8 +20,8 @@ export type PhotoUploaderProps = {
   maxFiles?: number;
   maxSizeMB?: number;
   disabled?: boolean;
-
   onFilesChange?: (files: File[]) => void;
+onPhotoUrlChange?: (photoUrl: string | undefined, file?: File) => void;
   onUpload?: (file: File, onProgress: (p: number) => void) => Promise<ImageRec>;
   autoUpload?: boolean;
   onUploadComplete?: (images: ImageRec[]) => void;
@@ -34,11 +34,12 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
   label = "Add a photo?",
   helperText = "Optional",
   accept = "image/*",
-  multiple = true,
-  maxFiles = 1,
+  multiple = false, // Changed default to false for event completion
+  maxFiles = 1, // Changed default to 1 for event completion
   maxSizeMB = 10,
   disabled,
   onFilesChange,
+  onPhotoUrlChange, // New callback
   onUpload,
   autoUpload = false,
   onUploadComplete,
@@ -53,6 +54,18 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
   useEffect(() => {
     return () => items.forEach((i) => URL.revokeObjectURL(i.previewUrl));
   }, [items]);
+
+  // Call onPhotoUrlChange when items change
+useEffect(() => {
+  if (onPhotoUrlChange) {
+    const validItem = items.find(item => item.status !== "error");
+    if (validItem) {
+      onPhotoUrlChange(validItem.previewUrl, validItem.file); // Pass both URL and File
+    } else {
+      onPhotoUrlChange(undefined, undefined);
+    }
+  }
+}, [items, onPhotoUrlChange]);
 
   useEffect(() => {
     if (!exposeUploadApiRef) return;
@@ -71,7 +84,10 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
 
   const addFiles = (files: FileList | null) => {
     if (!files || disabled) return;
-    const next: UploadItem[] = [...items];
+    
+    // For event completion, replace existing photo instead of adding multiple
+    const next: UploadItem[] = maxFiles === 1 ? [] : [...items];
+    
     for (const f of Array.from(files)) {
       if (next.length >= maxFiles) break;
       const err = validate(f);
@@ -107,7 +123,6 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
     const results: ImageRec[] = [];
     for (const it of items) {
       if (it.status === "error") continue;
-      // mark uploading
       setItems((prev) =>
         prev.map((p) =>
           p.id === it.id ? { ...p, status: "uploading", progress: 0 } : p
@@ -199,7 +214,7 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
                 alt="Preview"
                 className="w-full h-full object-cover"
               />
-              {it.status !== "done" && (
+              {it.status !== "done" && it.status !== "pending" && (
                 <div className="absolute bottom-0 left-0 right-0">
                   <div className="h-1 bg-gray-200">
                     <div
@@ -233,14 +248,15 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
           )}
         </div>
       </div>
-      {onUpload && (
+      {/* Remove the upload button for event completion flow since we just need the preview */}
+      {onUpload && autoUpload === false && (
         <div className="mt-3 flex items-center justify-end gap-2">
           <button
             type="button"
-            disabled={busy || disabled}
+            disabled={busy || disabled || items.length === 0}
             onClick={uploadAll}
             className={`rounded-xl px-4 py-2 text-white ${
-              busy || disabled
+              busy || disabled || items.length === 0
                 ? "bg-gray-400"
                 : "bg-green-600 hover:bg-green-700"
             }`}
@@ -252,3 +268,5 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
     </div>
   );
 };
+
+export default PhotoUploader;

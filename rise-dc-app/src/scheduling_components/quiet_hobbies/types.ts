@@ -73,7 +73,6 @@ export interface QuietHobbyModalProps {
   timeRange?: string;
   hobbies: QuietHobby[];
   onChooseActivity: (hobbyId: string) => void;
-  onTakePhoto: (photoDataUrl: string) => void;
   initialHobbyId?: string;
 }
 
@@ -87,4 +86,5 @@ export interface QuietHobbiesParticipantProps {
    onBack: () => void;
   onActivityChosen: (activity: any) => void;
   onPhotoTaken: () => void;
+  onClose: () => void;
 }

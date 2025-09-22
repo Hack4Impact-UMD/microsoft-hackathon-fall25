@@ -11,15 +11,30 @@ const EventCompletionPopup = ({
   onClose,
 }: {
   event: string;
-  onClose: () => void;
+  onClose: (data?: { enjoyment: "YES" | "MAYBE" | "NO"; photoFile?: File }) => void; // Changed to photoFile
 }) => {
   const [selected, setSelected] = useState<"YES" | "MAYBE" | "NO" | null>(null);
+  const [uploadedPhotoFile, setUploadedPhotoFile] = useState<File | undefined>(undefined); // Changed to File
+
+  const handleFinish = () => {
+    if (selected) {
+      onClose({
+        enjoyment: selected,
+        photoFile: uploadedPhotoFile // Pass the File object
+      });
+    }
+  };
+
+  // This gets called immediately when a photo is selected
+  const handlePhotoUrlChange = (photoUrl: string | undefined, file?: File) => {
+    setUploadedPhotoFile(file); // Store the File object
+  };
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/20 pt-10">
       <div className="bg-white shadow-2xl rounded-2xl p-4 md:p-6 w-150 max-w-[95%] md:max-w-2xl lg:max-w-3xl shadow-lg relative max-h-[90vh] flex flex-col">
         <button
-          onClick={onClose}
+          onClick={() => onClose()}
           className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center text-white bg-[#f1617b] rounded-full cursor-pointer"
         >
           ✕
@@ -65,13 +80,19 @@ const EventCompletionPopup = ({
         </div>
 
         <div className="w-full flex justify-center mb-2">
-          <PhotoUploader />
+          <PhotoUploader 
+            maxFiles={1}
+            multiple={false}
+            onPhotoUrlChange={handlePhotoUrlChange} // This now receives both URL and File
+            label="Add a photo?"
+            helperText="Optional"
+          />
         </div>
 
         <div className="flex justify-center">
           <button
             disabled={!selected}
-            onClick={onClose}
+            onClick={handleFinish}
             className={`w-full md:w-1/2 py-2 rounded-lg text-sm md:text-base ${
               selected
                 ? "bg-[#17773B] text-white cursor-pointer"

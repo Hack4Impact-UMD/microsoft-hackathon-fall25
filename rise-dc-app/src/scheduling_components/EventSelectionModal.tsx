@@ -96,9 +96,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
   };
 
   const handleQuietHobbyActivityChosen = (activity: any) => {
-    // Handle the chosen quiet hobby activity
     console.log('Quiet hobby chosen:', activity);
-    // You might want to set this as the selected event and proceed to time selection
     setSelectedEvent(activity.name || 'Quiet Hobby');
     setIsTimeModalOpen(true);
   };
@@ -167,6 +165,8 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     setSelectedEvent(null);
     onClose();
   };
+
+  
 
   return (
     <>
@@ -272,6 +272,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
             onBack={handleQuietHobbyBack}
             onActivityChosen={handleQuietHobbyActivityChosen}
             onPhotoTaken={() => console.log('Photo taken')}
+            onClose={handleClose}
           />
         )}
       </div>
