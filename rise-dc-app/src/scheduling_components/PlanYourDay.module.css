@@ -1,24 +1,19 @@
 .plusButton {
   background-color: transparent;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 100px;
-  text-align: center;
-  transition: transform 0.2s;
+  /* Remove absolute positioning */
+  position: relative;
+  top: 39px;
 }
 
 .plusCircle {
   background-color: #EB5904; /* orange */
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px; /* Increased from 50px */
+  height: 60px; /* Increased from 50px */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.5rem;
   cursor: pointer;
 }
 
@@ -28,7 +23,7 @@
 
 .plusIcon {
   color: white;
-  font-size: 1.5rem;
+  font-size: 2rem; /* Increased from 1.5rem */
   font-weight: bold;
 }
 

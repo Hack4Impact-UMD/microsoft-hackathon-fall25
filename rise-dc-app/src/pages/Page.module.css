@@ -1,6 +1,19 @@
 .container {
-  padding: 40px;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+}
+
+body {
+    background-color: #0C343D;
+}
+
+.backButton {
+   width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  position: absolute;
+  top: 95px;
+  left: 30px;
+  z-index: 10;
 }

@@ -3,35 +3,45 @@
   padding: 1rem 1.5rem;
   min-width: 400px;
   min-height: 100px;
-  text-align: center;
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 1rem;   
+  margin-bottom: 0.5rem;
+  position: relative; /* Add this for positioning */
 }
 
-/* .event-card:hover {
-  transform: translateY(-3px);
-} */
+/* Container for icon and title in the same row */
+.titleRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* Change to flex-start */
+  justify-content: space-between; /* Add this to push button to right */
+  width: 100%; /* Make sure it takes full width */
+  gap: 0.5rem; /* Space between icon and title */
+  margin-bottom: 0.5rem;
+}
 
-.event-icon {
+.eventIcon {
   font-size: 1.5rem;
-  margin-bottom: 0.3rem;
 }
 
 .eventTitle {
   font-weight: 600;
   font-size: 1.1rem;
-  margin-bottom: 0.3rem;
-  margin-right: 35%;
+  margin: 0;
 }
 
 .eventTime {
   font-size: 0.9rem;
   color: #555;
-    margin-right: 21%;
+}
 
+.textContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

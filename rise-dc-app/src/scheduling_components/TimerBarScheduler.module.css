@@ -1,10 +1,11 @@
 .root {
     height: 12px;
-    width: 380px;
+    width: 350px;
     border-radius: 8px;
     background-color: white;
     padding: 8px;
     box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.3) inset;
+    margin-top: 16px;
 }
 
 .bar {

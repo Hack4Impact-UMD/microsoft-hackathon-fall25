@@ -1,72 +1,98 @@
+import { useRef, useState } from "react";
 import moment from "moment";
-import { useRef } from "react";
-import { getAudioBlobFromText } from "../utils/textToSpeech";
-import { useMutation } from "@tanstack/react-query";
-import { twMerge } from "tailwind-merge";
-import { Assignment } from "../types";
 
-interface WhatsNextButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  assignments: Assignment[];
+interface SimpleEvent {
+  name: string;
+  startTime: { hour: number; minute: number; period: 'AM' | 'PM' };
+}
+
+interface WhatsNextButtonProps {
+  className?: string;
+  events?: SimpleEvent[];
 }
 
 export default function WhatsNextButton({
-  assignments,
   className = "",
-  ...rest
+  events = [],
 }: WhatsNextButtonProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const playAudioMutation = useMutation({
-    mutationFn: async () => {
-      audioRef.current?.pause(); // if already playing
-
+  const handleClick = async () => {    
+    try {
+      setIsLoading(true);
+      
+      // check upcoming
       const currTime = moment();
-      const nextAssignment = assignments.find((a) =>
-        moment(a.startTime).isAfter(currTime)
-      );
+      let text = "No events upcoming";
+      
+      if (events.length > 0) {
+        // Convert events to moment objects and sort
+        const sortedEvents = events.map(event => {
+          let hour = event.startTime.hour;
+          if (event.startTime.period === 'PM' && hour !== 12) {
+            hour += 12;
+          } else if (event.startTime.period === 'AM' && hour === 12) {
+            hour = 0;
+          }
+          const startTime = moment().hour(hour).minute(event.startTime.minute).second(0);
+          
+          return {
+            name: event.name,
+            startTime: startTime
+          };
+        }).sort((a, b) => a.startTime.valueOf() - b.startTime.valueOf());
+        
+        // Find next event
+        const nextEvent = sortedEvents.find(e => e.startTime.isAfter(currTime));
+       if (nextEvent) {
+  const totalMinutes = nextEvent.startTime.diff(currTime, 'minutes');
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
 
-      if (nextAssignment) {
-        const diff = moment(nextAssignment?.startTime).diff(
-          moment.now(),
-          "minutes"
-        );
-        const audioBlob = await getAudioBlobFromText(
-          `Next event is ${nextAssignment.name} in ${diff} ${
-            diff > 1 ? "minutes" : "minute"
-          }`
-        );
-        if (!audioRef.current) throw new Error("No audio ref");
+  let diffText = "";
+  if (hours > 0) diffText += `${hours} ${hours === 1 ? 'hour' : 'hours'}`;
+  if (hours > 0 && minutes > 0) diffText += " and ";
+  if (minutes > 0) diffText += `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`;
 
-        audioRef.current.src = URL.createObjectURL(audioBlob);
-        audioRef.current.play();
-      } else {
-        const audioBlob = await getAudioBlobFromText(`No events upcoming`);
-        if (!audioRef.current) throw new Error("No audio ref");
+  text = `Next event is ${nextEvent.name} in ${diffText}`;
+}
 
-        audioRef.current.src = URL.createObjectURL(audioBlob);
-        audioRef.current.play();
       }
-    },
-    onError: (err) => {
-      alert("Failed to play audio!");
-      console.error(err);
-    },
-  });
+      
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      
+      utterance.onend = () => {
+        console.log("Speech finished");
+        setIsLoading(false);
+      };
+      
+      utterance.onerror = (event) => {
+        console.error("Speech error:", event);
+        setIsLoading(false);
+      };
+      
+      speechSynthesis.speak(utterance);
+      
+    } catch (err) {
+      console.error("handleClick error:", err);
+      setIsLoading(false);
+      alert("Error occurred: " + err);
+    }
+  };
 
   return (
-    <div>
-      <button
-        className={twMerge(
-          "p-2 px-4 bg-gray-800 text-gray-100 rounded cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed",
-          className
-        )}
-        onClick={() => playAudioMutation.mutate()}
-        disabled={playAudioMutation.isPending}
-        {...rest}
-      >
-        What's Next
-      </button>
-      <audio ref={audioRef} className="hidden"></audio>
-    </div>
+  <div>
+  <button
+    className={`px-15 py-5 bg-gray-800 text-gray-100 rounded-xl cursor-pointer disabled:opacity-70 ${className}`}
+    onClick={handleClick}
+    disabled={isLoading}
+  >
+    {isLoading ? "Speaking..." : "What's Next? 🔊"}
+  </button>
+  <audio ref={audioRef} className="hidden"></audio>
+</div>
+
   );
 }

@@ -12,13 +12,15 @@
     z-index: 1000;             
     border-radius: 12px;       
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
-    padding: 16px;           
+    padding: 16px;     
+    z-index: 9999 !important      
 }
 
 .popupHeader {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    z-index: 9999;
 }
 
 .textarea {
