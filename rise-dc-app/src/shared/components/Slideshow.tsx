@@ -18,7 +18,7 @@ function Slideshow({ title, images, imagesPerRow, className }: SlideshowProps) {
       </div>
             
       <div
-        className="grid gap-6"
+        className="grid gap-y-12 gap-x-6"
         style={{ gridTemplateColumns: `repeat(${imagesPerRow}, minmax(0, 1fr))` }}
       >
         {images.map((Card, index) => (

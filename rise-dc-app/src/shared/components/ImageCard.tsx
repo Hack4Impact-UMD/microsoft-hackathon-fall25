@@ -33,10 +33,8 @@ const ImageCard: React.FC<ImageCardProps> = ({
     const containerRatio = width / height;
 
     if (Math.abs(aspectRatio - containerRatio) < 0.05) {
-      // roughly matches container → fill
       setObjectFit("cover");
     } else {
-      // otherwise → contain
       setObjectFit("contain");
     }
   };
@@ -44,7 +42,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
   return (
     <Wrapper 
       onClick={onClick}
-      className={`flex flex-col rounded-lg border-2 overflow-hidden items-center w-fit ${
+      className={`flex flex-col rounded-xl overflow-hidden items-center w-fit ${
         onClick ? "cursor-pointer" : ""
       } ${!isSection ? "border-2" : ""} ${className}`}    
       style={{ width }}
@@ -61,7 +59,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
 
       {caption && (
         <div 
-          className={twMerge("w-full text-xl text-center py-5 font-bold rounded-b-lg", 
+          className={twMerge("w-full text-xl text-center py-2.5 font-md rounded-b-lg", 
             isSection ? "bg-[#EB5904] text-white" : "bg-white")}
         >
           {caption}

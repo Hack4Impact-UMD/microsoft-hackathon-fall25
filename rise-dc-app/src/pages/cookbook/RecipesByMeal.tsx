@@ -7,7 +7,7 @@ import {
   recipes as dummyRecipes,
   toggleFavorite,
 } from "../../shared/data/dummyRecipes";
-import BackButton from "../../cookbook_components/BackButton";
+import CookbookBar from "../../cookbook_components/CookbookBar";
 
 const mealTitles: Record<string, string> = {
   breakfast: "Breakfast",
@@ -42,7 +42,7 @@ export default function RecipesByMeal() {
 
   return (
     <div className={styles.container}>
-      <BackButton pathname="/cookbook/all-recipes" />
+      <CookbookBar/>
 
       <h1>{mealTitles[meal]}</h1>
 

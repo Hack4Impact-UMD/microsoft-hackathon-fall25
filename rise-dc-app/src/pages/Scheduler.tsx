@@ -5,12 +5,6 @@ import styles from "./Page.module.css";
 import MoreInfoButton from "../components/Scheduler/MoreInfoButton";
 import ProgressBar from "../scheduling_components/TimerBarScheduler";
 import EventComplete from "../scheduling_components/EventCompletion";
-import { useState } from "react";
-
-export default function Scheduler() {
-  const [isEventComplete, setIsEventComplete] = useState(false);
-  const openPopup = () => setIsEventComplete(true);
-  const closePopup = () => setIsEventComplete(false);
 import { DayDisplay } from "../scheduling_components/DayDisplay";
 import { PlanYourDayButton } from "../scheduling_components/PlanYourDayButton";
 import { useState } from "react";
@@ -43,15 +37,13 @@ export default function Scheduler() {
           assignments={[
             {
               id: "1",
-              name: "Test Event",
-              icon: "",
-              tasks: [],
-              image: { id: "image-1", caption: "Temp Caption" },
+              complete: false,
               date: moment().toString(),
               startTime: moment(moment.now()).add(10, "minutes").toString(),
               endTime: moment(moment.now()).add(40, "minutes").toString(),
               event: {
                 id: "1",
+                complete: false,
                 name: "Test Event",
                 icon: "",
                 tasks: [],
