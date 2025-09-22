@@ -8,12 +8,18 @@ import { DayDisplay } from "../scheduling_components/DayDisplay";
 import { PlanYourDayButton } from "../scheduling_components/PlanYourDayButton";
 import { useState } from "react";
 import { QuietHobby } from "../scheduling_components/quiet_hobbies/types";
+import { Box } from "@mui/material";
+import back from '../scheduling_components/icon_components/back.png';
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function Scheduler() {
   const [viewMode, setViewMode] = useState<"staff" | "participant">("staff");
   const [selectedActivity, setSelectedActivity] = useState<QuietHobby | null>(
     null
   );
+  const navigate = useNavigate();
 
   const handleActivityChosen = (hobby: QuietHobby) => {
     setSelectedActivity(hobby);
@@ -26,13 +32,16 @@ export default function Scheduler() {
 
   return (
     <>
+
+    
       <div className={styles.container}>
-        <h1>Visual Scheduling & Daily Routines</h1>
+        
+        {/* <h1>Visual Scheduling & Daily Routines</h1>
         <p>
           Scheduling interface for users with first-grade or below reading/math
           levels
-        </p>
-        <WhatsNextButton
+        </p> */}
+        {/* <WhatsNextButton
           assignments={[
             {
               id: "1",
@@ -49,12 +58,27 @@ export default function Scheduler() {
               },
             },
           ]}
-        />
-        <MoreInfoButton title={"More Info"} />
+        /> */}
+        {/* <MoreInfoButton title={"More Info"} /> */}
       </div>
-      <div>
-        <DayDisplay />
-        <PlanYourDayButton />
+
+
+
+      <div className="mt-0 pt-0">
+        <div className="flex justify-center">
+          <div className={styles.backButton}>
+              <Box
+                  component="img"
+                  src={back}
+                  alt="Back"
+                 onClick={() => navigate("/")}
+                /> </div>
+        <DayDisplay /> </div>
+
+        <div className="flex justify-center">
+          <PlanYourDayButton  />
+        </div>
+
       </div>
     </>
   );

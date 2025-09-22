@@ -1,83 +1,60 @@
+// Debug version with console logs to identify the issue
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, IconButton as MuiIconButton, Backdrop } from '@mui/material';
 import { ModeEdit } from '@mui/icons-material';
 import IconCard from './IconCard';
-
-// Import shared icon configuration
 import { iconList } from './iconConfig';
 
-/**
- * IconButton Component
- * 
- * A button that when clicked, toggles the display of the IconCard component.
- * Displays the selected icon instead of the edit icon when an icon is selected.
- * 
- * Features:
- * - Toggle button to show/hide icon selection
- * - Popup, so closes when clicked off or the escape key is pressed
- * - Dynamic icon display based on selection
- */
-
 interface IconButtonProps {
-  /** Button text to display */
   buttonText?: string;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({ 
   buttonText = "Select Activity" 
 }) => {
-  // State to control whether the icon card is visible
   const [showIconCard, setShowIconCard] = useState(false);
-  // State to track the selected icon
   const [selectedIcon, setSelectedIcon] = useState<{name: string, icon: React.ComponentType<any>} | null>(null);
   const iconCardRef = useRef<HTMLDivElement>(null);
 
-  /**
-   * Handles icon selection from the IconCard component
-   * @param category - The category of the selected icon (not used anymore)
-   * @param iconName - The name of the selected activity
-   * @param iconType - The MUI icon type
-   */
-  const handleIconSelect = (iconName: string) => {
+  const handleIconSelect = (category: string, iconName: string, iconType: string) => {
+    console.log('🔍 handleIconSelect called with:', { category, iconName, iconType });
+    console.log('📋 Available icons in iconList:', iconList.map(icon => icon.name));
+    
     // Find the icon component from iconList
     const iconOption = iconList.find(icon => icon.name === iconName);
+    console.log('🎯 Found icon option:', iconOption);
     
-    // Update local state with selected icon
-    setSelectedIcon({
-      name: iconName,
-      icon: iconOption?.icon || ModeEdit
-    });
+    if (iconOption) {
+      const newSelection = {
+        name: iconName,
+        icon: iconOption.icon
+      };
+      console.log('✅ Setting selected icon to:', newSelection);
+      setSelectedIcon(newSelection);
+    } else {
+      console.log('❌ Icon not found in iconList for name:', iconName);
+      console.log('🔍 Exact match check - iconList names:', iconList.map(icon => `"${icon.name}"`));
+      console.log('🔍 Searching for:', `"${iconName}"`);
+    }
     
-    // Hide the icon card after selection
     setShowIconCard(false);
   };
 
-  /**
-   * Toggles the visibility of the icon card
-   */
   const handleButtonClick = () => {
     setShowIconCard(!showIconCard);
   };
 
-  /**
-   * Closes the icon card
-   */
   const closeIconCard = () => {
     setShowIconCard(false);
   };
 
-  /**
-   * Handle click outside to close the popup
-   */
   const handleBackdropClick = (event: React.MouseEvent) => {
     if (iconCardRef.current && !iconCardRef.current.contains(event.target as Node)) {
       closeIconCard();
     }
   };
 
-  /**
-   * Handle escape key to close the popup
-   */
   useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && showIconCard) {
@@ -87,7 +64,6 @@ const IconButton: React.FC<IconButtonProps> = ({
 
     if (showIconCard) {
       document.addEventListener('keydown', handleEscapeKey);
-      // Prevent body scroll when popup is open
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -99,9 +75,13 @@ const IconButton: React.FC<IconButtonProps> = ({
     };
   }, [showIconCard]);
 
+  // Debug: Log when selectedIcon changes
+  useEffect(() => {
+    console.log('🔄 selectedIcon state changed to:', selectedIcon);
+  }, [selectedIcon]);
+
   return (
     <>
-      {/* Toggle Button */}
       <MuiIconButton
         onClick={handleButtonClick}
         sx={{
@@ -111,14 +91,12 @@ const IconButton: React.FC<IconButtonProps> = ({
           height: 56,
           borderRadius: 2,
           boxShadow: 2,
-            
-        //   this is to create the checked icon background (lol)
-              backgroundImage: selectedIcon ? 'none' : `
-                linear-gradient(45deg, #E0E0E0 25%, transparent 25%), 
-                linear-gradient(-45deg, #E0E0E0 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, #E0E0E0 75%), 
-                linear-gradient(-45deg, transparent 75%, #E0E0E0 75%)
-              `,
+          backgroundImage: selectedIcon ? 'none' : `
+            linear-gradient(45deg, #E0E0E0 25%, transparent 25%), 
+            linear-gradient(-45deg, #E0E0E0 25%, transparent 25%), 
+            linear-gradient(45deg, transparent 75%, #E0E0E0 75%), 
+            linear-gradient(-45deg, transparent 75%, #E0E0E0 75%)
+          `,
           backgroundSize: '8px 8px',
           backgroundPosition: '0 0, 0 4px, 4px -4px, -4px 0px',
           border: selectedIcon ? 'none' : '2px solid #FD8743',
@@ -129,14 +107,13 @@ const IconButton: React.FC<IconButtonProps> = ({
         }}
         title={selectedIcon ? selectedIcon.name : (showIconCard ? 'Hide Activities' : buttonText)}
       >
-            {selectedIcon ? (
-              React.createElement(selectedIcon.icon, { sx: { fontSize: 28 } })
-            ) : (
-              <ModeEdit sx={{ fontSize: 28 }} />
-            )}
+        {selectedIcon ? (
+          React.createElement(selectedIcon.icon, { sx: { fontSize: 28 } })
+        ) : (
+          <ModeEdit sx={{ fontSize: 28 }} />
+        )}
       </MuiIconButton>
 
-      {/* Popup Backdrop and Icon Card */}
       {showIconCard && (
         <Backdrop
           open={showIconCard}

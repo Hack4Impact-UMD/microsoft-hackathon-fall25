@@ -54,7 +54,19 @@ export function PlanYourDayButton() {
          )}
 
           {events.length > 0 && (
-        <><div className="events-container">
+            
+        <>
+        
+        <div
+                className={styles.plusButton}
+                onClick={() => setIsModalOpen(true)}
+                >
+                <div className={styles.plusCircle}>
+                    <span className={styles.plusIcon}>+</span>
+                </div>
+                {/* <p className={styles.eventTitle}>Add Event</p> */}
+                </div>
+        <div className="events-container">
           
 
           
@@ -65,7 +77,6 @@ export function PlanYourDayButton() {
                                 name={event.name}
                                 startTime={event.startTime}
                                 endTime={event.endTime}
-                                //   icon={event.name === 'Make Bed' ? '🛏️' : event.name === 'Sweep Floor' ? '🧹' : '💧'}
                                 color={'#fffef2ff'} />
                       
                       
@@ -73,14 +84,6 @@ export function PlanYourDayButton() {
 
                         </div>
                     ))}
-                </div><div
-                className={styles.plusButton}
-                onClick={() => setIsModalOpen(true)}
-                >
-                <div className={styles.plusCircle}>
-                    <span className={styles.plusIcon}>+</span>
-                </div>
-                {/* <p className={styles.eventTitle}>Add Event</p> */}
                 </div>
                 </>
       )}

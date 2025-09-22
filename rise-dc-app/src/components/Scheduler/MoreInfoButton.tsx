@@ -1,24 +1,62 @@
 import { useState } from "react"
 import styles from './MoreInfo.module.css'
-import MoreInfoPopup from "./MoreInfoPopup"
 import { Instruction } from "../../shared/types"
 import InfoIcon from '@mui/icons-material/Info';
+import AddStepsMoreInfo from "../../scheduling_components/AddStepsMoreInfo";
 
 interface MoreInfoButtonProps {
-    info?: Instruction[]        //if missing, then it will default to the create new instructions version
-    title: string               //title of action that the steps describe 
-}   
-export default function MoreInfoButton ({info}: MoreInfoButtonProps) {
+    info?: Instruction[]
+    title: string
+    selectedIcon?: {name: string, icon: React.ComponentType<any>} | null;
+    onIconChange?: (icon: {name: string, icon: React.ComponentType<any>} | null) => void;
+}
 
+interface Step {
+    id: number;
+    text: string;
+}
 
-    const [popupIsOpen, setPopupIsOpen] = useState(false)
+export default function MoreInfoButton ({info, title, selectedIcon, onIconChange}: MoreInfoButtonProps) {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [steps, setSteps] = useState<Step[]>([]);
+
+    const handleBack = () => {
+        setModalIsOpen(false);
+    };
+
+    const handleNext = () => {
+        console.log('Steps completed:', steps);
+        setModalIsOpen(false);
+    };
+
+    const handleClose = () => {
+        setModalIsOpen(false);
+    };
+
+    const handleStepsChange = (newSteps: Step[]) => {
+        setSteps(newSteps);
+    };
 
     return (
-        <>
-            <InfoIcon onClick={()=>{setPopupIsOpen(!popupIsOpen)}}>More Info</InfoIcon>
-            <MoreInfoPopup popupIsOpen={popupIsOpen} setPopupIsOpen={setPopupIsOpen} existingInfo={info ? info : []}></MoreInfoPopup>
-            <button onClick={()=>{setPopupIsOpen(!popupIsOpen)}}>More Info</button>
-            <MoreInfoPopup popupIsOpen={popupIsOpen} setPopupIsOpen={setPopupIsOpen}></MoreInfoPopup>
-        </>
+       <>
+        <InfoIcon onClick={() => setModalIsOpen(true)} style={{ cursor: 'pointer' }}>
+            More Info
+        </InfoIcon>
+        {modalIsOpen && (
+            <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+                <AddStepsMoreInfo 
+                    onBack={handleBack}
+                    onNext={handleNext}
+                    onClose={handleClose}
+                    taskName={title}
+                    steps={steps}
+                    onStepsChange={handleStepsChange}
+                    selectedIcon={selectedIcon}
+                    onIconChange={onIconChange}
+                />
+            </div>
+        )}
+    </>
+           
     )
 }

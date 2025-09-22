@@ -9,109 +9,162 @@ interface ProgressBarProps extends Omit<LinearProgressProps, "value"> {
   duration: number
   startHour: number
   startMinute: number
-
 }
-
-
 
 export default function ProgressBar({ duration, startHour, startMinute = 0, className, ...rest }: ProgressBarProps) {
   const [progress, setProgress] = useState(0)
   const [completed, setCompleted] = useState(false)
-
-  
+  const [showProgressBar, setShowProgressBar] = useState(false)
+  const [eventPassed, setEventPassed] = useState(false)
 
   useEffect(() => {
-      const now = new Date()
+    const now = new Date()
     let startTime = new Date()
     startTime.setHours(startHour, startMinute, 0, 0)
+    
+    let endTime = new Date(startTime.getTime() + duration)
 
-     const delay = startTime.getTime() - now.getTime()
+    const delay = startTime.getTime() - now.getTime()
+    const timeUntilEnd = endTime.getTime() - now.getTime()
 
-      const timeout = setTimeout(() => {
-      const realStart = Date.now()
-      const timer = setInterval(() => {
-        const elapsed = Date.now() - realStart
-        const percentage = Math.min((elapsed / duration) * 100, 100)
-        setProgress(percentage)
+    // Check if the entire event has already passed
+    if (timeUntilEnd <= 0) {
+      setEventPassed(true)
+      return
+    }
 
-        if (percentage >= 100) setCompleted(true)
+    // If event is in the future, don't show anything
+    if (delay > 0) {
+      return
+    }
 
+    // If the start time has already passed but event hasn't finished, show immediately
+    setShowProgressBar(true)
+    const realStart = Date.now()
+    const timer = setInterval(() => {
+      const elapsed = Date.now() - realStart
+      const percentage = Math.min((elapsed / duration) * 100, 100)
+      setProgress(percentage)
 
-        if (elapsed >= duration) {
-          clearInterval(timer)
-        }
-      }, 20) 
+      if (percentage >= 100) setCompleted(true)
 
-    }, delay)
+      if (elapsed >= duration) {
+        clearInterval(timer)
+      }
+    }, 20)
 
-    return () => clearTimeout(timeout)
+    return () => clearInterval(timer)
   }, [duration, startHour, startMinute])
 
-const getColor = () => {
-    if (progress < 33) return '#0a0032ff' // green
-    if (progress < 66) return '#FD8743' // orange
-    return '#4caf50' // red
+  const getColor = () => {
+    if (progress < 33) return '#0a0032ff'
+    if (progress < 66) return '#FD8743'
+    return '#4caf50'
   }
 
-   return (
-   <Box position="relative" width="100%" height="40px" sx={{ opacity: completed ? 0.7 : 1, pointerEvents: completed ? 'none' : 'auto' }}>
-  {/* Progress bar */}
-  <Fade in={!completed} timeout={500}>
-    <LinearProgress
-      classes={{ root: styles.root, bar: styles.bar }}
-      variant="determinate"
-      value={progress}
-      sx={{
-        '& .MuiLinearProgress-bar': {
-          backgroundColor: getColor(),
-          transition: 'background-color 0.2s linear, width 0.1s linear',
-        },
-      }}
-      {...rest}
-    />
-  </Fade>
+  // Show "Mark as Done" button for events that have completely passed
+  if (eventPassed) {
+    return (
+      <Box position="relative" width="100%" height="40px">
+        <Box
+          width="100%"
+          height="100%"
+          display="flex"
+          justifyContent="flex-start"
+          alignItems="center"
+          gap={2}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              textTransform: 'none',
+              backgroundColor: '#2DA75A',
+              fontFamily: 'Lexend',
+              color: '#fff',
+              '&:hover': { backgroundColor: '#43a047' },
+            }}
+          >
+            ✓ Mark as Done
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              textTransform: 'none',
+              fontFamily: 'Lexend',
+              color: '#666',
+              borderColor: '#ccc',
+              '&:hover': { backgroundColor: '#f5f5f5' },
+            }}
+          >
+            Skip
+          </Button>
+        </Box>
+      </Box>
+    )
+  }
 
-  {/* Buttons stacked on top of progress bar */}
-  <Fade in={completed} timeout={500}>
-    <Box
-      position="absolute"
-      top={0}
-      left={0}
-      width="100%"
-      height="100%"
-      display="flex"
-      justifyContent="justify-start"
-      alignItems="center"
-      gap={2}
-    >
-      <Button
-        variant="contained"
-        sx={{
-          textTransform: 'none',
-          backgroundColor: '#2DA75A',
-          fontFamily: 'Lexend',
-          color: '#fff',
-          '&:hover': { backgroundColor: '#43a047' },
-        }}
-      >
-        ✓ Mark as Done
-      </Button>
-      <Button
-        variant="outlined"
-        sx={{
-          textTransform: 'none',
-          fontFamily: 'Lexend',
-          color: '#fff',
-          backgroundColor: '#ff2680ff',
-          '&:hover': { backgroundColor: '#ff95c1ff' },
-        }}
-      >
-        Cancel
-      </Button>
+  // Don't render anything if it's not time for the event yet or if event is in future
+  if (!showProgressBar) {
+    return null
+  }
+
+  return (
+    <Box position="relative" width="100%" height="40px" sx={{ opacity: completed ? 0.7 : 1, pointerEvents: completed ? 'none' : 'auto' }}>
+      {/* Progress bar */}
+      <Fade in={!completed} timeout={500}>
+        <LinearProgress
+          classes={{ root: styles.root, bar: styles.bar }}
+          variant="determinate"
+          value={progress}
+          sx={{
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: getColor(),
+              transition: 'background-color 0.2s linear, width 0.1s linear',
+            },
+          }}
+          {...rest}
+        />
+      </Fade>
+
+      {/* Buttons stacked on top of progress bar */}
+      <Fade in={completed} timeout={500}>
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          display="flex"
+          justifyContent="flex-start"
+          alignItems="center"
+          gap={2}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              textTransform: 'none',
+              backgroundColor: '#2DA75A',
+              fontFamily: 'Lexend',
+              color: '#fff',
+              '&:hover': { backgroundColor: '#43a047' },
+            }}
+          >
+            ✓ Mark as Done
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              textTransform: 'none',
+              fontFamily: 'Lexend',
+              color: '#fff',
+              backgroundColor: '#ff2680ff',
+              '&:hover': { backgroundColor: '#ff95c1ff' },
+            }}
+          >
+            Cancel
+          </Button>
+        </Box>
+      </Fade>
     </Box>
-  </Fade>
-</Box>
-
   )
 }
-
