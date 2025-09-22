@@ -131,12 +131,12 @@ const AddStepsMoreInfo: React.FC<AddStepsMoreInfoProps> = ({
     <span className="mr-2">+</span> Add Goal
   </button>
 
-  <button 
+  {/* <button 
     className="w-full bg-blue-500 text-white py-3 rounded-full font-medium hover:bg-blue-600"
     onClick={() => setIsTimeModalOpen(true)}
   >
     Add Time
-  </button>
+  </button> */}
 </div>
 
 <TimeSelectionModal 

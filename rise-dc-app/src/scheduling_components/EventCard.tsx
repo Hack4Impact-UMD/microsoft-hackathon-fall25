@@ -69,7 +69,7 @@ const EventCard: React.FC<EventCardProps> = ({ name, startTime, endTime, icon, c
             <p className={styles.eventTime}>{formatTime(startTime)} - {formatTime(endTime)}</p>
           </div>
 
-        <div className="relative bottom-5 left-38 z-10">
+        <div className="relative bottom-5 left-30 z-10">
           <MoreInfoButton 
             title={name}
             selectedIcon={selectedIcon}
@@ -86,7 +86,7 @@ const EventCard: React.FC<EventCardProps> = ({ name, startTime, endTime, icon, c
           startHour={start24.hour}
           startMinute={start24.minute}
           onMarkAsDone={handleMarkAsDone} 
-          eventName={''}        />
+          eventName={name}        />
       </div>
 
       {/* Show completion popup when needed */}

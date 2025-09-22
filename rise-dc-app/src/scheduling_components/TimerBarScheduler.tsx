@@ -114,12 +114,12 @@ export default function ProgressBar({
             sx={{
               textTransform: 'none',
               fontFamily: 'Lexend',
-              color: '#666',
+              color: '#c96468ff',
               borderColor: '#ccc',
               '&:hover': { backgroundColor: '#f5f5f5' },
             }}
           >
-            Skip
+            Cancel
           </Button>
         </Box>
       </Box>
@@ -132,7 +132,7 @@ export default function ProgressBar({
   }
 
   return (
-    <Box position="relative" width="100%" height="40px" sx={{ opacity: completed ? 0.7 : 1, pointerEvents: completed ? 'none' : 'auto' }}>
+    <Box position="relative" width="100%" height="40px" sx={{  pointerEvents: completed ? 'none' : 'auto' }}>
       {/* Progress bar */}
       <Fade in={!completed} timeout={500}>
         <LinearProgress
@@ -148,47 +148,49 @@ export default function ProgressBar({
           {...rest}
         />
       </Fade>
-
-      {/* Buttons stacked on top of progress bar */}
-      <Fade in={completed} timeout={500}>
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          width="100%"
-          height="100%"
-          display="flex"
-          justifyContent="flex-start"
-          alignItems="center"
-          gap={2}
-        >
-          <Button
-            variant="contained"
-            onClick={handleMarkAsDone}
-            sx={{
-              textTransform: 'none',
-              backgroundColor: '#2DA75A',
-              fontFamily: 'Lexend',
-              color: '#fff',
-              '&:hover': { backgroundColor: '#43a047' },
-            }}
-          >
-            ✓ Mark as Done
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              textTransform: 'none',
-              fontFamily: 'Lexend',
-              color: '#fff',
-              backgroundColor: '#ff2680ff',
-              '&:hover': { backgroundColor: '#ff95c1ff' },
-            }}
-          >
-            Cancel
-          </Button>
-        </Box>
-      </Fade>
+{/* Buttons stacked on top of progress bar */}
+<Fade in={completed} timeout={500}>
+  <Box
+    position="absolute"
+    top={0}
+    left={0}
+    width="100%"
+    height="100%"
+    display="flex"
+    justifyContent="flex-start"
+    alignItems="center"
+    gap={2}
+    sx={{ pointerEvents: 'auto' }} // Add this line
+  >
+    <Button
+      variant="contained"
+      onClick={handleMarkAsDone}
+      sx={{
+        textTransform: 'none',
+        backgroundColor: '#2DA75A',
+        fontFamily: 'Lexend',
+        color: '#fff',
+        pointerEvents: 'auto', // Add this too
+        '&:hover': { backgroundColor: '#43a047' },
+      }}
+    >
+      ✓ Mark as Done
+    </Button>
+    <Button
+      variant="outlined"
+      sx={{
+        textTransform: 'none',
+        fontFamily: 'Lexend',
+        color: '#c96468ff',
+        borderColor: '#ccc',
+        pointerEvents: 'auto', // Add this too
+        '&:hover': { backgroundColor: '#f5f5f5' },
+      }}
+    >
+      Cancel
+    </Button>
+  </Box>
+</Fade>
     </Box>
   )
 }

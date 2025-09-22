@@ -4,7 +4,8 @@ import ModalHeader from './ModalHeader';
 import SelectEventStep from './SelectEventStep';
 import CreateTaskNameStep from './CreateTaskNameStep';
 import AddSteps from './AddSteps';
-import TimeSelectionModal from './TimeSelectionModal'; // Import the new time modal
+import TimeSelectionModal from './TimeSelectionModal';
+import QuietHobbyParticipant from '../scheduling_components/pages/QuietHobbiesParticipant'; // Add this import
 
 interface EventSelectionModalProps {
   isOpen: boolean;
@@ -29,7 +30,7 @@ type TimeSlot = {
   period: 'AM' | 'PM';
 };
 
-type ModalStep = 'SELECT_EVENT' | 'CREATE_TASK_NAME' | 'SET_TIME' | 'ADD_STEPS';
+type ModalStep = 'SELECT_EVENT' | 'CREATE_TASK_NAME' | 'SET_TIME' | 'ADD_STEPS' | 'QUIET_HOBBY';
 
 const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClose, onEventCreated, initialStep }) => {
   const [currentStep, setCurrentStep] = useState<ModalStep>(initialStep || 'SELECT_EVENT');
@@ -43,6 +44,12 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
   const [isTimeModalOpen, setIsTimeModalOpen] = useState(false);
 
   const handleEventClick = (eventName: string) => {
+    // Special handling for Quiet Hobby
+    if (eventName === 'Quiet Hobby') {
+      setCurrentStep('QUIET_HOBBY');
+      return;
+    }
+
     // Toggle the selection: if the same event is clicked again, unselect it.
     if (selectedEvent === eventName) {
       setSelectedEvent(null);
@@ -66,11 +73,11 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     setEndTime(newEndTime);
     setIsTimeModalOpen(false);
 
-  onEventCreated({
-    name: selectedEvent || taskName,
-    startTime: newStartTime,
-    endTime: newEndTime,
-  });
+    onEventCreated({
+      name: selectedEvent || taskName,
+      startTime: newStartTime,
+      endTime: newEndTime,
+    });
     
     // Create the task with the selected event and times
     console.log('Task created:', {
@@ -80,9 +87,20 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     });
     
     // Reset and close the main modal
-    
     setSelectedEvent(null);
     onClose();
+  };
+
+  const handleQuietHobbyBack = () => {
+    setCurrentStep('SELECT_EVENT');
+  };
+
+  const handleQuietHobbyActivityChosen = (activity: any) => {
+    // Handle the chosen quiet hobby activity
+    console.log('Quiet hobby chosen:', activity);
+    // You might want to set this as the selected event and proceed to time selection
+    setSelectedEvent(activity.name || 'Quiet Hobby');
+    setIsTimeModalOpen(true);
   };
 
   if (!isOpen) {
@@ -113,7 +131,6 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
   };
 
   const handleFinish = () => {
-
      const newEvent = {
       name: taskName,
       steps,
@@ -203,6 +220,17 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
                   <span className="selection-checkmark">✔️</span>
                 )}
               </div>
+
+              {/* Quiet Hobby Card */}
+              <div
+                className="event-card"
+                onClick={() => handleEventClick('Quiet Hobby')}
+              >
+                <div className="event-image-placeholder quiet-hobby-color">
+                  <span className="event-icon">🎨</span>
+                </div>
+                <p className="event-name">Quiet Hobby</p>
+              </div>
             </div>
             <div className="or-separator">OR</div>
             <button className="custom-task-button" onClick={handleCustomTaskClick}>
@@ -238,6 +266,14 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
             onStepsChange={setSteps}
           />
         )}
+
+        {currentStep === 'QUIET_HOBBY' && (
+          <QuietHobbyParticipant
+            onBack={handleQuietHobbyBack}
+            onActivityChosen={handleQuietHobbyActivityChosen}
+            onPhotoTaken={() => console.log('Photo taken')}
+          />
+        )}
       </div>
 
       {/* Time Selection Modal */}
@@ -252,5 +288,3 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
 };
 
 export default EventSelectionModal;
-
-
