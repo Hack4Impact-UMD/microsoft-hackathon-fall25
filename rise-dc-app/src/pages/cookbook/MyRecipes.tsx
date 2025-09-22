@@ -42,14 +42,14 @@ export default function MyRecipes() {
   );
 
   return (
-    <div className="p-10 flex flex-col space-y-5">
-      <BackButton pathname="/cookbook" />
+    <div className="p-10 flex flex-col">
+      <BackButton/>
 
-      <h1 className="text-3xl font-bold">My Recipes</h1>
+      <h1 className="text-3xl font-bold mt-5 mb-10">My Recipes</h1>
 
       {favoriteList.length === 0 ? (
-        <p className="text-lg text-gray-700">
-          Star recipes to save them. Your favorites will appear here.
+        <p className="text-lg">
+          Heart recipes to save them. Your favorites will appear here.
         </p>
       ) : (
         MEAL_ORDER.map((meal) => {
@@ -60,8 +60,8 @@ export default function MyRecipes() {
           }
 
           return (
-            <div key={meal} className="space-y-3">
-              <h2 className="text-2xl font-semibold">
+            <div key={meal} className="space-y-0.5">
+              <h2 className="text-2xl font-md">
                 {MEAL_LABELS[meal]}
               </h2>
               <Slideshow
@@ -74,6 +74,7 @@ export default function MyRecipes() {
                     onClick={() => navigate(`/cookbook/recipe/${recipe.id}`)}
                   />
                 ))}
+                className="mb-15"
                 imagesPerRow={2}
               />
             </div>

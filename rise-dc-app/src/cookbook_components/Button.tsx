@@ -1,8 +1,8 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 // Reusable Tailwind button component
 type ButtonProps = {
-  label: string;
+  label: ReactNode;
   onClick?: () => void;
   className?: string;
 };

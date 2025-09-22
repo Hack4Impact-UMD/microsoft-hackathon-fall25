@@ -7,7 +7,8 @@ import {
   recipes as dummyRecipes,
   toggleFavorite,
 } from "../../shared/data/dummyRecipes";
-import BackButton from "../../cookbook_components/BackButton";
+import CookbookBar from "../../cookbook_components/CookbookBar";
+import Slideshow from "../../shared/components/Slideshow";
 
 const mealTitles: Record<string, string> = {
   breakfast: "Breakfast",
@@ -23,7 +24,6 @@ export default function RecipesByMeal() {
   const { meal } = useParams<{ meal: string }>();
   const navigate = useNavigate();
 
-  // Use local state to trigger re-renders
   const [recipesState, setRecipesState] = useState<Recipe[]>(dummyRecipes);
 
   if (!meal || !(meal in mealTitles)) {
@@ -36,21 +36,19 @@ export default function RecipesByMeal() {
 
   const handleToggleFavorite = (id: string) => {
     toggleFavorite(id);
-
     setRecipesState([...dummyRecipes]);
   };
 
   return (
     <div className={styles.container}>
-      <BackButton pathname="/cookbook/all-recipes" />
-
-      <h1>{mealTitles[meal]}</h1>
+      <CookbookBar />
 
       {filteredRecipes.length === 0 ? (
         <p>No recipes found for {mealTitles[meal]}.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredRecipes.map((recipe) => (
+        <Slideshow
+          title={`${mealTitles[meal]}`}
+          images={filteredRecipes.map((recipe) => (
             <ImageCardStar
               key={recipe.id}
               recipe={recipe}
@@ -58,7 +56,8 @@ export default function RecipesByMeal() {
               onFavorite={() => handleToggleFavorite(recipe.id)}
             />
           ))}
-        </div>
+          imagesPerRow={2}
+        />
       )}
     </div>
   );

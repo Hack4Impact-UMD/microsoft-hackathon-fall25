@@ -258,7 +258,7 @@ export const recipes: Recipe[] = [
           type: "ingredient",
           id: "bread",
           name: "Bread",
-          image_id: placeholderImage
+          image_id: "/bread.jpg"
         },
         quantity: "2 slices"
       },
@@ -267,7 +267,7 @@ export const recipes: Recipe[] = [
           type: "ingredient",
           id: "cheese",
           name: "Cheddar Cheese",
-          image_id: placeholderImage
+          image_id: "/cheese.png"
         },
         quantity: "2 slices"
       },
@@ -276,7 +276,7 @@ export const recipes: Recipe[] = [
           type: "ingredient",
           id: "butter",
           name: "Butter",
-          image_id: placeholderImage
+          image_id: "/butter.png"
         },
         quantity: "1 tbsp"
       }
@@ -286,7 +286,7 @@ export const recipes: Recipe[] = [
         type: "tool",
         id: "skillet",
         name: "Skillet",
-        image_id: placeholderImage
+        image_id: "/skillet.png"
       }
     ],
     utensils: [
@@ -294,44 +294,51 @@ export const recipes: Recipe[] = [
         type: "utensil",
         id: "spatula",
         name: "Spatula",
-        image_id: placeholderImage
+        image_id: "/spatula.png"
       },
       {
         type: "utensil",
         id: "butter-knife",
         name: "Butter Knife",
-        image_id: placeholderImage
+        image_id: "/butter_knife.webp"
       }
     ],
     instructions: [
       {
         id: "step1",
         step_number: 1,
+        image_id: placeholderImage,
+        warning: "Be careful, the knife is sharp!",
         instructions: "Spread butter on one side of each bread slice."
       },
       {
         id: "step2",
         step_number: 2,
+        image_id: placeholderImage,
         instructions: "Place one slice of bread, butter-side down, in a skillet over medium heat."
       },
       {
         id: "step3",
         step_number: 3,
+        image_id: placeholderImage,
         instructions: "Top with cheese slices and the second slice of bread, butter-side up."
       },
       {
         id: "step4",
         step_number: 4,
+        image_id: placeholderImage,
         instructions: "Cook until the bottom slice is golden brown (about 3–4 minutes)."
       },
       {
         id: "step5",
         step_number: 5,
+        image_id: placeholderImage,
         instructions: "Flip the sandwich carefully with a spatula and cook until the other side is golden brown and cheese is melted."
       },
       {
         id: "step6",
         step_number: 6,
+        image_id: placeholderImage,
         instructions: "Remove from skillet, slice in half, and serve hot."
       }
     ],
@@ -350,4 +357,8 @@ export function toggleFavorite(recipeId: string) {
   if (recipe) {
     recipe.isFavorite = !recipe.isFavorite;
   }
+}
+
+export function getRecipe(recipeId: string) {
+  return recipes.find((r) => r.id === recipeId);
 }

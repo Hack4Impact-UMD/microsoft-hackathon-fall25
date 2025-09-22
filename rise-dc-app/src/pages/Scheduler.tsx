@@ -20,9 +20,7 @@ export default function Scheduler() {
     console.log("Activity chosen:", hobby);
   };
 
-  const handlePhotoTaken = () => {
-    console.log("Photo taken");
-  };
+ 
 
   // REMOVED: SAMPLE EVENTS TEMPORARILY TO DEBUG
 
