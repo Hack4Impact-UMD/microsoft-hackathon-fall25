@@ -148,7 +148,7 @@ return (
           </div>
           <button
             aria-label="Close"
-            onClick={onClose}
+            onClick={() => onClose?.()}
             className="ml-4 h-8 w-8 grid place-items-center rounded-full bg-pink-500 text-white text-lg hover:brightness-95 active:scale-95 transition-transform"
           >
             ×
@@ -254,7 +254,7 @@ return (
           >
             <span className="mr-2 text-lg">✓</span> Select Activity
           </button>
-          <button
+          {/* <button
             onClick={handleTakePhoto}
             className="w-full rounded-lg bg-blue-600 px-4 py-3 text-white text-base font-semibold hover:brightness-95 active:scale-98 transition-all flex items-center justify-center"
           >
@@ -262,7 +262,7 @@ return (
               📸
             </span>
             {isCameraOpen ? 'Capture Photo' : 'Take Photo'}
-          </button>
+          </button> */}
         </div>
 
         {/* Hidden canvas for photo capture */}

@@ -33,8 +33,6 @@ const AddStepsMoreInfo: React.FC<AddStepsMoreInfoProps> = ({
   taskName,
   steps,
   onStepsChange,
-  selectedIcon,
-  onIconChange
 }) => {
   const [newStepText, setNewStepText] = useState('');
   const [isTimeModalOpen, setIsTimeModalOpen] = useState(false);
@@ -80,7 +78,7 @@ const AddStepsMoreInfo: React.FC<AddStepsMoreInfoProps> = ({
 
   return (
     <>
-    <div className="bg-white rounded-lg p-6 w-full max-w-md mx-auto">
+<div className="bg-white rounded-lg p-6 w-full max-w-md mx-auto z-[9999]">
   <ModalHeader 
     onBack={onBack}
     onClose={onClose}

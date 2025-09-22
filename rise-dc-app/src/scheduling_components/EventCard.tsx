@@ -5,6 +5,7 @@ import MoreInfoButton from '../components/Scheduler/MoreInfoButton';
 import TimerBarScheduler from './TimerBarScheduler';
 import EventCompletionPopup from './EventCompletion';
 
+
 type TimeSlot = {
   hour: number;
   minute: number;
@@ -58,28 +59,30 @@ const EventCard: React.FC<EventCardProps> = ({ name, startTime, endTime, icon, c
   return (
     <>
       <div className={styles.eventCard} style={{ backgroundColor: color || '#ffe5d1' }}>
-        <div className={styles.titleRow}>
-          <div className={styles.eventIcon}>
-            <IconButton 
-             
-            />
-          </div>
-          <div className={styles.textContent}>
-            <p className={styles.eventTitle}>{name}</p>
-            <p className={styles.eventTime}>{formatTime(startTime)} - {formatTime(endTime)}</p>
-          </div>
+  <div className={styles.titleRow}>
+    {/* Left side: Icon + Text */}
+    <div className="flex items-center gap-2">
+      <div className={styles.eventIcon}>
+        <IconButton />
+      </div>
+      <div className={styles.textContent}>
+        <p className={styles.eventTitle}>{name}</p>
+        <p className={styles.eventTime}>
+          {formatTime(startTime)} - {formatTime(endTime)}
+        </p>
+      </div>
+    </div>
 
-        <div className="relative bottom-5 left-30 z-10">
-          <MoreInfoButton 
-            title={name}
-            selectedIcon={selectedIcon}
-            onIconChange={setSelectedIcon}
-            
-          />
+    {/* Right side: MoreInfoButton */}
+    <div className="flex items-center">
+      <MoreInfoButton 
+        title={name}
+        selectedIcon={selectedIcon}
+        onIconChange={setSelectedIcon}
+      />
+    </div>
+  </div>
 
-          </div>
-
-        </div>
         
         <TimerBarScheduler 
           duration={duration}

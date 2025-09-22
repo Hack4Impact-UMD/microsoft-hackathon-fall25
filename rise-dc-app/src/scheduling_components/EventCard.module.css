@@ -9,16 +9,18 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  margin-top: 1rem;   
+  margin-bottom: 0.5rem;
+  position: relative; /* Add this for positioning */
 }
 
 /* Container for icon and title in the same row */
 .titleRow {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start; /* Change to flex-start */
+  justify-content: space-between; /* Add this to push button to right */
+  width: 100%; /* Make sure it takes full width */
   gap: 0.5rem; /* Space between icon and title */
   margin-bottom: 0.5rem;
 }
@@ -30,24 +32,16 @@
 .eventTitle {
   font-weight: 600;
   font-size: 1.1rem;
-  margin: 0; /* Remove all margins */
+  margin: 0;
 }
 
 .eventTime {
   font-size: 0.9rem;
   color: #555;
-  text-align: center;
 }
 
-/* Remove or comment out the .icon class completely */
-/*
-.icon {
-  position: relative;
-  right: 145px;
+.textContent {
   display: flex;
-  flex-direction: row;  
-  align-items: center;      
-  justify-content: flex-start;
-  margin-top: -10px;
+  flex-direction: column;
+  align-items: flex-start;
 }
-*/

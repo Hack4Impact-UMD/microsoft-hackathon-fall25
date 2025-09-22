@@ -45,11 +45,19 @@ export default function WhatsNextButton({
         
         // Find next event
         const nextEvent = sortedEvents.find(e => e.startTime.isAfter(currTime));
-        
-        if (nextEvent) {
-          const diff = nextEvent.startTime.diff(currTime, 'minutes');
-          text = `Next event is ${nextEvent.name} in ${diff} ${diff === 1 ? 'minute' : 'minutes'}`;
-        }
+       if (nextEvent) {
+  const totalMinutes = nextEvent.startTime.diff(currTime, 'minutes');
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  let diffText = "";
+  if (hours > 0) diffText += `${hours} ${hours === 1 ? 'hour' : 'hours'}`;
+  if (hours > 0 && minutes > 0) diffText += " and ";
+  if (minutes > 0) diffText += `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`;
+
+  text = `Next event is ${nextEvent.name} in ${diffText}`;
+}
+
       }
       
       
@@ -75,15 +83,16 @@ export default function WhatsNextButton({
   };
 
   return (
-    <div>
-      <button
-        className={`p-2 px-4 bg-gray-800 text-gray-100 rounded cursor-pointer disabled:opacity-70 ${className}`}
-        onClick={handleClick}
-        disabled={isLoading}
-      >
-        {isLoading ? "Speaking..." : "What's Next"}
-      </button>
-      <audio ref={audioRef} className="hidden"></audio>
-    </div>
+  <div>
+  <button
+    className={`px-15 py-5 bg-gray-800 text-gray-100 rounded-xl cursor-pointer disabled:opacity-70 ${className}`}
+    onClick={handleClick}
+    disabled={isLoading}
+  >
+    {isLoading ? "Speaking..." : "What's Next? 🔊"}
+  </button>
+  <audio ref={audioRef} className="hidden"></audio>
+</div>
+
   );
 }

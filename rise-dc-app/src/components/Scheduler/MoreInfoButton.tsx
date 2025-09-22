@@ -44,7 +44,7 @@ export default function MoreInfoButton ({info, title, selectedIcon, onIconChange
             More Info
         </InfoIcon>
         {modalIsOpen && (
-            <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center">
+            <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-[9999]">
                 <AddStepsMoreInfo 
                     onBack={handleBack}
                     onNext={handleNext}

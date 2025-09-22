@@ -57,25 +57,25 @@ export function PlanYourDayButton() {
         </div>
       )}
 
-      {events.length > 0 && (
-        <div className="w-full">
+    {events.length > 0 && (
+        <div className="w-full mt-8">
           {/* Plus button with What's Next button to the right - positioned at the top */}
-          <div className="flex justify-center items-center gap-6 mt-4 mb-4 w-full">
-            <div
-              className={styles.plusButton}
-              onClick={() => setIsModalOpen(true)}
-            >
-              <div className={styles.plusCircle}>
-                <span className={styles.plusIcon}>+</span>
-              </div>
-            </div>
-            
-            <WhatsNextButton
-              events={events}
-              className="!bg-[#EB5904] hover:!bg-[#d14f03] !text-white font-bold rounded-full w-16 h-16 flex items-center justify-center text-xs !border-none shrink-0"
-            />
-          </div>
-          
+         <div className="absolute top-4 right-4 flex items-center gap-4">
+  <div
+    className={styles.plusButton}
+    onClick={() => setIsModalOpen(true)}
+  >
+    <div className={styles.plusCircle}>
+      <span className={styles.plusIcon}>+</span>
+    </div>
+  </div>
+
+  <WhatsNextButton
+    events={events}
+    className="!bg-[#EB5904] hover:!bg-[#d14f03] !text-white font-bold rounded-full w-15 h-15 flex items-center justify-center text-sm !border-none shrink-0 mt-20"
+  />
+</div>
+
           {/* Events container - separate from the buttons above */}
           <div className="events-container w-full flex flex-col items-center">
             {events.map((event, idx) => (
