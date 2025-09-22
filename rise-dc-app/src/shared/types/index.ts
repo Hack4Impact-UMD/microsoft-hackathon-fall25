@@ -8,7 +8,7 @@ export interface Recipe {
   noCook: boolean;
   time: string;
   servingSize: number;
-  meal: ('snack' | 'dessert' | 'breakfast' | 'lunch' | 'dinner')[];
+  meal: ("snack" | "dessert" | "breakfast" | "lunch" | "dinner")[];
   ingredients: RecipeIngredient[];
   tools: Tool[];
   utensils: Utensil[];
@@ -22,18 +22,30 @@ export interface RecipeIngredient {
 }
 
 export interface RecipeItem {
-  type: 'ingredient' | 'tool' | 'utensil';
+  type: "ingredient" | "tool" | "utensil";
   id: string;
   name: string;
   image_id: string;
 }
-export interface Ingredient extends RecipeItem { type: 'ingredient' };
-export interface Tool extends RecipeItem { type: 'tool' };
-export interface Utensil extends RecipeItem { type: 'utensil' };
+export interface Ingredient extends RecipeItem {
+  type: "ingredient";
+}
+export interface Tool extends RecipeItem {
+  type: "tool";
+}
+export interface Utensil extends RecipeItem {
+  type: "utensil";
+}
 
-export function isIngredient(recipeItem: RecipeItem): recipeItem is Ingredient { return recipeItem.type === 'ingredient'; }
-export function isTool(recipeItem: RecipeItem): recipeItem is Tool { return recipeItem.type === 'tool'; }
-export function isUtensil(recipeItem: RecipeItem): recipeItem is Utensil { return recipeItem.type === 'utensil'; }
+export function isIngredient(recipeItem: RecipeItem): recipeItem is Ingredient {
+  return recipeItem.type === "ingredient";
+}
+export function isTool(recipeItem: RecipeItem): recipeItem is Tool {
+  return recipeItem.type === "tool";
+}
+export function isUtensil(recipeItem: RecipeItem): recipeItem is Utensil {
+  return recipeItem.type === "utensil";
+}
 
 export interface Image {
   id: string;
@@ -86,8 +98,9 @@ export interface Event {
   id: string;
   name: string;
   icon: string;
+  complete: boolean;
   tasks: TaskAssignment[];
-  image: Image;
+  image: Image | null;
 }
 
 export interface TaskAssignment {
@@ -100,13 +113,29 @@ export interface Task {
   name: string;
   icon: string;
   steps: string[];
-  category: 'Hobbies' | 'Hygiene' | 'Chores' | 'Skills' | 'Quiet Hobbies' | 'Miscellaneous';
+  category:
+    | "Hobbies"
+    | "Hygiene"
+    | "Chores"
+    | "Skills"
+    | "Quiet Hobbies"
+    | "Miscellaneous";
 }
 
 export interface Feedback {
   id: string;
   taskAssignmentId: string;
   taskId: string;
-  reaction: 'yes' | 'maybe' | 'no';
-
+  reaction: "yes" | "maybe" | "no";
 }
+
+export interface ImageDoc {
+  id: string;
+  blobUrl: string;
+  caption: string;
+  userId?: string;
+  eventId?: string;
+  createdAt: string;
+}
+
+export type UploadedImage = Pick<ImageDoc, "id" | "caption">;

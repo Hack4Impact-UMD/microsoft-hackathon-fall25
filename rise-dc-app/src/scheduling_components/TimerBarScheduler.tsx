@@ -1,45 +1,53 @@
-import { useEffect, useState } from 'react'
-import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress'
-import styles from './TimerBarScheduler.module.css'
-import Button from '@mui/material/Button'
-import Fade from '@mui/material/Fade'
-import Box from '@mui/material/Box'
+import { useEffect, useState } from "react";
+import LinearProgress, {
+  LinearProgressProps,
+} from "@mui/material/LinearProgress";
+import styles from "./TimerBarScheduler.module.css";
+import Button from "@mui/material/Button";
+import Fade from "@mui/material/Fade";
+import Box from "@mui/material/Box";
+import EventComplete from "../scheduling_components/EventCompletion";
 
 interface ProgressBarProps extends Omit<LinearProgressProps, "value"> {
-  duration: number
-  startHour: number
-  startMinute: number
-
+  duration: number;
+  startHour: number;
+  startMinute: number;
 }
 
+export default function ProgressBar({
+  duration,
+  startHour,
+  startMinute = 0,
+  className,
+  ...rest
+}: ProgressBarProps) {
+  const [progress, setProgress] = useState(0);
+  const [completed, setCompleted] = useState(false);
 
-
-export default function ProgressBar({ duration, startHour, startMinute = 0, className, ...rest }: ProgressBarProps) {
-  const [progress, setProgress] = useState(0)
-  const [completed, setCompleted] = useState(false)
-
-  
+  const [isEventComplete, setIsEventComplete] = useState(false);
+  const openPopup = () => setIsEventComplete(true);
+  const closePopup = () => setIsEventComplete(false);
 
   useEffect(() => {
-      const now = new Date()
-    let startTime = new Date()
-    startTime.setHours(startHour, startMinute, 0, 0)
+    const now = new Date();
+    let startTime = new Date();
+    startTime.setHours(startHour, startMinute, 0, 0);
 
-     const delay = startTime.getTime() - now.getTime()
+    const delay = startTime.getTime() - now.getTime();
 
-      const timeout = setTimeout(() => {
-      const realStart = Date.now()
+    const timeout = setTimeout(() => {
+      const realStart = Date.now();
       const timer = setInterval(() => {
-        const elapsed = Date.now() - realStart
-        const percentage = Math.min((elapsed / duration) * 100, 100)
-        setProgress(percentage)
+        const elapsed = Date.now() - realStart;
+        const percentage = Math.min((elapsed / duration) * 100, 100);
+        setProgress(percentage);
 
-        if (percentage >= 100) setCompleted(true)
-
+        if (percentage >= 100) setCompleted(true);
 
         if (elapsed >= duration) {
-          clearInterval(timer)
+          clearInterval(timer);
         }
+
       }, 20) 
 
     }, delay)
@@ -109,9 +117,5 @@ const getColor = () => {
         Cancel
       </Button>
     </Box>
-  </Fade>
-</Box>
-
-  )
+  );
 }
-
