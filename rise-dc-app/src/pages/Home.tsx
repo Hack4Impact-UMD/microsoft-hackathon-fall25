@@ -1,14 +1,28 @@
-import { createEvent, listEvents } from '../services/service'
+
+import { useNavigate } from "react-router-dom";
+import ImageCard from "../shared/components/ImageCard";
 import styles from './Page.module.css'
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <h1 className='text-3xl'>RISE DC</h1>
-      <p>Welcome to RISE DC</p>
+  const navigate = useNavigate();
+  const placeholder =
+    "https://www.cranfield-colours.co.uk/wp-content/uploads/2022/01/cranfield-traditional-etching-ink-mid-black-400x221.jpg";
 
-      <button onClick={() => console.log(listEvents())}>List Events</button>
-      <button onClick={() => createEvent({"name": "test event name"})}>Create Event</button>
+  return (
+    <div className="flex flex-col py-10 items-center justify-center">
+      <h1 className="text-3xl">Hi!</h1>
+      <div className="p-15 flex flex-row space-x-5">
+        <ImageCard
+          src={placeholder}
+          caption={"Scheduling"}
+          onClick={() => navigate("/scheduler")}
+        />
+        <ImageCard
+          src={placeholder}
+          caption={"Cookbook"}
+          onClick={() => navigate("/cookbook")}
+        />
+      </div>
     </div>
-  )
+  );
 }

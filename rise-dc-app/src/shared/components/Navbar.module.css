@@ -1,15 +1,28 @@
 .navbar {
-  padding: 20px;
+  padding: 10px;
   border-bottom: 1px solid #ddd;
   display: flex;
   gap: 30px;
+  background: #FFFFFF;
 }
 
-.logo {
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 18px;
-  color: inherit;
+.logoCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #B53E03;
+  border-color: #B53E03;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.logoImg {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
 }
 
 .link {

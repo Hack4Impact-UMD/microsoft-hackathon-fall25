@@ -47,79 +47,75 @@ export default function ProgressBar({
         if (elapsed >= duration) {
           clearInterval(timer);
         }
-      }, 20);
-    }, delay);
 
-    return () => clearTimeout(timeout);
-  }, [duration, startHour, startMinute]);
+      }, 20) 
 
-  const getColor = () => {
-    if (progress < 33) return "#0a0032ff"; // green
-    if (progress < 66) return "#FD8743"; // orange
-    return "#4caf50"; // red
-  };
+    }, delay)
 
-  return (
-    <Box position="relative" width="100%" height="40px">
-      {/* Progress bar */}
-      <Fade in={!completed} timeout={500}>
-        <LinearProgress
-          classes={{ root: styles.root, bar: styles.bar }}
-          variant="determinate"
-          value={progress}
-          sx={{
-            "& .MuiLinearProgress-bar": {
-              backgroundColor: getColor(),
-              transition: "background-color 0.2s linear, width 0.1s linear",
-            },
-          }}
-          {...rest}
-        />
-      </Fade>
+    return () => clearTimeout(timeout)
+  }, [duration, startHour, startMinute])
 
-      {/* Buttons stacked on top of progress bar */}
-      <Fade in={completed} timeout={500}>
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          width="100%"
-          height="100%"
-          display="flex"
-          justifyContent="justify-start"
-          alignItems="center"
-          gap={2}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              textTransform: "none",
-              backgroundColor: "#2DA75A",
-              fontFamily: "Lexend",
-              color: "#fff",
-              "&:hover": { backgroundColor: "#43a047" },
-            }}
-            onClick={openPopup}
-          >
-            ✓ Mark as Done
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              textTransform: "none",
-              fontFamily: "Lexend",
-              color: "#fff",
-              backgroundColor: "#ff2680ff",
-              "&:hover": { backgroundColor: "#ff95c1ff" },
-            }}
-          >
-            Cancel
-          </Button>
-          {isEventComplete && (
-            <EventComplete event="brush your teeth" onClose={closePopup} />
-          )}
-        </Box>
-      </Fade>
+const getColor = () => {
+    if (progress < 33) return '#0a0032ff' // green
+    if (progress < 66) return '#FD8743' // orange
+    return '#4caf50' // red
+  }
+
+   return (
+   <Box position="relative" width="100%" height="40px" sx={{ opacity: completed ? 0.7 : 1, pointerEvents: completed ? 'none' : 'auto' }}>
+  {/* Progress bar */}
+  <Fade in={!completed} timeout={500}>
+    <LinearProgress
+      classes={{ root: styles.root, bar: styles.bar }}
+      variant="determinate"
+      value={progress}
+      sx={{
+        '& .MuiLinearProgress-bar': {
+          backgroundColor: getColor(),
+          transition: 'background-color 0.2s linear, width 0.1s linear',
+        },
+      }}
+      {...rest}
+    />
+  </Fade>
+
+  {/* Buttons stacked on top of progress bar */}
+  <Fade in={completed} timeout={500}>
+    <Box
+      position="absolute"
+      top={0}
+      left={0}
+      width="100%"
+      height="100%"
+      display="flex"
+      justifyContent="justify-start"
+      alignItems="center"
+      gap={2}
+    >
+      <Button
+        variant="contained"
+        sx={{
+          textTransform: 'none',
+          backgroundColor: '#2DA75A',
+          fontFamily: 'Lexend',
+          color: '#fff',
+          '&:hover': { backgroundColor: '#43a047' },
+        }}
+      >
+        ✓ Mark as Done
+      </Button>
+      <Button
+        variant="outlined"
+        sx={{
+          textTransform: 'none',
+          fontFamily: 'Lexend',
+          color: '#fff',
+          backgroundColor: '#ff2680ff',
+          '&:hover': { backgroundColor: '#ff95c1ff' },
+        }}
+      >
+        Cancel
+      </Button>
     </Box>
   );
 }
