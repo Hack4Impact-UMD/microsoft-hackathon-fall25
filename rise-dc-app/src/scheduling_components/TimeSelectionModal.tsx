@@ -142,11 +142,10 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
           <button className="up-arrow" onClick={() => isActive && updateTime(timeType, 'minute', true)} />
           <input
             className="time-text-input"
-            placeholder="00"
             type="number"
             min={0}
             max={59}
-            value={time.minute}
+            value={time.minute.toString().padStart(2, '0').toString().padStart(2, '0')}
             disabled={!isActive}
             onChange={(e) => isActive && updateTimeDirect(timeType, 'minute', Number(e.target.value))}
           />
