@@ -84,6 +84,7 @@ export interface QuietHobbiesStaffProps {
 }
 
 export interface QuietHobbiesParticipantProps {
-  onActivityChosen?: (hobby: QuietHobby) => void;
-  onPhotoTaken?: () => void;
+   onBack: () => void;
+  onActivityChosen: (activity: any) => void;
+  onPhotoTaken: () => void;
 }
