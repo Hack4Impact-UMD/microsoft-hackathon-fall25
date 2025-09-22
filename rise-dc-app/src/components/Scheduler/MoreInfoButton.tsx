@@ -3,6 +3,7 @@ import styles from './MoreInfo.module.css'
 import { Instruction } from "../../shared/types"
 import InfoIcon from '@mui/icons-material/Info';
 import AddStepsMoreInfo from "../../scheduling_components/AddStepsMoreInfo";
+import TimerBarScheduler from "../../scheduling_components/TimerBarScheduler";
 
 interface MoreInfoButtonProps {
     info?: Instruction[]
@@ -43,7 +44,7 @@ export default function MoreInfoButton ({info, title, selectedIcon, onIconChange
             More Info
         </InfoIcon>
         {modalIsOpen && (
-            <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center">
                 <AddStepsMoreInfo 
                     onBack={handleBack}
                     onNext={handleNext}
@@ -54,6 +55,7 @@ export default function MoreInfoButton ({info, title, selectedIcon, onIconChange
                     selectedIcon={selectedIcon}
                     onIconChange={onIconChange}
                 />
+
             </div>
         )}
     </>

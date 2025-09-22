@@ -50,7 +50,13 @@ export default function ProgressBar({
 
     // If the start time has already passed but event hasn't finished, show immediately
     setShowProgressBar(true)
-    const realStart = Date.now()
+    
+    // Calculate how much time has already elapsed since the event started
+    const timeAlreadyElapsed = now.getTime() - startTime.getTime()
+    const initialProgress = Math.min((timeAlreadyElapsed / duration) * 100, 100)
+    setProgress(initialProgress)
+
+    const realStart = Date.now() - timeAlreadyElapsed // Adjust for time already passed
     const timer = setInterval(() => {
       const elapsed = Date.now() - realStart
       const percentage = Math.min((elapsed / duration) * 100, 100)
