@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { getRecipe } from "../shared/data/dummyRecipes";
-import { Recipe } from "../shared/types";
-import BackButton from "./BackButton";
+import { getRecipe } from "../../shared/data/dummyRecipes";
+import { Recipe } from "../../shared/types";
+import BackButton from "../../cookbook_components/BackButton";
 import { useState } from "react";
-import Servings from "./Servings";
-import AudioButton from "../shared/components/AudioButton";
-import Slideshow from "../shared/components/Slideshow";
-import ImageCard from "../shared/components/ImageCard";
-import MultiSelectGroup from "../shared/components/MultiSelectButton";
-import Button from "../cookbook_components/Button";
+import Servings from "../../cookbook_components/Servings";
+import AudioButton from "../../shared/components/AudioButton";
+import Slideshow from "../../shared/components/Slideshow";
+import ImageCard from "../../shared/components/ImageCard";
+import MultiSelectGroup from "../../shared/components/MultiSelectButton";
+import Button from "../../cookbook_components/Button";
 
 function formatList(
   items: string[],
@@ -17,7 +17,8 @@ function formatList(
 ) {
   if (items.length === 0) return "";
   if (items.length === 1) return `${singularLabel} is ${items[0]}.`;
-  if (items.length === 2) return `${pluralLabel} are ${items[0]} and ${items[1]}.`;
+  if (items.length === 2)
+    return `${pluralLabel} are ${items[0]} and ${items[1]}.`;
 
   const allButLast = items.slice(0, -1).join(", ");
   const last = items[items.length - 1];
@@ -35,7 +36,7 @@ export default function RecipePreview() {
     return <span>Recipe {recipeId} not found!</span>;
   }
 
-  const recipeStep = 1;
+  const totalSteps = recipe.instructions.length;
 
   const handleImageLoad = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
@@ -134,11 +135,7 @@ export default function RecipePreview() {
         <Slideshow
           title="Utensils"
           images={recipe.utensils.map((t) => (
-            <ImageCard
-              key={t.name}
-              src={t.image_id}
-              caption={t.name}
-            />
+            <ImageCard key={t.name} src={t.image_id} caption={t.name} />
           ))}
           imagesPerRow={2}
         />
@@ -158,17 +155,19 @@ export default function RecipePreview() {
         />
       </div>
 
-      
       <div className="mt-8 h-px bg-white"></div>
 
       <div className="flex justify-center items-center">
-          <Button 
-            className="mt-10 py-2 text-2xl font-light" 
-            label="Start Recipe!"
-            onClick={() => navigate(`/cookbook/recipe/${recipeId}/step${recipeStep}`)}
-          />
+        <Button
+          className="mt-10 py-2 text-2xl font-light"
+          label="Start Recipe!"
+          onClick={() =>
+            navigate(`/cookbook/recipe/${recipeId}/1`, {
+              state: { totalSteps },
+            })
+          }
+        />
       </div>
-      
     </div>
   );
 }
