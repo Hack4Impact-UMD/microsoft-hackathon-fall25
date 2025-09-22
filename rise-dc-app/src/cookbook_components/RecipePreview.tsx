@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getRecipe } from "../shared/data/dummyRecipes";
 import { Recipe } from "../shared/types";
 import BackButton from "./BackButton";
@@ -7,6 +7,8 @@ import Servings from "./Servings";
 import AudioButton from "../shared/components/AudioButton";
 import Slideshow from "../shared/components/Slideshow";
 import ImageCard from "../shared/components/ImageCard";
+import MultiSelectGroup from "../shared/components/MultiSelectButton";
+import Button from "../cookbook_components/Button";
 
 function formatList(
   items: string[],
@@ -25,12 +27,15 @@ function formatList(
 export default function RecipePreview() {
   const { recipeId } = useParams<{ recipeId: string }>();
   const recipe: Recipe | undefined = recipeId ? getRecipe(recipeId) : undefined;
+  const navigate = useNavigate();
 
   const [objectFit, setObjectFit] = useState<"cover" | "contain">("contain");
 
   if (!recipe) {
     return <span>Recipe {recipeId} not found!</span>;
   }
+
+  const recipeStep = 1;
 
   const handleImageLoad = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
@@ -125,7 +130,7 @@ export default function RecipePreview() {
         />
       </div>
 
-      <div className="mt-8">
+      <div className="mt-10">
         <Slideshow
           title="Utensils"
           images={recipe.utensils.map((t) => (
@@ -140,18 +145,30 @@ export default function RecipePreview() {
       </div>
 
       <div className="mt-8">
-        <Slideshow
-          title="Ingredients"
-          images={recipe.ingredients.map((t) => (
-            <ImageCard
-              key={t.ingredient.name}
-              src={t.ingredient.image_id}
-              caption={t.quantity + " " + t.ingredient.name}
-            />
-          ))}
-          imagesPerRow={2}
+        <MultiSelectGroup
+          question="Ingredients"
+          items={recipe.ingredients.map((i) => ({
+            ...i.ingredient,
+            quantity: i.quantity,
+          }))}
+          value={[]}
+          onOptionSelect={(selected) =>
+            console.log("Selected Ingredients:", selected)
+          }
         />
       </div>
+
+      
+      <div className="mt-8 h-px bg-white"></div>
+
+      <div className="flex justify-center items-center">
+          <Button 
+            className="mt-10 py-2 text-2xl font-light" 
+            label="Start Recipe!"
+            onClick={() => navigate(`/cookbook/recipe/${recipeId}/step${recipeStep}`)}
+          />
+      </div>
+      
     </div>
   );
 }
