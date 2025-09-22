@@ -417,7 +417,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 2rem;
   line-height: 1;
   padding: 5px;
   color: #888;
@@ -498,4 +498,15 @@
   background-color: #218838;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4);
+}
+
+.time-text-input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  width: 60px;
+  transition: border-color 0.2s;
 }

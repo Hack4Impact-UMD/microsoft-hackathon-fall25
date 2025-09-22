@@ -29,13 +29,32 @@ export function PlanYourDayButton() {
     };
 
     
-  const addEvent = (event: { name: string; startTime: { hour: number; minute: number; period: 'AM' | 'PM' }; endTime: { hour: number; minute: number; period: 'AM' | 'PM' }; steps?: any[] }) => {
-    setEvents((prev) => [
+const addEvent = (event: {
+  name: string;
+  startTime: { hour: number; minute: number; period: 'AM' | 'PM' };
+  endTime: { hour: number; minute: number; period: 'AM' | 'PM' };
+}) => {
+  setEvents((prev) => {
+    const newEvents = [
       ...prev,
-      {  id: prev.length + 1, name: event.name, startTime: event.startTime, endTime: event.endTime },
-    ]);
-    setIsModalOpen(false); // close modal after adding
-  };
+      { id: prev.length + 1, name: event.name, startTime: event.startTime, endTime: event.endTime },
+    ];
+
+    // Sort by start time
+    newEvents.sort((a, b) => {
+      const aHour24 = a.startTime.period === 'PM' && a.startTime.hour !== 12 ? a.startTime.hour + 12 : a.startTime.hour === 12 && a.startTime.period === 'AM' ? 0 : a.startTime.hour;
+      const bHour24 = b.startTime.period === 'PM' && b.startTime.hour !== 12 ? b.startTime.hour + 12 : b.startTime.hour === 12 && b.startTime.period === 'AM' ? 0 : b.startTime.hour;
+
+      if (aHour24 !== bHour24) return aHour24 - bHour24;
+      return a.startTime.minute - b.startTime.minute;
+    });
+
+    return newEvents;
+  });
+
+  setIsModalOpen(false); // close modal after adding
+};
+
 
 
 
