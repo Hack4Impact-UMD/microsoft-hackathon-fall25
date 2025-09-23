@@ -55,9 +55,7 @@ export default function InstructionPage() {
                 ? navigate(`/cookbook/recipe/${recipeId}/${Number(stepNum) + 1}`, {
                     state: { totalSteps },
                   })
-                : navigate(`/cookbook/recipe/${recipeId}/complete`, {
-                    state: { totalSteps },
-                  });
+                : navigate(`/cookbook/recipe/${recipeId}/complete`);
             }}
           />
         </div>

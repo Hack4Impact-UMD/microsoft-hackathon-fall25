@@ -8,6 +8,7 @@ import MyRecipes from './pages/cookbook/MyRecipes'
 import RecipesByMeal from './pages/cookbook/RecipesByMeal'
 import RecipePreview from './pages/cookbook/RecipePreview'
 import InstructionPage from './pages/cookbook/InstructionPage'
+import RecipeComplete from './scheduling_components/pages/RecipeComplete'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/cookbook/:meal" element={<RecipesByMeal />} />
         <Route path="/cookbook/recipe/:recipeId" element={<RecipePreview />} />
         <Route path="/cookbook/recipe/:recipeId/:stepNum" element={<InstructionPage />} />
+        <Route path="/cookbook/recipe/:recipeId/complete" element={<RecipeComplete />} />
         <Route path="/scheduler" element={<Scheduler />} />
       </Routes>
     </Router>
