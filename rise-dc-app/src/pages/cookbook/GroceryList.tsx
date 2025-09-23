@@ -5,6 +5,7 @@ import GroceryListIngredientCard from "../../cookbook_components/GroceryListIngr
 import { recipes } from "../../shared/data/dummyRecipes";
 import { GroceryListIngredient, RecipeIngredient } from "../../shared/types";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LOCAL_STORAGE_KEY = "boughtIngredients";
 
@@ -25,6 +26,11 @@ export default function GroceryList() {
     GroceryListIngredient[]
   >([]);
 
+  const [recommendedRecipes, setRecommendedRecipes] = useState<any[]>([]);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(false);
+  const [showRecommendationsModal, setShowRecommendationsModal] =
+    useState(false);
+
   // Close modal and save updated bought ingredients
   const closeBoughtModal = () => {
     // Filter out ingredients with quantity 0
@@ -34,6 +40,50 @@ export default function GroceryList() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filtered));
     setBoughtIngredients(filtered); // also update state
     setShowBoughtModal(false);
+  };
+
+  const getRecipeSummaries = () => {
+    return recipes.map((recipe) => ({
+      id: recipe.id,
+      title: recipe.title,
+      ingredients: recipe.ingredients.map((ri) => ({
+        ingredient: ri.ingredient,
+        storeQuantity: ri.storeQuantity,
+        quantity: ri.quantity,
+      })),
+    }));
+  };
+
+  const handleRecommendRecipes = async () => {
+    setLoadingRecommendations(true);
+
+    // Get summaries
+    const recipeSummaries = getRecipeSummaries();
+
+    // Get current stored ingredients
+    const storedIngredients = Object.values(boughtIngredients).map(
+      (item) => item.ingredient.name
+    );
+
+    try {
+      const response = await axios.post(
+        "/api/ai-recipes",
+        {
+          storedIngredients,
+          recipeSummaries,
+        }
+      );
+
+      console.log(response);
+
+      setRecommendedRecipes(response.data.recipes || []);
+      setShowRecommendationsModal(true); // open modal automatically
+    } catch (error) {
+      console.error("Error fetching recommended recipes:", error);
+      setRecommendedRecipes([]);
+    } finally {
+      setLoadingRecommendations(false);
+    }
   };
 
   const increaseQuantity = (id: string) =>
@@ -156,15 +206,13 @@ export default function GroceryList() {
               className="px-4 py-0.5 bg-gray-400 text-white text-sm font-bold rounded-xl hover:bg-gray-500 transition"
               onClick={openBoughtModal}
             >
-              ✅ View Bought Ingredients
+              :white_check_mark: View Bought Ingredients
             </button>
             <button
               className="px-4 py-0.5 bg-blue-500 text-white text-sm font-bold rounded-xl hover:bg-blue-600 transition"
-              onClick={() => {
-                alert("Recommend recipes clicked!");
-              }}
+              onClick={handleRecommendRecipes}
             >
-              🍽️ Recommend Recipes
+              :knife_fork_plate: Recommend Recipes
             </button>
           </div>
 
@@ -227,6 +275,47 @@ export default function GroceryList() {
             <button
               className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
               onClick={closeBoughtModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+      {showRecommendationsModal && (
+        <div className="fixed inset-0 flex items-center justify-center text-black bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-xl w-[500px] max-h-[70vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-4">Recommended Recipes</h2>
+
+            {loadingRecommendations ? (
+              <p>Loading recommendations...</p>
+            ) : recommendedRecipes.length === 0 ? (
+              <p>No recommended recipes found.</p>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {recommendedRecipes.map((recipe, idx) => (
+                  <div
+                    key={idx}
+                    className="border p-2 rounded bg-gray-50 flex flex-col gap-1"
+                  >
+                    <p className="font-semibold">{recipe.title}</p>
+                    <p>Type: {recipe.type}</p>
+                    {recipe.missingIngredients.length > 0 && (
+                      <p>Missing: {recipe.missingIngredients.join(", ")}</p>
+                    )}
+                    {recipe.ingredients.length > 0 && (
+                      <p>Ingredients: {recipe.ingredients.join(", ")}</p>
+                    )}
+                    {recipe.instructions && (
+                      <p>Instructions: {recipe.instructions}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              onClick={() => setShowRecommendationsModal(false)}
             >
               Close
             </button>

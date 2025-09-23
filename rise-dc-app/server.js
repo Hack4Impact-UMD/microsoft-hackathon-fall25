@@ -6,14 +6,17 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: "http://localhost:5173", // or whatever port your frontend uses
-  credentials: true
-}));app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
-// Helper function for AI suggestions
+// ------------------- Event Suggestions -------------------
 const getEventSuggestions = async (existingEvents) => {
   const AI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT;
   const AI_KEY = process.env.AZURE_OPENAI_KEY;
@@ -56,7 +59,7 @@ const getEventSuggestions = async (existingEvents) => {
   }
 };
 
-// POST endpoint
+// POST endpoint for events
 app.post("/api/ai-suggestions", async (req, res) => {
   const { existingEvents } = req.body;
 
@@ -68,6 +71,89 @@ app.post("/api/ai-suggestions", async (req, res) => {
   res.json({ suggestions });
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend running on port ${PORT}`);
+// ------------------- Recipe Recommendations -------------------
+const getRecipeSuggestions = async (storedIngredients, recipeSummaries) => {
+  const AI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT;
+  const AI_KEY = process.env.AZURE_OPENAI_KEY;
+  const DEPLOYMENT_NAME = process.env.AZURE_OPENAI_DEPLOYMENT;
+
+  const client = new OpenAI({
+    apiKey: AI_KEY,
+    baseURL: `${AI_ENDPOINT}openai/deployments/${DEPLOYMENT_NAME}`,
+    defaultQuery: { "api-version": "2024-06-01" },
+  });
+
+  try {
+    const prompt = `
+You have the following ingredients available: ${storedIngredients.join(", ")}.
+
+Here are existing recipe summaries:
+${JSON.stringify(recipeSummaries, null, 2)}
+
+Your task:
+- Only select recipes from the list above (do NOT create new recipes).
+- Identify which recipes can be made fully with the stored ingredients.
+- For recipes that are missing 1-2 ingredients, include them but list the missing ingredients.
+- Do NOT invent any recipes or ingredients.
+
+Output format (JSON array):
+[
+  {
+    "title": "Recipe Name",
+    "type": "stored",
+    "ingredients": ["ingredient1", "ingredient2", ...],
+    "missingIngredients": ["ingredientX"] or []
+  }
+]
+
+Ensure the JSON is valid and only contains recipes from the provided list.
+`;
+
+    const completion = await client.chat.completions.create({
+      model: DEPLOYMENT_NAME,
+      messages: [
+        { role: "system", content: "You are a helpful recipe assistant." },
+        { role: "user", content: prompt },
+      ],
+      max_tokens: 500,
+      temperature: 0, // Lower temperature to reduce hallucination
+    });
+
+    const text = completion.choices[0]?.message?.content ?? "[]";
+    console.log("AI output:", text);
+
+    try {
+      return JSON.parse(text);
+    } catch {
+      return [];
+    }
+  } catch (error) {
+    console.error("AI recipe suggestion error:", error);
+    return [];
+  }
+};
+
+app.post("/api/ai-recipes", async (req, res) => {
+  const { storedIngredients, recipeSummaries } = req.body;
+
+  if (
+    !storedIngredients ||
+    !Array.isArray(storedIngredients) ||
+    !recipeSummaries ||
+    !Array.isArray(recipeSummaries)
+  ) {
+    return res
+      .status(400)
+      .json({ error: "storedIngredients and recipeSummaries arrays are required" });
+  }
+
+  try {
+    // Call the AI function
+    const recipes = await getRecipeSuggestions(storedIngredients, recipeSummaries);
+
+    res.json({ recipes });
+  } catch (error) {
+    console.error("Error in /api/ai-recipes:", error);
+    res.status(500).json({ recipes: [] });
+  }
 });
