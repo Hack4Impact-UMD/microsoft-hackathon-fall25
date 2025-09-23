@@ -82,9 +82,9 @@ export default function RecipeComplete() {
 
           <Button
             className="py-2 text-2xl font-light flex items-center"
-            label={<span className="flex items-center">Back to Recipes</span>}
+            label={<span className="flex items-center">Back to Home</span>}
             onClick={() => {
-              navigate(`/cookbook/all-recipes`);
+              navigate(`/`, { replace: true });;
             }}
           />
         </div>

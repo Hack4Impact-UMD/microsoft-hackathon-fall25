@@ -41,24 +41,27 @@ export default function RecipesByMeal() {
 
   return (
     <div className={styles.container}>
-      <CookbookBar />
+      <div className="p-10">
+        <CookbookBar />
 
-      {filteredRecipes.length === 0 ? (
-        <p>No recipes found for {mealTitles[meal]}.</p>
-      ) : (
-        <Slideshow
-          title={`${mealTitles[meal]}`}
-          images={filteredRecipes.map((recipe) => (
-            <ImageCardStar
-              key={recipe.id}
-              recipe={recipe}
-              onClick={() => navigate(`/cookbook/recipe/${recipe.id}`)}
-              onFavorite={() => handleToggleFavorite(recipe.id)}
-            />
-          ))}
-          imagesPerRow={2}
-        />
-      )}
+        {filteredRecipes.length === 0 ? (
+          <p>No recipes found for {mealTitles[meal]}.</p>
+        ) : (
+          <Slideshow
+            className="mt-5"
+            title={`${mealTitles[meal]}`}
+            images={filteredRecipes.map((recipe) => (
+              <ImageCardStar
+                key={recipe.id}
+                recipe={recipe}
+                onClick={() => navigate(`/cookbook/recipe/${recipe.id}`)}
+                onFavorite={() => handleToggleFavorite(recipe.id)}
+              />
+            ))}
+            imagesPerRow={2}
+          />
+        )}
+      </div>
     </div>
   );
 }

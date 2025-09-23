@@ -9,30 +9,33 @@ export default function Cookbook() {
 
   return (
     <div className={styles.container}>
-      <CookbookBar/>
+      <div className="p-10">
+        <CookbookBar />
 
-      <Slideshow
-        title="Welcome Chef!"
-        images={[
-          <ImageCard
-            src="/all_recipes.png"
-            onClick={() => navigate({ pathname: "/cookbook/all-recipes" })}
-            caption="All Recipes"
-            isSection={true}
-          />,
-          <ImageCard
-            src="/meal_plan.png"
-            caption="Meal Plan"
-            isSection={true}
-          />,
-          <ImageCard
-            src="/grocery_list.png"
-            caption="Grocery List"
-            isSection={true}
-          />,
-        ]}
-        imagesPerRow={2}
-      />
+        <Slideshow
+          className="mt-5"
+          title="Welcome Chef!"
+          images={[
+            <ImageCard
+              src="/all_recipes.png"
+              onClick={() => navigate({ pathname: "/cookbook/all-recipes" })}
+              caption="All Recipes"
+              isSection={true}
+            />,
+            <ImageCard
+              src="/meal_plan.png"
+              caption="Meal Plan"
+              isSection={true}
+            />,
+            <ImageCard
+              src="/grocery_list.png"
+              caption="Grocery List"
+              isSection={true}
+            />,
+          ]}
+          imagesPerRow={2}
+        />
+      </div>
     </div>
   );
 }
