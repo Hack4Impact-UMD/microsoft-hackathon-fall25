@@ -10,6 +10,7 @@ import RecipePreview from './pages/cookbook/RecipePreview'
 import InstructionPage from './pages/cookbook/InstructionPage'
 import RecipeComplete from './scheduling_components/pages/RecipeComplete'
 import GroceryList from './pages/cookbook/GroceryList'
+import GroceryShopping from './pages/cookbook/GroceryShopping'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cookbook" element={<Cookbook />} />
         <Route path="/cookbook/groceryList" element={<GroceryList />} />
+        <Route path="/cookbook/groceryList/shopping" element={<GroceryShopping />} />
         <Route path="/cookbook/all-recipes" element={<AllRecipes />} />
         <Route path="/cookbook/my-recipes" element={<MyRecipes />} />
         <Route path="/cookbook/:meal" element={<RecipesByMeal />} />

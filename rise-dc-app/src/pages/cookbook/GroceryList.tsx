@@ -3,10 +3,13 @@ import CookbookBar from "../../cookbook_components/CookbookBar";
 import ImageCard from "../../shared/components/ImageCard";
 import GroceryListIngredientCard from "../../cookbook_components/GroceryListIngredientCard";
 import { recipes } from "../../shared/data/dummyRecipes";
-import { RecipeIngredient } from "../../shared/types";
+import { GroceryListIngredient, RecipeIngredient } from "../../shared/types";
+import { useNavigate } from "react-router-dom";
+
+const LOCAL_STORAGE_KEY = "boughtIngredients";
 
 export default function GroceryList() {
-  // Track recipe quantities
+  const navigate = useNavigate();
   const [quantities, setQuantities] = useState<Record<string, number>>(
     recipes.reduce((acc, recipe) => {
       acc[recipe.id] = 0;
@@ -14,23 +17,39 @@ export default function GroceryList() {
     }, {} as Record<string, number>)
   );
 
-  // Track ingredient totals separately
-  const [ingredientTotals, setIngredientTotals] = useState<Record<string, RecipeIngredient>>({});
-  console.log(ingredientTotals)
+  const [ingredientTotals, setIngredientTotals] = useState<
+    Record<string, RecipeIngredient>
+  >({});
+  const [showBoughtModal, setShowBoughtModal] = useState(false);
+  const [boughtIngredients, setBoughtIngredients] = useState<
+    GroceryListIngredient[]
+  >([]);
 
-  const increaseQuantity = (id: string) => setQuantities(prev => ({ ...prev, [id]: prev[id] + 1 }));
+  // Close modal and save updated bought ingredients
+  const closeBoughtModal = () => {
+    // Filter out ingredients with quantity 0
+    const filtered = boughtIngredients.filter(
+      (item) => Number(item.quantity) > 0
+    );
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filtered));
+    setBoughtIngredients(filtered); // also update state
+    setShowBoughtModal(false);
+  };
+
+  const increaseQuantity = (id: string) =>
+    setQuantities((prev) => ({ ...prev, [id]: prev[id] + 1 }));
   const decreaseQuantity = (id: string) =>
-    setQuantities(prev => ({ ...prev, [id]: prev[id] > 0 ? prev[id] - 1 : 0 }));
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: prev[id] > 0 ? prev[id] - 1 : 0,
+    }));
 
-  // Recompute ingredient totals whenever recipe quantities change
   useEffect(() => {
     const totals: Record<string, RecipeIngredient> = {};
-    console.log(totals)
-
-    recipes.forEach(recipe => {
+    recipes.forEach((recipe) => {
       const recipeQty = quantities[recipe.id] || 0;
       if (recipeQty > 0) {
-        recipe.ingredients.forEach(ri => {
+        recipe.ingredients.forEach((ri) => {
           const totalQty = ri.storeQuantity * recipeQty;
           if (!totals[ri.ingredient.id]) {
             totals[ri.ingredient.id] = {
@@ -50,14 +69,13 @@ export default function GroceryList() {
         });
       }
     });
-
     setIngredientTotals(totals);
   }, [quantities]);
 
   const uniqueIngredients = Object.values(ingredientTotals);
 
   const handleIngredientChange = (id: string, newQty: number) => {
-    setIngredientTotals(prev => {
+    setIngredientTotals((prev) => {
       const updated = { ...prev };
       if (updated[id]) {
         updated[id] = {
@@ -70,6 +88,27 @@ export default function GroceryList() {
     });
   };
 
+  const handleBoughtIngredientChange = (id: string, newQty: number) => {
+    setBoughtIngredients((prev) =>
+      prev.map((item) =>
+        item.ingredient.id === id
+          ? { ...item, quantity: newQty.toString() }
+          : item
+      )
+    );
+  };
+
+  const openBoughtModal = () => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (saved) {
+      const boughtItems = JSON.parse(saved); // array of objects
+      setBoughtIngredients(boughtItems);
+    } else {
+      setBoughtIngredients([]);
+    }
+    setShowBoughtModal(true);
+  };
+
   return (
     <div className="p-10">
       <CookbookBar showMyRecipes={false} />
@@ -78,7 +117,7 @@ export default function GroceryList() {
         {/* Recipes */}
         <div className="bg-white flex-[2] h-[70vh] rounded-xl overflow-y-auto p-4">
           <div className="flex flex-col items-center gap-6">
-            {recipes.map(recipe => (
+            {recipes.map((recipe) => (
               <div key={recipe.id} className="w-full max-w-[90%] relative">
                 <ImageCard
                   src={recipe.image_id || ""}
@@ -90,7 +129,7 @@ export default function GroceryList() {
                 <div className="absolute top-10 right-2 flex flex-col items-center gap-1">
                   <button
                     onClick={() => increaseQuantity(recipe.id)}
-                    className="px-2 py-1 bg-[#EB5904] text-white font-bold rounded hover:bg-orange-600 transition"
+                    className="px-2 py-1 bg-[#EB5904] cursor-pointer text-white font-bold rounded hover:bg-orange-600 transition"
                   >
                     +
                   </button>
@@ -99,7 +138,7 @@ export default function GroceryList() {
                   </span>
                   <button
                     onClick={() => decreaseQuantity(recipe.id)}
-                    className="px-2 py-1 bg-[#EB5904] text-white font-bold rounded hover:bg-orange-600 transition"
+                    className="px-2 py-1 bg-[#EB5904] cursor-pointer text-white font-bold rounded hover:bg-orange-600 transition"
                   >
                     -
                   </button>
@@ -110,23 +149,90 @@ export default function GroceryList() {
         </div>
 
         {/* Grocery List */}
-        <div className="bg-white flex-[1] h-[70vh] rounded-xl p-4 overflow-y-auto">
-          <div className="flex flex-col gap-4">
-            {uniqueIngredients.map(item => (
-              <GroceryListIngredientCard
-                key={item.ingredient.id}
-                item={{
-                  ingredient: item.ingredient,
-                  quantity: Math.ceil(item.storeQuantity).toString(),
-                  purchased_status: false,
-                }}
-                startingQuantity={Math.ceil(item.storeQuantity)}
-                onQuantityChange={newQty => handleIngredientChange(item.ingredient.id, newQty)}
-              />
-            ))}
+        <div className="flex-[1] flex flex-col h-[70vh]">
+          {/* Bought Ingredients & Recommend Recipes Buttons */}
+          <div className="flex justify-end mb-2 gap-2">
+            <button
+              className="px-4 py-0.5 bg-gray-400 text-white text-sm font-bold rounded-xl hover:bg-gray-500 transition"
+              onClick={openBoughtModal}
+            >
+              ✅ View Bought Ingredients
+            </button>
+            <button
+              className="px-4 py-0.5 bg-blue-500 text-white text-sm font-bold rounded-xl hover:bg-blue-600 transition"
+              onClick={() => {
+                alert("Recommend recipes clicked!");
+              }}
+            >
+              🍽️ Recommend Recipes
+            </button>
+          </div>
+
+          <div className="bg-white rounded-xl p-4 overflow-y-auto flex-1">
+            <div className="flex flex-col gap-4">
+              {uniqueIngredients.map((item) => (
+                <GroceryListIngredientCard
+                  key={item.ingredient.id}
+                  item={{
+                    ingredient: item.ingredient,
+                    quantity: Math.ceil(item.storeQuantity).toString(),
+                    purchased_status: false,
+                  }}
+                  startingQuantity={Math.ceil(item.storeQuantity)}
+                  onQuantityChange={(newQty) =>
+                    handleIngredientChange(item.ingredient.id, newQty)
+                  }
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Go Shopping Button Below Both */}
+      <div className="mt-6 flex justify-center">
+        <button
+          className="px-6 py-3 bg-green-500 cursor-pointer text-white font-bold rounded-xl hover:bg-green-600 transition"
+          onClick={() =>
+            navigate(`/cookbook/groceryList/shopping`, {
+              state: { ingredientTotals },
+            })
+          }
+        >
+          Go Shopping!
+        </button>
+      </div>
+
+      {/* Modal */}
+      {showBoughtModal && (
+        <div className="fixed inset-0 flex items-center justify-center text-black bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-xl w-[400px] max-h-[70vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-4">Bought Ingredients</h2>
+            {boughtIngredients.length === 0 ? (
+              <p>No bought ingredients found.</p>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {boughtIngredients.map((item: GroceryListIngredient, idx) => (
+                  <GroceryListIngredientCard
+                    key={idx}
+                    item={item}
+                    startingQuantity={Math.ceil(Number(item.quantity))}
+                    onQuantityChange={(newQty) =>
+                      handleBoughtIngredientChange(item.ingredient.id, newQty)
+                    }
+                  />
+                ))}
+              </div>
+            )}
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              onClick={closeBoughtModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

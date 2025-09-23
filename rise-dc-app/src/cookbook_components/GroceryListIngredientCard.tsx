@@ -5,12 +5,14 @@ type GroceryListIngredientCardProps = {
     item: GroceryListIngredient;
     startingQuantity?: number;
     onQuantityChange?: (newQty: number) => void;
+    hideButtons?: boolean; // new prop
 };
 
 export default function GroceryListIngredientCard({
     item,
     startingQuantity,
-    onQuantityChange
+    onQuantityChange,
+    hideButtons = false, // default to false
 }: GroceryListIngredientCardProps) {
     const { ingredient, quantity } = item;
     const [currentQuantity, setCurrentQuantity] = useState<number>(startingQuantity ?? Number(quantity));
@@ -38,26 +40,31 @@ export default function GroceryListIngredientCard({
 
             {/* Quantity Controls (Vertical) */}
             <div className="flex flex-col items-center gap-1">
-                <button
-                    className="w-8 h-8 flex items-center justify-center rounded bg-gray-200 text-lg font-bold"
-                    onClick={() => updateQuantity(currentQuantity + 1)}
-                >
-                    +
-                </button>
+                {!hideButtons && (
+                    <button
+                        className="w-8 h-8 flex items-center justify-center rounded cursor-pointer bg-gray-200 text-lg font-bold"
+                        onClick={() => updateQuantity(currentQuantity + 1)}
+                    >
+                        +
+                    </button>
+                )}
 
                 <input
                     type="number"
                     className="w-8 text-center border border-gray-300 text-black rounded px-1"
                     value={currentQuantity}
                     onChange={e => updateQuantity(Math.max(0, Number(e.target.value)))}
+                    disabled={hideButtons} // input disabled if hideButtons is true
                 />
 
-                <button
-                    className="w-8 h-8 flex items-center justify-center rounded bg-gray-200 text-lg font-bold"
-                    onClick={() => updateQuantity(Math.max(0, currentQuantity - 1))}
-                >
-                    -
-                </button>
+                {!hideButtons && (
+                    <button
+                        className="w-8 h-8 flex items-center justify-center rounded bg-gray-200 cursor-pointer text-lg font-bold"
+                        onClick={() => updateQuantity(Math.max(0, currentQuantity - 1))}
+                    >
+                        -
+                    </button>
+                )}
             </div>
         </div>
     );
