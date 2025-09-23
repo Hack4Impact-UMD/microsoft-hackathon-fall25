@@ -84,7 +84,7 @@ const getRecipeSuggestions = async (currentRecipes, currentIngredients) => {
         },
       ],
       max_tokens: 500,
-      temperature: 0,
+      temperature: 0.5,
     });
 
     const text = completion.choices[0]?.message?.content ?? "";
