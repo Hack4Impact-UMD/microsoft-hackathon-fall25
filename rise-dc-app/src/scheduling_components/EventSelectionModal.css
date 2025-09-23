@@ -50,6 +50,16 @@
   color: #a0a0a0;
 }
 
+.backButton {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  position: absolute;
+  top: 107px;
+  left: 560px;
+  z-index: 10;
+}
+
 .event-cards-container {
   display: flex;
   justify-content: flex-start;
@@ -401,7 +411,7 @@
 }
 
 .time-input .number {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #333;
   min-width: 60px;
@@ -417,14 +427,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 2rem;
+  font-size: 1rem; 
   line-height: 1;
-  padding: 5px;
+  padding: 0; 
   color: #888;
   border-radius: 4px;
   transition: all 0.2s;
   width: 30px;
-  height: 25px;
+  height: 20px; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -509,4 +519,11 @@
   text-align: center;
   width: 60px;
   transition: border-color 0.2s;
+}
+
+/* hide the arrow overlay */
+.time-text-input::-webkit-outer-spin-button,
+.time-text-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
