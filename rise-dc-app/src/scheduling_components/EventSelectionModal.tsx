@@ -72,7 +72,6 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     setStartTime(newStartTime);
     setEndTime(newEndTime);
     setIsTimeModalOpen(false);
-
     onEventCreated({
       name: selectedEvent || taskName,
       startTime: newStartTime,
@@ -269,7 +268,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
 
         {currentStep === 'QUIET_HOBBY' && (
           <QuietHobbyParticipant
-            onBack={handleQuietHobbyBack}
+            onBack={handleBackToSelectEvent}
             onActivityChosen={handleQuietHobbyActivityChosen}
             onPhotoTaken={() => console.log('Photo taken')}
             onClose={handleClose}

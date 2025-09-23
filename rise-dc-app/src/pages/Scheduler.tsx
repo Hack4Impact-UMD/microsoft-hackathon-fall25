@@ -20,17 +20,9 @@ export default function Scheduler() {
     console.log("Activity chosen:", hobby);
   };
 
- 
-
-  // REMOVED: SAMPLE EVENTS TEMPORARILY TO DEBUG
-
-  // Show selection buttons if no view mode is selected
-  
-  
   return (
-    <>
+    <div style={{ color: 'black' }}>
       <div className={styles.container}>
-        {/* Existing commented code stays the same */}
       </div>
 
       <div className="mt-0 pt-0">
@@ -40,7 +32,7 @@ export default function Scheduler() {
               component="img"
               src={back}
               alt="Back"
-              onClick={() => navigate("/")} // Go back to role selection
+              onClick={() => navigate("/")}
             />
           </div>
           <DayDisplay />
@@ -52,6 +44,6 @@ export default function Scheduler() {
 
         {/*removed whatsnextbutton*/}
       </div>
-    </>
+    </div>
   );
 }
