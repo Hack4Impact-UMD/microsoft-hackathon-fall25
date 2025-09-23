@@ -56,6 +56,64 @@ const getEventSuggestions = async (existingEvents) => {
   }
 };
 
+// Helper function for AI recipe suggestions (no hallucination)
+const getRecipeSuggestions = async (currentRecipes, currentIngredients) => {
+  const AI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT;
+  const AI_KEY = process.env.AZURE_OPENAI_KEY;
+  const DEPLOYMENT_NAME = process.env.AZURE_OPENAI_DEPLOYMENT;
+
+  const client = new OpenAI({
+    apiKey: AI_KEY,
+    baseURL: `${AI_ENDPOINT}openai/deployments/${DEPLOYMENT_NAME}`,
+    defaultQuery: { "api-version": "2024-06-01" },
+  });
+
+  try {
+    const completion = await client.chat.completions.create({
+      model: DEPLOYMENT_NAME,
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful assistant that suggests recipes. You can add a few recipes not from the input, please specify if you do so. Use simple and clear language.",
+        },
+        {
+          role: "user",
+          content: `Current recipes: ${JSON.stringify(currentRecipes)}. Current ingredients: ${JSON.stringify(currentIngredients)}. 
+          Only list recipes from the current recipes that can be made with these ingredients. Distinguish recipes not from the input.`,
+        },
+      ],
+      max_tokens: 500,
+      temperature: 0,
+    });
+
+    const text = completion.choices[0]?.message?.content ?? "";
+    return text
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+  } catch (error) {
+    console.error("AI recipe suggestion error:", error);
+    return [];
+  }
+};
+
+// POST endpoint
+app.post("/api/ai-recipes", async (req, res) => {
+  const { currentRecipes, currentIngredients } = req.body;
+
+  if (!currentRecipes || !Array.isArray(currentRecipes)) {
+    return res.status(400).json({ error: "currentRecipes array is required" });
+  }
+
+  if (!currentIngredients || !Array.isArray(currentIngredients)) {
+    return res.status(400).json({ error: "currentIngredients array is required" });
+  }
+
+  const recipeSuggestions = await getRecipeSuggestions(currentRecipes, currentIngredients);
+  res.json({ recipeSuggestions });
+});
+
 // POST endpoint
 app.post("/api/ai-suggestions", async (req, res) => {
   const { existingEvents } = req.body;

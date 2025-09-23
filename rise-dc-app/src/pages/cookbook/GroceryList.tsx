@@ -25,14 +25,18 @@ export default function GroceryList() {
     GroceryListIngredient[]
   >([]);
 
+  const [showRecommendModal, setShowRecommendModal] = useState(false);
+  const [recommendedRecipes, setRecommendedRecipes] = useState<
+    { title: string; ingredientsUsed: string[] }[]
+  >([]);
+
   // Close modal and save updated bought ingredients
   const closeBoughtModal = () => {
-    // Filter out ingredients with quantity 0
     const filtered = boughtIngredients.filter(
       (item) => Number(item.quantity) > 0
     );
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filtered));
-    setBoughtIngredients(filtered); // also update state
+    setBoughtIngredients(filtered);
     setShowBoughtModal(false);
   };
 
@@ -72,8 +76,6 @@ export default function GroceryList() {
     setIngredientTotals(totals);
   }, [quantities]);
 
-  const uniqueIngredients = Object.values(ingredientTotals);
-
   const handleIngredientChange = (id: string, newQty: number) => {
     setIngredientTotals((prev) => {
       const updated = { ...prev };
@@ -101,13 +103,52 @@ export default function GroceryList() {
   const openBoughtModal = () => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
-      const boughtItems = JSON.parse(saved); // array of objects
+      const boughtItems = JSON.parse(saved);
       setBoughtIngredients(boughtItems);
     } else {
       setBoughtIngredients([]);
     }
     setShowBoughtModal(true);
   };
+
+  const fetchRecommendedRecipes = async () => {
+    if (boughtIngredients.length === 0) {
+      alert("No bought ingredients available for recommendations!");
+      return;
+    }
+
+    try {
+      const ingredientsList = boughtIngredients.map(
+        (item) => item.ingredient.name
+      );
+
+      const minimalRecipes = recipes.map((r) => ({
+      id: r.id,
+      title: r.title,
+      ingredients: r.ingredients,
+    }));
+
+      const response = await fetch("http://localhost:4000/api/ai-recipes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currentRecipes: minimalRecipes,
+          currentIngredients: ingredientsList,
+        }),
+      });
+      const data = await response.json();
+      const suggestions = data.recipeSuggestions.map((line: string) => ({
+        title: line,
+        ingredientsUsed: [],
+      }));
+      setRecommendedRecipes(suggestions);
+      setShowRecommendModal(true);
+    } catch (err) {
+      console.error("Error fetching recommended recipes:", err);
+    }
+  };
+
+  const uniqueIngredients = Object.values(ingredientTotals);
 
   return (
     <div className="p-10">
@@ -160,9 +201,7 @@ export default function GroceryList() {
             </button>
             <button
               className="px-4 py-0.5 bg-blue-500 text-white text-sm font-bold rounded-xl hover:bg-blue-600 transition"
-              onClick={() => {
-                alert("Recommend recipes clicked!");
-              }}
+              onClick={fetchRecommendedRecipes}
             >
               🍽️ Recommend Recipes
             </button>
@@ -203,7 +242,7 @@ export default function GroceryList() {
         </button>
       </div>
 
-      {/* Modal */}
+      {/* Bought Ingredients Modal */}
       {showBoughtModal && (
         <div className="fixed inset-0 flex items-center justify-center text-black bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-xl w-[400px] max-h-[70vh] overflow-y-auto">
@@ -227,6 +266,40 @@ export default function GroceryList() {
             <button
               className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
               onClick={closeBoughtModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Recommend Recipes Modal */}
+      {showRecommendModal && (
+        <div className="fixed inset-0 flex items-center justify-center text-black bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-xl w-[400px] max-h-[70vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-4">Recommended Recipes</h2>
+            {recommendedRecipes.length === 0 ? (
+              <p>No recipes can be made with your bought ingredients.</p>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {recommendedRecipes.map((recipe, idx) => (
+                  <div
+                    key={idx}
+                    className="border p-2 rounded flex flex-col gap-1 bg-gray-50"
+                  >
+                    <span className="font-semibold">{recipe.title}</span>
+                    {recipe.ingredientsUsed.length > 0 && (
+                      <span className="text-sm text-gray-700">
+                        Ingredients used: {recipe.ingredientsUsed.join(", ")}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              onClick={() => setShowRecommendModal(false)}
             >
               Close
             </button>
