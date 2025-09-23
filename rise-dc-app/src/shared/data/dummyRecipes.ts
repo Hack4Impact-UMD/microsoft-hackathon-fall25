@@ -1096,38 +1096,38 @@ export const recipes: Recipe[] = [
       {
         id: "step1",
         step_number: 1,
-        image_id: placeholderImage,
+        image_id: '/butter-spread.png',
         warning: "Be careful, the knife is sharp!",
         instructions: "Spread butter on one side of each bread slice."
       },
       {
         id: "step2",
         step_number: 2,
-        image_id: placeholderImage,
+        image_id: '/bread-skillet.png',
         instructions: "Place one slice of bread, butter-side down, in a skillet over medium heat."
       },
       {
         id: "step3",
         step_number: 3,
-        image_id: placeholderImage,
+        image_id: '/cheese-slices.png',
         instructions: "Top with cheese slices and the second slice of bread, butter-side up."
       },
       {
         id: "step4",
         step_number: 4,
-        image_id: placeholderImage,
+        image_id: '/golden-brown.png',
         instructions: "Cook until the bottom slice is golden brown (about 3–4 minutes)."
       },
       {
         id: "step5",
         step_number: 5,
-        image_id: placeholderImage,
+        image_id: '/both-golden.png',
         instructions: "Flip the sandwich carefully with a spatula and cook until the other side is golden brown and cheese is melted."
       },
       {
         id: "step6",
         step_number: 6,
-        image_id: placeholderImage,
+        image_id: '/sliced-grilled-cheese.png',
         instructions: "Remove from skillet, slice in half, and serve hot."
       }
     ],
