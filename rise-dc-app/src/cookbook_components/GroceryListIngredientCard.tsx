@@ -1,47 +1,71 @@
-import { GroceryListIngredient } from '../shared/types'
-import { useState } from 'react';
+import { GroceryListIngredient } from '../shared/types';
+import { useState, useEffect } from 'react';
 
 type GroceryListIngredientCardProps = {
-    item: GroceryListIngredient; 
+    item: GroceryListIngredient;
+    startingQuantity?: number;
+    onQuantityChange?: (newQty: number) => void;
+    hideButtons?: boolean; // new prop
 };
 
-export default function GroceryListIngredientCard({ item }: GroceryListIngredientCardProps) {
+export default function GroceryListIngredientCard({
+    item,
+    startingQuantity,
+    onQuantityChange,
+    hideButtons = false, // default to false
+}: GroceryListIngredientCardProps) {
     const { ingredient, quantity } = item;
-    const [currentQuantity, setCurrentQuanity] = useState<string>(quantity);
+    const [currentQuantity, setCurrentQuantity] = useState<number>(startingQuantity ?? Number(quantity));
+
+    useEffect(() => {
+        setCurrentQuantity(startingQuantity ?? Number(quantity));
+    }, [startingQuantity, quantity]);
+
+    const updateQuantity = (newQty: number) => {
+        setCurrentQuantity(newQty);
+        onQuantityChange?.(newQty);
+    };
 
     return (
-        <div className="w-full max-w-[20rem] justify-between items-center rounded-[12px] border-[1.5rem] border-white bg-white p-4">
-            <div className="flex flex-row items-center gap-6">
-                <div className="flex flex-col items-center">
-                    <img 
-                        className="h-32 w-auto max-w-full object-cover"
-                        src={ingredient.image_id}
-                        alt={ingredient.name}
-                    />
-                    <p className="text-center text-lg font-semibold">{ingredient.name}</p>
-                </div>
-                <div className="flex flex-row max-w-[6rem] h-8 items-center justify-center space-x-2">
-                    <button 
-                        className="w-0 h-0 border-l-[0.75rem] border-l-transparent border-r-[0.75rem] border-r-transparent border-b-[1rem] border-b-[#D9D9D9]" 
-                        onClick={() => setCurrentQuanity(String(Number(currentQuantity) + 1))}
-                    ></button>
+        <div className="flex w-full max-w-xs flex-col md:flex-row items-center justify-between gap-4 rounded-lg border border-gray-200 bg-white p-4">
+            {/* Image & Name */}
+            <div className="flex flex-col items-center md:items-start gap-2">
+                <img
+                    className="h-24 w-24 object-cover rounded-md"
+                    src={ingredient.image_id}
+                    alt={ingredient.name}
+                />
+                <p className="text-center md:text-left text-black font-semibold">{ingredient.name}</p>
+            </div>
 
-                    <input 
-                        type="text"
-                        className="w-10 h-8 border-[1px] border-[#D9D9D9] text-center font-bold text-lg"
-                        value={currentQuantity}
-                        onChange={e => setCurrentQuanity(e.target.value)}
-                    />
+            {/* Quantity Controls (Vertical) */}
+            <div className="flex flex-col items-center gap-1">
+                {!hideButtons && (
+                    <button
+                        className="w-8 h-8 flex items-center justify-center rounded cursor-pointer bg-gray-200 text-lg font-bold"
+                        onClick={() => updateQuantity(currentQuantity + 1)}
+                    >
+                        +
+                    </button>
+                )}
 
-                    <button 
-                        className="w-0 h-0 border-l-[0.75rem] border-l-transparent border-r-[0.75rem] border-r-transparent border-t-[1rem] border-t-[#D9D9D9]"
-                        onClick={() => {
-                            if (Number(currentQuantity) > 0) {
-                                setCurrentQuanity(String(Number(currentQuantity) - 1));
-                            }}}
-                    ></button>
-                </div>
+                <input
+                    type="number"
+                    className="w-8 text-center border border-gray-300 text-black rounded px-1"
+                    value={currentQuantity}
+                    onChange={e => updateQuantity(Math.max(0, Number(e.target.value)))}
+                    disabled={hideButtons} // input disabled if hideButtons is true
+                />
+
+                {!hideButtons && (
+                    <button
+                        className="w-8 h-8 flex items-center justify-center rounded bg-gray-200 cursor-pointer text-lg font-bold"
+                        onClick={() => updateQuantity(Math.max(0, currentQuantity - 1))}
+                    >
+                        -
+                    </button>
+                )}
             </div>
         </div>
-    )
+    );
 }

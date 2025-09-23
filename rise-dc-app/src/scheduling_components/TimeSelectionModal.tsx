@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './EventSelectionModal.css';
+import back from "./icon_components/back.png"
 
 interface TimeSlot {
   hour: number;
@@ -160,8 +161,8 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
       <div className="modal-content time-selection-modal">
         {/* Header */}
         <div className="modal-header">
-          {currentStep !== 'START_TIME' && <button className="back-button" onClick={handleBack}>🔙</button>}
-          {currentStep === 'START_TIME' && <button className="back-button" onClick={handleClose}>🔙</button>}
+          {currentStep !== 'START_TIME' && <button className="backButton" onClick={handleBack}><img src={back} alt="Back" /></button>}
+          {currentStep === 'START_TIME' && <button className="backButton" onClick={handleClose}><img src={back} alt="Back" /></button>}
           <div className="header-text"><span className="clock-icon">🕐</span><h3>Select time</h3></div>
           <button className="close-button" onClick={handleClose}>✕</button>
         </div>
