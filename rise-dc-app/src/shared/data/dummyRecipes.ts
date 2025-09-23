@@ -8,7 +8,7 @@ export const recipes: Recipe[] = [
   {
     id: "breakfast-overnight-oats",
     title: "Overnight Oats",
-    image_id: placeholderImage,
+    image_id: '/overnightoats.png',
     noCook: true,
     time: "5 minutes",
     servingSize: 1,
@@ -74,7 +74,7 @@ export const recipes: Recipe[] = [
   {
     id: "breakfast-egg-muffins",
     title: "Veggie Egg Muffins",
-    image_id: placeholderImage,
+    image_id: '/veggie-muffin.jpg',
     noCook: false,
     time: "30 minutes",
     servingSize: 6,
@@ -140,7 +140,7 @@ export const recipes: Recipe[] = [
   {
     id: "breakfast-yogurt-parfait",
     title: "Berry Yogurt Parfait",
-    image_id: placeholderImage,
+    image_id: '/berry-yogurt.png',
     noCook: true,
     time: "10 minutes",
     servingSize: 1,
@@ -196,7 +196,7 @@ export const recipes: Recipe[] = [
   {
     id: "breakfast-banana-pancakes",
     title: "Banana Pancakes",
-    image_id: placeholderImage,
+    image_id: '/banana-pancakes.png',
     noCook: false,
     time: "20 minutes",
     servingSize: 4,
@@ -264,7 +264,7 @@ export const recipes: Recipe[] = [
   {
     id: "lunchDinner-sheet-pan-chicken",
     title: "Sheet Pan Chicken",
-    image_id: placeholderImage,
+    image_id: '/sheet-pan-chicken.png',
     noCook: false,
     time: "45 minutes",
     servingSize: 4,
@@ -330,7 +330,7 @@ export const recipes: Recipe[] = [
   {
     id: "lunchDinner-stir-fry",
     title: "Veggie Stir-Fry",
-    image_id: placeholderImage,
+    image_id: '/veggie-stir-fry.png',
     noCook: false,
     time: "25 minutes",
     servingSize: 4,
@@ -406,7 +406,7 @@ export const recipes: Recipe[] = [
   {
     id: "lunchDinner-turkey-chili",
     title: "Turkey Chili",
-    image_id: placeholderImage,
+    image_id: '/turkey-chili.png',
     noCook: false,
     time: "60 minutes",
     servingSize: 6,
@@ -483,7 +483,7 @@ export const recipes: Recipe[] = [
   {
     id: "lunchDinner-taco-bowls",
     title: "Taco Bowls",
-    image_id: placeholderImage,
+    image_id: '/taco-bowl.png',
     noCook: false,
     time: "30 minutes",
     servingSize: 4,
@@ -561,7 +561,7 @@ export const recipes: Recipe[] = [
   {
     id: "snack-energy-balls",
     title: "Energy Bites",
-    image_id: placeholderImage,
+    image_id: '/energy-bites.jpeg',
     noCook: true,
     time: "15 minutes",
     servingSize: 12,
@@ -627,7 +627,7 @@ export const recipes: Recipe[] = [
   {
     id: "snack-veggie-dippers",
     title: "Veggie Dippers",
-    image_id: placeholderImage,
+    image_id: '/veggie-dippers.png',
     noCook: true,
     time: "10 minutes",
     servingSize: 4,
@@ -683,7 +683,7 @@ export const recipes: Recipe[] = [
   {
     id: "snack-fruit-salsa",
     title: "Fruit Salsa",
-    image_id: placeholderImage,
+    image_id: '/fruit-salsa.png',
     noCook: true,
     time: "15 minutes",
     servingSize: 6,
@@ -749,7 +749,7 @@ export const recipes: Recipe[] = [
   {
     id: "snack-hummus-plate",
     title: "Hummus Plate",
-    image_id: placeholderImage,
+    image_id: '/hummus-plate.png',
     noCook: true,
     time: "5 minutes",
     servingSize: 4,
@@ -817,7 +817,7 @@ export const recipes: Recipe[] = [
   {
     id: "dessert-chia-pudding",
     title: "Chia Pudding",
-    image_id: placeholderImage,
+    image_id: '/chia-pudding.png',
     noCook: true,
     time: "5 minutes + chill time",
     servingSize: 2,
@@ -873,7 +873,7 @@ export const recipes: Recipe[] = [
   {
     id: "dessert-fruit-crisp",
     title: "Berry Crisp",
-    image_id: placeholderImage,
+    image_id: '/berry-crisp.png',
     noCook: false,
     time: "45 minutes",
     servingSize: 6,
@@ -939,7 +939,7 @@ export const recipes: Recipe[] = [
   {
     id: "dessert-frozen-yogurt",
     title: "Frozen Yogurt Bark",
-    image_id: placeholderImage,
+    image_id: '/yogurt-bark.png',
     noCook: true,
     time: "10 minutes + freeze time",
     servingSize: 8,
@@ -985,7 +985,7 @@ export const recipes: Recipe[] = [
   {
     id: "dessert-banana-nice-cream",
     title: "Banana Nice Cream",
-    image_id: placeholderImage,
+    image_id: '/banana-ice-cream.png',
     noCook: true,
     time: "10 minutes",
     servingSize: 2,
