@@ -1,4 +1,4 @@
-import { Recipe } from "../types";
+import { Ingredient, Recipe, RecipeIngredient } from "../types";
 
 const placeholderImage =
   "https://www.cranfield-colours.co.uk/wp-content/uploads/2022/01/cranfield-traditional-etching-ink-mid-black-400x221.jpg";
@@ -1151,3 +1151,13 @@ export function toggleFavorite(recipeId: string) {
 export function getRecipe(recipeId: string) {
   return recipes.find((r) => r.id === recipeId);
 }
+
+export const allUniqueIngredients: Ingredient[] = Array.from(
+  recipes
+    .flatMap((recipe) => recipe.ingredients.map((ri) => ri.ingredient))
+    .reduce((map, ingredient) => {
+      map.set(ingredient.id, ingredient);
+      return map;
+    }, new Map<string, Ingredient>())
+    .values()
+);
