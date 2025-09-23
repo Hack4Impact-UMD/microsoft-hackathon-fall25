@@ -19,6 +19,7 @@ export interface Recipe {
 export interface RecipeIngredient {
   ingredient: Ingredient;
   quantity: string;
+  storeQuantity: number;
 }
 
 export interface RecipeItem {

@@ -11,7 +11,14 @@ export default function RecipeComplete() {
 
   const [objectFit, setObjectFit] = useState<"cover" | "contain">("contain");
   const [isRectangle, setIsRectangle] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false); // <-- track favorite status
+
+  if (!recipeId) return <div>Recipe ID not found</div>;
+
+  const recipe: Recipe | undefined = getRecipe(recipeId);
+  if (!recipe) return <div>Recipe not found!</div>;
+
+  // Initialize favorite based on recipe
+  const [isFavorite, setIsFavorite] = useState(recipe.isFavorite || false);
 
   function getArticle(word: string) {
     return /^[aeiou]/i.test(word) ? "an" : "a";
@@ -31,14 +38,9 @@ export default function RecipeComplete() {
     setIsRectangle(aspectRatio > 1.2 || aspectRatio < 0.8);
   };
 
-  if (!recipeId) return <div>Recipe ID not found</div>;
-
-  const recipe: Recipe | undefined = getRecipe(recipeId);
-  if (!recipe) return <div>Recipe not found!</div>;
-
   const handleFavoriteClick = () => {
-    toggleFavorite(recipeId);
-    setIsFavorite((prev) => !prev); // toggle state
+    toggleFavorite(recipeId); // update backend/data
+    setIsFavorite((prev: any) => !prev); // update local state
   };
 
   return (
@@ -57,6 +59,7 @@ export default function RecipeComplete() {
             onLoad={handleImageLoad}
           />
         </div>
+
         <div className="flex flex-row items-center justify-center gap-3 mt-10">
           <span className="font-bold text-2xl">
             You've made {getArticle(recipe.title)} {recipe.title}!
@@ -83,9 +86,7 @@ export default function RecipeComplete() {
           <Button
             className="py-2 text-2xl font-light flex items-center"
             label={<span className="flex items-center">Back to Home</span>}
-            onClick={() => {
-              navigate(`/`, { replace: true });;
-            }}
+            onClick={() => navigate(`/`, { replace: true })}
           />
         </div>
       </div>

@@ -30,6 +30,7 @@ export default function Cookbook() {
             <ImageCard
               src="/grocery_list.png"
               caption="Grocery List"
+              onClick={() => navigate({ pathname: "/cookbook/groceryList" })}
               isSection={true}
             />,
           ]}
