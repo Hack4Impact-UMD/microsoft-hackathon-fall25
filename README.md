@@ -30,7 +30,7 @@ Desired Solution
 
 > A digital adaptive cookbook that uses simple visuals and step-by-step instructions to make recipes easier to follow. Features would include multimedia guides (images, gifs, or short videos showing actions like “spread peanut butter”), basic appliance tutorials (using the microwave or oven), and the ability for participants or supports to add and save custom recipes. The cookbook would also include meal prep planning (assigning recipes to specific meals and days of the week), along with a “cart” system to generate grocery lists according to the user's budget.
 
-📍 Component: `/src/pages/Cookbook.tsx`
+📍 Page: `/src/pages/Cookbook.tsx`
 
 
 ### 📆 Visual Scheduling & Daily Routines
@@ -43,7 +43,7 @@ Desired Solution
 
 > A scheduling interface offering customizable daily and task-based schedules with simple words and visuals for ease of use at home or at Rise DC. It will include features such as voice prompts, alarms, detailed checklists, accountability methods, visual supports, and both participant and support interfaces to promote independence, reduce staff reliance, and allow seamless collaboration between participants, families, and staff
 
-📍 Component: `/src/pages/Scheduler.tsx` 
+📍 Page: `/src/pages/Scheduler.tsx` 
 
 For your reference, [this document](https://docs.google.com/document/d/1QoyHmOhcS8u4RWKbkYsZFRUyoqzl7UF9Ki5QRweSVQ0/edit?tab=t.0) also contains information on specifications for each problem and desired solution.
 
