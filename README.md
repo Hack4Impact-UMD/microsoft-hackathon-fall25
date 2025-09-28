@@ -1,9 +1,13 @@
 # 🚀 Microsoft x RISE DC x Hack4Impact-UMD
 Welcome to the Microsoft x Rise DC x Hack4Impact-UMD Hackathon! 🎉 We're so excited to have all of us work on such a meaningful and impactful project, and can't wait to see what we all build together!
 
-This is a single React application with two main features for RISE DC. All teams will work together in the same codebase to build an integrated solution.
+This is a single React application with two main features for RISE DC.
 
-Good luck to you all, and have fun! This is going to be an amazing week. ✨
+## 🎥 Demo Video
+
+
+https://github.com/user-attachments/assets/b5b1c4ae-8dd0-48d2-9621-3f6b38b65516
+
 
 ## 🚀 Getting Started
 
