@@ -3,6 +3,6 @@ import { createAssignment } from "../../../services/service";
 
 export default function useCreateAssignment() {
   return useMutation({
-    mutationFn: createAssignment
-  })
+    mutationFn: createAssignment,
+  });
 }

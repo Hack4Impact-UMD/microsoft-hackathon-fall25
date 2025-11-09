@@ -52,17 +52,17 @@ export default function MealPlanGrid({
   ...rest
 }: MealPlanGridProps) {
   const [anchorDate, setAnchorDate] = React.useState<Date>(
-    startDate ?? new Date()
+    startDate ?? new Date(),
   );
 
   const startOfWeek = React.useMemo(
     () => getStartOfWeek(anchorDate, weekStartsOn),
-    [anchorDate, weekStartsOn]
+    [anchorDate, weekStartsOn],
   );
   const days = React.useMemo(
     () =>
       Array.from({ length: 7 }, (_, i) => startOfWeek.clone().add(i, "day")),
-    [startOfWeek]
+    [startOfWeek],
   );
   const monthTitle = startOfWeek.format("MMMM YYYY");
 
@@ -178,12 +178,12 @@ export default function MealPlanGrid({
                     {mt === "breakfast"
                       ? "🍳"
                       : mt === "lunch"
-                      ? "🥪"
-                      : mt === "dinner"
-                      ? "🍽️"
-                      : mt === "snack"
-                      ? "🥨"
-                      : "🧁"}
+                        ? "🥪"
+                        : mt === "dinner"
+                          ? "🍽️"
+                          : mt === "snack"
+                            ? "🥨"
+                            : "🧁"}
                   </div>
                   <div className="text-sm font-medium text-gray-700 capitalize">
                     {mt}

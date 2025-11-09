@@ -1,5 +1,18 @@
 import axios from "axios";
-import { TaskAssignment, Image, Event, Feedback, Task, Assignment, Recipe, Ingredient, Tool, Utensil, MealPrep, GroceryList } from "../shared/types";
+import {
+  TaskAssignment,
+  Image,
+  Event,
+  Feedback,
+  Task,
+  Assignment,
+  Recipe,
+  Ingredient,
+  Tool,
+  Utensil,
+  MealPrep,
+  GroceryList,
+} from "../shared/types";
 
 const API_URL = "http://localhost:3000"; // TODO: change this to be actual backend URL once deployed
 
@@ -21,7 +34,7 @@ export interface AssignmentPayload {
 export interface FeedbackPayload {
   taskAssignmentId: string;
   taskId: string;
-  reaction: 'yes' | 'maybe' | 'no'; 
+  reaction: "yes" | "maybe" | "no";
 }
 
 export interface TaskPayload {
@@ -29,12 +42,12 @@ export interface TaskPayload {
   steps: string[];
 }
 
-export type RecipePayload = Omit<Recipe, 'id'>;
-export type IngredientPayload = Omit<Ingredient, 'id'>;
-export type ToolPayload = Omit<Tool, 'id'>;
-export type UtensilPayload = Omit<Utensil, 'id'>;
-export type MealPrepPayload = Omit<MealPrep, 'id'>;
-export type GroceryListPayload = Omit<GroceryList, 'id'>;
+export type RecipePayload = Omit<Recipe, "id">;
+export type IngredientPayload = Omit<Ingredient, "id">;
+export type ToolPayload = Omit<Tool, "id">;
+export type UtensilPayload = Omit<Utensil, "id">;
+export type MealPrepPayload = Omit<MealPrep, "id">;
+export type GroceryListPayload = Omit<GroceryList, "id">;
 
 export const api = axios.create({
   baseURL: API_URL,
@@ -47,7 +60,10 @@ export async function getJSON<T>(url: string) {
   return data;
 }
 
-export async function postJSON<TRes, TBody = unknown>(url: string, body?: TBody) {
+export async function postJSON<TRes, TBody = unknown>(
+  url: string,
+  body?: TBody,
+) {
   const { data } = await api.post<TRes>(url, body);
   return data;
 }
@@ -57,7 +73,10 @@ export async function delJSON<TRes = { id: string }>(url: string) {
   return data;
 }
 
-export async function putJSON<TRes, TBody = unknown>(url: string, body?: TBody) {
+export async function putJSON<TRes, TBody = unknown>(
+  url: string,
+  body?: TBody,
+) {
   const { data } = await api.put<TRes>(url, body);
   return data;
 }
@@ -75,8 +94,10 @@ export async function listTasks(): Promise<Task[]> {
   return getJSON<Task[]>("/api/tasks");
 }
 
-export async function deleteTask(id: string): Promise<{ message: string; id: string }> {
-  return delJSON<{ message: string; id: string }>(`/api/tasks/${id}`,);
+export async function deleteTask(
+  id: string,
+): Promise<{ message: string; id: string }> {
+  return delJSON<{ message: string; id: string }>(`/api/tasks/${id}`);
 }
 
 // Events
@@ -89,12 +110,16 @@ export async function createEvent(payload: EventPayload): Promise<Event> {
 }
 
 // Assignments
-export async function createAssignment(payload: AssignmentPayload): Promise<Assignment> {
+export async function createAssignment(
+  payload: AssignmentPayload,
+): Promise<Assignment> {
   return postJSON<Assignment, AssignmentPayload>("/api/assignments", payload);
 }
 
 // Feedback
-export async function createFeedback(payload: FeedbackPayload): Promise<Feedback> {
+export async function createFeedback(
+  payload: FeedbackPayload,
+): Promise<Feedback> {
   return postJSON<Feedback, FeedbackPayload>("/api/feedback", payload);
 }
 
@@ -111,16 +136,23 @@ export async function getRecipe(id: string): Promise<Recipe> {
   return getJSON<Recipe>(`/api/recipes/${id}`);
 }
 
-export async function updateRecipe(id: string, payload: Recipe): Promise<Recipe> {
+export async function updateRecipe(
+  id: string,
+  payload: Recipe,
+): Promise<Recipe> {
   return putJSON<Recipe, Recipe>(`/api/recipes/${id}`, payload);
 }
 
-export async function deleteRecipe(id: string): Promise<{ message: string; id: string }> {
+export async function deleteRecipe(
+  id: string,
+): Promise<{ message: string; id: string }> {
   return delJSON<{ message: string; id: string }>(`/api/recipes/${id}`);
 }
 
 // Ingredients
-export async function createIngredient(payload: IngredientPayload): Promise<Ingredient> {
+export async function createIngredient(
+  payload: IngredientPayload,
+): Promise<Ingredient> {
   return postJSON<Ingredient, IngredientPayload>("/api/ingredients", payload);
 }
 
@@ -132,11 +164,16 @@ export async function getIngredient(id: string): Promise<Ingredient> {
   return getJSON<Ingredient>(`/api/ingredients/${id}`);
 }
 
-export async function updateIngredient(id: string, payload: Ingredient): Promise<Ingredient> {
+export async function updateIngredient(
+  id: string,
+  payload: Ingredient,
+): Promise<Ingredient> {
   return putJSON<Ingredient, Ingredient>(`/api/ingredients/${id}`, payload);
 }
 
-export async function deleteIngredient(id: string): Promise<{ message: string; id: string }> {
+export async function deleteIngredient(
+  id: string,
+): Promise<{ message: string; id: string }> {
   return delJSON<{ message: string; id: string }>(`/api/ingredients/${id}`);
 }
 
@@ -157,7 +194,9 @@ export async function updateTool(id: string, payload: Tool): Promise<Tool> {
   return putJSON<Tool, Tool>(`/api/tools/${id}`, payload);
 }
 
-export async function deleteTool(id: string): Promise<{ message: string; id: string }> {
+export async function deleteTool(
+  id: string,
+): Promise<{ message: string; id: string }> {
   return delJSON<{ message: string; id: string }>(`/api/tools/${id}`);
 }
 
@@ -174,16 +213,23 @@ export async function getUtensil(id: string): Promise<Utensil> {
   return getJSON<Utensil>(`/api/utensils/${id}`);
 }
 
-export async function updateUtensil(id: string, payload: Utensil): Promise<Utensil> {
+export async function updateUtensil(
+  id: string,
+  payload: Utensil,
+): Promise<Utensil> {
   return putJSON<Utensil, Utensil>(`/api/utensils/${id}`, payload);
 }
 
-export async function deleteUtensil(id: string): Promise<{ message: string; id: string }> {
+export async function deleteUtensil(
+  id: string,
+): Promise<{ message: string; id: string }> {
   return delJSON<{ message: string; id: string }>(`/api/utensils/${id}`);
 }
 
 // Meal Preps
-export async function createMealPrep(payload: MealPrepPayload): Promise<MealPrep> {
+export async function createMealPrep(
+  payload: MealPrepPayload,
+): Promise<MealPrep> {
   return postJSON<MealPrep, MealPrepPayload>("/api/mealpreps", payload);
 }
 
@@ -195,17 +241,27 @@ export async function getMealPrep(id: string): Promise<MealPrep> {
   return getJSON<MealPrep>(`/api/mealpreps/${id}`);
 }
 
-export async function updateMealPrep(id: string, payload: MealPrep): Promise<MealPrep> {
+export async function updateMealPrep(
+  id: string,
+  payload: MealPrep,
+): Promise<MealPrep> {
   return putJSON<MealPrep, MealPrep>(`/api/mealpreps/${id}`, payload);
 }
 
-export async function deleteMealPrep(id: string): Promise<{ message: string; id: string }> {
+export async function deleteMealPrep(
+  id: string,
+): Promise<{ message: string; id: string }> {
   return delJSON<{ message: string; id: string }>(`/api/mealpreps/${id}`);
 }
 
 // Grocery Lists
-export async function createGroceryList(payload: GroceryListPayload): Promise<GroceryList> {
-  return postJSON<GroceryList, GroceryListPayload>("/api/grocerylists", payload);
+export async function createGroceryList(
+  payload: GroceryListPayload,
+): Promise<GroceryList> {
+  return postJSON<GroceryList, GroceryListPayload>(
+    "/api/grocerylists",
+    payload,
+  );
 }
 
 export async function listGroceryLists(): Promise<GroceryList[]> {
@@ -216,10 +272,15 @@ export async function getGroceryList(id: string): Promise<GroceryList> {
   return getJSON<GroceryList>(`/api/grocerylists/${id}`);
 }
 
-export async function updateGroceryList(id: string, payload: GroceryList): Promise<GroceryList> {
+export async function updateGroceryList(
+  id: string,
+  payload: GroceryList,
+): Promise<GroceryList> {
   return putJSON<GroceryList, GroceryList>(`/api/grocerylists/${id}`, payload);
 }
 
-export async function deleteGroceryList(id: string): Promise<{ message: string; id: string }> {
+export async function deleteGroceryList(
+  id: string,
+): Promise<{ message: string; id: string }> {
   return delJSON<{ message: string; id: string }>(`/api/grocerylists/${id}`);
 }

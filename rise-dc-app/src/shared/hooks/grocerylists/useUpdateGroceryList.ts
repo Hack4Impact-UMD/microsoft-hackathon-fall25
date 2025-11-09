@@ -4,6 +4,7 @@ import { GroceryList } from "../../types";
 
 export default function useUpdateGroceryList() {
   return useMutation({
-    mutationFn: (payload: GroceryList) => updateGroceryList(payload.id, payload)
-  })
+    mutationFn: (payload: GroceryList) =>
+      updateGroceryList(payload.id, payload),
+  });
 }

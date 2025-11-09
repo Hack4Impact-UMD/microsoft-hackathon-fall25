@@ -56,7 +56,7 @@ const OptionButton = <T extends { name: string; image_id: string }>({
           ? "border-orange-500 bg-orange-50"
           : "border-gray-300 bg-white hover:border-gray-400",
         disabled && "opacity-50 cursor-not-allowed",
-        className
+        className,
       )}
       style={{ width: 300 }} // match ImageCard width
       disabled={disabled}
@@ -85,7 +85,7 @@ const OptionButton = <T extends { name: string; image_id: string }>({
             "absolute top-1 right-1 w-6 h-6 rounded border-2 flex items-center justify-center transition-colors duration-200 z-10",
             clicked
               ? "border-blue-600 bg-blue-600 text-white"
-              : "border-gray-400 bg-white text-transparent hover:bg-gray-100"
+              : "border-gray-400 bg-white text-transparent hover:bg-gray-100",
           )}
         >
           {clicked && (

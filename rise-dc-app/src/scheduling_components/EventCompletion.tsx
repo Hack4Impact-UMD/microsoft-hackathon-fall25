@@ -11,16 +11,21 @@ const EventCompletionPopup = ({
   onClose,
 }: {
   event: string;
-  onClose: (data?: { enjoyment: "YES" | "MAYBE" | "NO"; photoFile?: File }) => void; // Changed to photoFile
+  onClose: (data?: {
+    enjoyment: "YES" | "MAYBE" | "NO";
+    photoFile?: File;
+  }) => void; // Changed to photoFile
 }) => {
   const [selected, setSelected] = useState<"YES" | "MAYBE" | "NO" | null>(null);
-  const [uploadedPhotoFile, setUploadedPhotoFile] = useState<File | undefined>(undefined); // Changed to File
+  const [uploadedPhotoFile, setUploadedPhotoFile] = useState<File | undefined>(
+    undefined,
+  ); // Changed to File
 
   const handleFinish = () => {
     if (selected) {
       onClose({
         enjoyment: selected,
-        photoFile: uploadedPhotoFile // Pass the File object
+        photoFile: uploadedPhotoFile, // Pass the File object
       });
     }
   };
@@ -80,7 +85,7 @@ const EventCompletionPopup = ({
         </div>
 
         <div className="w-full flex justify-center mb-2">
-          <PhotoUploader 
+          <PhotoUploader
             maxFiles={1}
             multiple={false}
             onPhotoUrlChange={handlePhotoUrlChange} // This now receives both URL and File

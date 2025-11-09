@@ -1,10 +1,12 @@
 import { useState } from "react";
 
-type ListScrollProps<T extends { name: string, id: string}> = {
+type ListScrollProps<T extends { name: string; id: string }> = {
   items: T[];
 };
 
-export default function ListScroll<T extends { name: string, id: string }>({ items }: ListScrollProps<T>) {
+export default function ListScroll<T extends { name: string; id: string }>({
+  items,
+}: ListScrollProps<T>) {
   const [selected, setSelected] = useState<T>(items[0]);
 
   return (
@@ -15,9 +17,7 @@ export default function ListScroll<T extends { name: string, id: string }>({ ite
             key={item.name}
             onClick={() => setSelected(item)}
             className={`border-gray-200 border-t border-b p-3 cursor-pointer font-medium ${
-              selected.id == (item.id)
-                ? "bg-gray-200"
-                : "hover:bg-gray-100"
+              selected.id == item.id ? "bg-gray-200" : "hover:bg-gray-100"
             }`}
           >
             {item.name}

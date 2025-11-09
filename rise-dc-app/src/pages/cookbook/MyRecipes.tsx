@@ -6,13 +6,7 @@ import { recipes } from "../../shared/data/dummyRecipes";
 import ImageCard from "../../shared/components/ImageCard";
 import BackButton from "../../cookbook_components/BackButton";
 
-const MEAL_ORDER = [
-  "breakfast",
-  "lunch",
-  "dinner",
-  "snack",
-  "dessert",
-];
+const MEAL_ORDER = ["breakfast", "lunch", "dinner", "snack", "dessert"];
 
 const MEAL_LABELS: Record<string, string> = {
   breakfast: "Breakfast",
@@ -24,13 +18,16 @@ const MEAL_LABELS: Record<string, string> = {
 
 export default function MyRecipes() {
   const navigate = useNavigate();
-  const favoriteList = useMemo(() => recipes.filter(recipe => recipe.isFavorite), []);
+  const favoriteList = useMemo(
+    () => recipes.filter((recipe) => recipe.isFavorite),
+    [],
+  );
 
   const favoritesByMeal = useMemo(
     () =>
       favoriteList.reduce(
         (acc, recipe) => {
-          recipe.meal.forEach(mealType => {
+          recipe.meal.forEach((mealType) => {
             acc[mealType] = acc[mealType] || [];
             acc[mealType]!.push(recipe);
           });
@@ -43,7 +40,7 @@ export default function MyRecipes() {
 
   return (
     <div className="p-10 flex flex-col">
-      <BackButton/>
+      <BackButton />
 
       <h1 className="text-3xl font-bold mt-5 mb-10">My Recipes</h1>
 
@@ -61,9 +58,7 @@ export default function MyRecipes() {
 
           return (
             <div key={meal} className="space-y-0.5">
-              <h2 className="text-2xl font-md">
-                {MEAL_LABELS[meal]}
-              </h2>
+              <h2 className="text-2xl font-md">{MEAL_LABELS[meal]}</h2>
               <Slideshow
                 title=""
                 images={recipes.map((recipe) => (

@@ -3,6 +3,6 @@ import { deleteUtensil } from "../../../services/service";
 
 export default function useDeleteUtensil() {
   return useMutation({
-    mutationFn: deleteUtensil
-  })
+    mutationFn: deleteUtensil,
+  });
 }

@@ -31,7 +31,7 @@ export default function RecipesByMeal() {
   }
 
   const filteredRecipes = recipesState.filter((recipe) =>
-    recipe.meal.includes(meal as MealType)
+    recipe.meal.includes(meal as MealType),
   );
 
   const handleToggleFavorite = (id: string) => {

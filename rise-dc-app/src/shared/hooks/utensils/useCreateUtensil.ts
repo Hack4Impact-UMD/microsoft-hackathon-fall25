@@ -3,6 +3,6 @@ import { createUtensil } from "../../../services/service";
 
 export default function useCreateUtensil() {
   return useMutation({
-    mutationFn: createUtensil
-  })
+    mutationFn: createUtensil,
+  });
 }

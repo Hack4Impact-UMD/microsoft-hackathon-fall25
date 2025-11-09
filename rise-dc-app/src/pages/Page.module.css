@@ -5,13 +5,11 @@
 }
 
 body {
-    background-color: #0C343D;
+  background-color: #0c343d;
 }
 
-
-
 .backButton {
-   width: 3rem;
+  width: 3rem;
   height: 3rem;
   cursor: pointer;
   position: absolute;

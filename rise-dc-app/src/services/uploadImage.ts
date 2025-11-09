@@ -6,7 +6,7 @@ const API_BASE =
 export function uploadImageWithMeta(
   file: File,
   onProgress: (p: number) => void,
-  opts: { caption: string; userId?: string; eventId?: string }
+  opts: { caption: string; userId?: string; eventId?: string },
 ): Promise<ImageRec> {
   return new Promise((resolve, reject) => {
     const form = new FormData();

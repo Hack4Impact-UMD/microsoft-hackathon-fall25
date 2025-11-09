@@ -1,44 +1,44 @@
 .popupContainer {
-    display: flex;
-    flex-direction: column;  
-    align-items: center;
-    background-color: #f5f5f5; 
-    width: 35%;             
-    height: 80%;
-    position: absolute;
-    top: 50%;                  
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;             
-    border-radius: 12px;       
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
-    padding: 16px;     
-    z-index: 9999 !important      
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f5f5f5;
+  width: 35%;
+  height: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  z-index: 9999 !important;
 }
 
 .popupHeader {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    z-index: 9999;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 9999;
 }
 
 .textarea {
-    flex: 1;                 /* fills remaining height */
-    width: 100%;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    resize: none;            /* prevent manual resize breaking layout */
-    font-size: 1rem;
-    margin-top: 8px;
-    box-sizing: border-box;
+  flex: 1; /* fills remaining height */
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: none; /* prevent manual resize breaking layout */
+  font-size: 1rem;
+  margin-top: 8px;
+  box-sizing: border-box;
 }
 
-.createNew{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.createNew {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .createInfo {
@@ -63,12 +63,14 @@
 }
 
 .moreInfoButton {
-  padding: 0.5rem 1rem;          /* p-2 px-4 */
-  background-color: #1f2937;     /* bg-gray-800 */
-  color: #f3f4f6;               /* text-gray-100 */
-  border-radius: 0.25rem;       /* rounded */
-  cursor: pointer;              /* cursor-pointer */
-  transition: opacity 0.2s ease, cursor 0.2s ease;
+  padding: 0.5rem 1rem; /* p-2 px-4 */
+  background-color: #1f2937; /* bg-gray-800 */
+  color: #f3f4f6; /* text-gray-100 */
+  border-radius: 0.25rem; /* rounded */
+  cursor: pointer; /* cursor-pointer */
+  transition:
+    opacity 0.2s ease,
+    cursor 0.2s ease;
 }
 
 .stepNumber {
@@ -79,12 +81,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #EB5904;
+  background-color: #eb5904;
   color: white;
   width: 90%;
   border-radius: 10px;
   height: 40px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 .goals {
@@ -98,7 +100,7 @@
 }
 
 .goal {
-  border: 1px solid #EB5904;
+  border: 1px solid #eb5904;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -111,7 +113,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #EB5904;
+  background-color: #eb5904;
   color: white;
   border-radius: 100px;
   width: 20px;
@@ -119,11 +121,11 @@
 }
 
 .goalContainer {
-  background: #fff;                    
-  border-radius: 12px;                 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);                 
-  margin: 16px auto;                   
-  width: 90%;                  
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 16px auto;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -133,9 +135,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color:#EB5904;
-  border-top-left-radius: 12px;  
-  border-top-right-radius: 12px;  
+  background-color: #eb5904;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   width: 100%;
   height: 150px;
   margin-bottom: 10px;
@@ -153,6 +155,6 @@
 
 .goalRow {
   display: flex;
-  align-items: center; 
-  gap: 8px; 
+  align-items: center;
+  gap: 8px;
 }

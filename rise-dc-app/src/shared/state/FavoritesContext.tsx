@@ -28,7 +28,9 @@ interface FavoritesContextValue {
 const FavoritesContext = createContext<FavoritesContextValue | null>(null);
 
 export function FavoritesProvider({ children }: { children: ReactNode }) {
-  const [favorites, setFavorites] = useState<Record<string, FavoriteRecipe>>({});
+  const [favorites, setFavorites] = useState<Record<string, FavoriteRecipe>>(
+    {},
+  );
 
   const addFavorite = useCallback((recipe: FavoriteRecipe) => {
     setFavorites((prev) => {
@@ -78,7 +80,9 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
   }, [favorites, toggleFavorite, addFavorite, removeFavorite]);
 
   return (
-    <FavoritesContext.Provider value={value}>{children}</FavoritesContext.Provider>
+    <FavoritesContext.Provider value={value}>
+      {children}
+    </FavoritesContext.Provider>
   );
 }
 
@@ -91,4 +95,3 @@ export function useFavorites() {
 
   return context;
 }
-

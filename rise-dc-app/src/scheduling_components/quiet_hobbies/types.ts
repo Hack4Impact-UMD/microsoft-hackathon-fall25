@@ -30,9 +30,9 @@ export interface Task {
   Category: TaskCategory;
 }
 
-export type TaskCategory = 
+export type TaskCategory =
   | "Hobbies"
-  | "Hygiene" 
+  | "Hygiene"
   | "Chores"
   | "Skills"
   | "Quiet Hobbies"
@@ -83,7 +83,7 @@ export interface QuietHobbiesStaffProps {
 }
 
 export interface QuietHobbiesParticipantProps {
-   onBack: () => void;
+  onBack: () => void;
   onActivityChosen: (activity: any) => void;
   onPhotoTaken: () => void;
   onClose: () => void;

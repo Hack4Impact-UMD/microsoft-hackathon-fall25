@@ -5,5 +5,5 @@ export default function useAllGroceryLists() {
   return useQuery({
     queryKey: ["grocerylists"],
     queryFn: listGroceryLists,
-  })
+  });
 }

@@ -13,13 +13,14 @@ export default function InstructionPage() {
     stepNum?: string;
   }>();
 
-  if (!recipeId || !stepNum) return <div>Recipe ID or step number not found</div>;
+  if (!recipeId || !stepNum)
+    return <div>Recipe ID or step number not found</div>;
 
   const recipe: Recipe | undefined = getRecipe(recipeId);
   if (!recipe) return <div>Recipe not found!</div>;
 
   const instruction: Instruction | undefined = recipe.instructions.find(
-    (step) => step.step_number === Number(stepNum)
+    (step) => step.step_number === Number(stepNum),
   );
   if (!instruction) return <div>{stepNum} not found!</div>;
 
@@ -52,9 +53,12 @@ export default function InstructionPage() {
             }
             onClick={() => {
               instruction.step_number + 1 < totalSteps
-                ? navigate(`/cookbook/recipe/${recipeId}/${Number(stepNum) + 1}`, {
-                    state: { totalSteps },
-                  })
+                ? navigate(
+                    `/cookbook/recipe/${recipeId}/${Number(stepNum) + 1}`,
+                    {
+                      state: { totalSteps },
+                    },
+                  )
                 : navigate(`/cookbook/recipe/${recipeId}/complete`);
             }}
           />

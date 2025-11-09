@@ -4,6 +4,6 @@ import { updateTool } from "../../../services/service";
 
 export default function useUpdateTool() {
   return useMutation({
-    mutationFn: (payload: Tool) => updateTool(payload.id, payload)
-  })
+    mutationFn: (payload: Tool) => updateTool(payload.id, payload),
+  });
 }

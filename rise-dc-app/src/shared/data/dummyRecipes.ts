@@ -8,7 +8,7 @@ export const recipes: Recipe[] = [
   {
     id: "breakfast-overnight-oats",
     title: "Overnight Oats",
-    image_id: '/overnightoats.png',
+    image_id: "/overnightoats.png",
     noCook: true,
     time: "5 minutes",
     servingSize: 1,
@@ -74,7 +74,7 @@ export const recipes: Recipe[] = [
   {
     id: "breakfast-egg-muffins",
     title: "Veggie Egg Muffins",
-    image_id: '/veggie-muffin.jpg',
+    image_id: "/veggie-muffin.jpg",
     noCook: false,
     time: "30 minutes",
     servingSize: 6,
@@ -140,7 +140,7 @@ export const recipes: Recipe[] = [
   {
     id: "breakfast-yogurt-parfait",
     title: "Berry Yogurt Parfait",
-    image_id: '/berry-yogurt.png',
+    image_id: "/berry-yogurt.png",
     noCook: true,
     time: "10 minutes",
     servingSize: 1,
@@ -196,7 +196,7 @@ export const recipes: Recipe[] = [
   {
     id: "breakfast-banana-pancakes",
     title: "Banana Pancakes",
-    image_id: '/banana-pancakes.png',
+    image_id: "/banana-pancakes.png",
     noCook: false,
     time: "20 minutes",
     servingSize: 4,
@@ -264,7 +264,7 @@ export const recipes: Recipe[] = [
   {
     id: "lunchDinner-sheet-pan-chicken",
     title: "Sheet Pan Chicken",
-    image_id: '/sheet-pan-chicken.png',
+    image_id: "/sheet-pan-chicken.png",
     noCook: false,
     time: "45 minutes",
     servingSize: 4,
@@ -330,7 +330,7 @@ export const recipes: Recipe[] = [
   {
     id: "lunchDinner-stir-fry",
     title: "Veggie Stir-Fry",
-    image_id: '/veggie-stir-fry.png',
+    image_id: "/veggie-stir-fry.png",
     noCook: false,
     time: "25 minutes",
     servingSize: 4,
@@ -406,7 +406,7 @@ export const recipes: Recipe[] = [
   {
     id: "lunchDinner-turkey-chili",
     title: "Turkey Chili",
-    image_id: '/turkey-chili.png',
+    image_id: "/turkey-chili.png",
     noCook: false,
     time: "60 minutes",
     servingSize: 6,
@@ -483,7 +483,7 @@ export const recipes: Recipe[] = [
   {
     id: "lunchDinner-taco-bowls",
     title: "Taco Bowls",
-    image_id: '/taco-bowl.png',
+    image_id: "/taco-bowl.png",
     noCook: false,
     time: "30 minutes",
     servingSize: 4,
@@ -561,7 +561,7 @@ export const recipes: Recipe[] = [
   {
     id: "snack-energy-balls",
     title: "Energy Bites",
-    image_id: '/energy-bites.jpeg',
+    image_id: "/energy-bites.jpeg",
     noCook: true,
     time: "15 minutes",
     servingSize: 12,
@@ -627,7 +627,7 @@ export const recipes: Recipe[] = [
   {
     id: "snack-veggie-dippers",
     title: "Veggie Dippers",
-    image_id: '/veggie-dippers.png',
+    image_id: "/veggie-dippers.png",
     noCook: true,
     time: "10 minutes",
     servingSize: 4,
@@ -683,7 +683,7 @@ export const recipes: Recipe[] = [
   {
     id: "snack-fruit-salsa",
     title: "Fruit Salsa",
-    image_id: '/fruit-salsa.png',
+    image_id: "/fruit-salsa.png",
     noCook: true,
     time: "15 minutes",
     servingSize: 6,
@@ -749,7 +749,7 @@ export const recipes: Recipe[] = [
   {
     id: "snack-hummus-plate",
     title: "Hummus Plate",
-    image_id: '/hummus-plate.png',
+    image_id: "/hummus-plate.png",
     noCook: true,
     time: "5 minutes",
     servingSize: 4,
@@ -817,7 +817,7 @@ export const recipes: Recipe[] = [
   {
     id: "dessert-chia-pudding",
     title: "Chia Pudding",
-    image_id: '/chia-pudding.png',
+    image_id: "/chia-pudding.png",
     noCook: true,
     time: "5 minutes + chill time",
     servingSize: 2,
@@ -873,7 +873,7 @@ export const recipes: Recipe[] = [
   {
     id: "dessert-fruit-crisp",
     title: "Berry Crisp",
-    image_id: '/berry-crisp.png',
+    image_id: "/berry-crisp.png",
     noCook: false,
     time: "45 minutes",
     servingSize: 6,
@@ -939,7 +939,7 @@ export const recipes: Recipe[] = [
   {
     id: "dessert-frozen-yogurt",
     title: "Frozen Yogurt Bark",
-    image_id: '/yogurt-bark.png',
+    image_id: "/yogurt-bark.png",
     noCook: true,
     time: "10 minutes + freeze time",
     servingSize: 8,
@@ -985,7 +985,7 @@ export const recipes: Recipe[] = [
   {
     id: "dessert-banana-nice-cream",
     title: "Banana Nice Cream",
-    image_id: '/banana-ice-cream.png',
+    image_id: "/banana-ice-cream.png",
     noCook: true,
     time: "10 minutes",
     servingSize: 2,
@@ -1096,46 +1096,50 @@ export const recipes: Recipe[] = [
       {
         id: "step1",
         step_number: 1,
-        image_id: '/butter-spread.png',
+        image_id: "/butter-spread.png",
         warning: "Be careful, the knife is sharp!",
-        instructions: "Spread butter on one side of each bread slice."
+        instructions: "Spread butter on one side of each bread slice.",
       },
       {
         id: "step2",
         step_number: 2,
-        image_id: '/bread-skillet.png',
-        instructions: "Place one slice of bread, butter-side down, in a skillet over medium heat."
+        image_id: "/bread-skillet.png",
+        instructions:
+          "Place one slice of bread, butter-side down, in a skillet over medium heat.",
       },
       {
         id: "step3",
         step_number: 3,
-        image_id: '/cheese-slices.png',
-        instructions: "Top with cheese slices and the second slice of bread, butter-side up."
+        image_id: "/cheese-slices.png",
+        instructions:
+          "Top with cheese slices and the second slice of bread, butter-side up.",
       },
       {
         id: "step4",
         step_number: 4,
-        image_id: '/golden-brown.png',
-        instructions: "Cook until the bottom slice is golden brown (about 3–4 minutes)."
+        image_id: "/golden-brown.png",
+        instructions:
+          "Cook until the bottom slice is golden brown (about 3–4 minutes).",
       },
       {
         id: "step5",
         step_number: 5,
-        image_id: '/both-golden.png',
-        instructions: "Flip the sandwich carefully with a spatula and cook until the other side is golden brown and cheese is melted."
+        image_id: "/both-golden.png",
+        instructions:
+          "Flip the sandwich carefully with a spatula and cook until the other side is golden brown and cheese is melted.",
       },
       {
         id: "step6",
         step_number: 6,
-        image_id: '/sliced-grilled-cheese.png',
-        instructions: "Remove from skillet, slice in half, and serve hot."
-      }
+        image_id: "/sliced-grilled-cheese.png",
+        instructions: "Remove from skillet, slice in half, and serve hot.",
+      },
     ],
     nutrition: [
       { number: 400, field: "Calories" },
       { number: 12, field: "Protein (g)" },
       { number: 28, field: "Carbohydrates (g)" },
-      { number: 24, field: "Fat (g)" }
+      { number: 24, field: "Fat (g)" },
     ],
     isFavorite: false,
   },
@@ -1159,5 +1163,5 @@ export const allUniqueIngredients: Ingredient[] = Array.from(
       map.set(ingredient.id, ingredient);
       return map;
     }, new Map<string, Ingredient>())
-    .values()
+    .values(),
 );

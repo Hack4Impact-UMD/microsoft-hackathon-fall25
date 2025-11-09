@@ -5,6 +5,6 @@ export default function useAllRecipes() {
   return useQuery({
     queryKey: ["recipes"],
     queryFn: listRecipes,
-    staleTime: 5 * 60 * 1000
+    staleTime: 5 * 60 * 1000,
   });
 }

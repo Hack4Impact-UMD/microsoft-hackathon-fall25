@@ -8,7 +8,15 @@ export interface TaskBodyProps {
   onValidityChange?: (valid: boolean) => void;
 }
 
-function StepRow({ index, value, onChange }: { index: number; value: string; onChange: (next: string) => void }) {
+function StepRow({
+  index,
+  value,
+  onChange,
+}: {
+  index: number;
+  value: string;
+  onChange: (next: string) => void;
+}) {
   return (
     <div
       className="flex items-center w-full rounded-lg border border-[#FD8743] px-3 py-2 shadow-sm"
@@ -34,15 +42,28 @@ function StepRow({ index, value, onChange }: { index: number; value: string; onC
         aria-hidden
         className="text-[#FD8743] ml-2"
       >
-        <path d="M7 9h10M7 12h10M7 15h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <path
+          d="M7 9h10M7 12h10M7 15h10"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
       </svg>
     </div>
   );
 }
 
-export default function TaskBody({ title, steps, onTitleChange, onStepsChange, onValidityChange }: TaskBodyProps) {
+export default function TaskBody({
+  title,
+  steps,
+  onTitleChange,
+  onStepsChange,
+  onValidityChange,
+}: TaskBodyProps) {
   const [localTitle, setLocalTitle] = useState(title);
-  const [localSteps, setLocalSteps] = useState<string[]>(steps.length ? steps : [""]);
+  const [localSteps, setLocalSteps] = useState<string[]>(
+    steps.length ? steps : [""],
+  );
 
   useEffect(() => setLocalTitle(title), [title]);
   useEffect(() => setLocalSteps(steps.length ? steps : [""]), [steps]);
@@ -82,9 +103,9 @@ export default function TaskBody({ title, steps, onTitleChange, onStepsChange, o
           className="w-28 h-28 rounded-full border-2 border-[#2E9BFF]"
           style={{
             backgroundImage:
-              'linear-gradient(45deg, #f6f6f6 25%, transparent 25%), linear-gradient(-45deg, #f6f6f6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f6f6f6 75%), linear-gradient(-45deg, transparent 75%, #f6f6f6 75%)',
-            backgroundSize: '14px 14px',
-            backgroundPosition: '0 0, 0 7px, 7px -7px, -7px 0px',
+              "linear-gradient(45deg, #f6f6f6 25%, transparent 25%), linear-gradient(-45deg, #f6f6f6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f6f6f6 75%), linear-gradient(-45deg, transparent 75%, #f6f6f6 75%)",
+            backgroundSize: "14px 14px",
+            backgroundPosition: "0 0, 0 7px, 7px -7px, -7px 0px",
           }}
         />
       </div>
@@ -110,7 +131,12 @@ export default function TaskBody({ title, steps, onTitleChange, onStepsChange, o
       <div className="px-6 pb-6">
         <div className="space-y-3" aria-label="Steps list">
           {localSteps.map((s, idx) => (
-            <StepRow key={`step-${idx}`} index={idx} value={s} onChange={(next) => updateStep(idx, next)} />
+            <StepRow
+              key={`step-${idx}`}
+              index={idx}
+              value={s}
+              onChange={(next) => updateStep(idx, next)}
+            />
           ))}
           <div className="pt-1">
             <button

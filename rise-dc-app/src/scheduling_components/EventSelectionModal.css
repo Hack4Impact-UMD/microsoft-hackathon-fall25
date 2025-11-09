@@ -90,7 +90,10 @@
   height: 150px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out,
+    border 0.2s ease-in-out;
   cursor: pointer;
   position: relative; /* Added for checkmark positioning */
   flex-shrink: 0;
@@ -200,7 +203,7 @@
 
 /* New CSS for selected state */
 .event-card.selected {
-  border: 2px solid #EB5904;
+  border: 2px solid #eb5904;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-5px);
 }
@@ -210,18 +213,18 @@
   bottom: 5px;
   right: 5px;
   font-size: 20px;
-  color: #EB5904;
+  color: #eb5904;
 }
 
 /* New CSS for selected state */
 .event-card.selected {
-  border: 2px solid #EB5904;
+  border: 2px solid #eb5904;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-5px);
 }
 
 .add-time-button.enabled {
-  background-color: #0C77D9; /* This makes the button blue */
+  background-color: #0c77d9; /* This makes the button blue */
   color: #fff; /* This makes the text white */
   cursor: pointer;
   opacity: 1;
@@ -339,12 +342,12 @@
 }
 
 .time-selector.active.start-time-selector {
-  border-color: #EB5904;
+  border-color: #eb5904;
   box-shadow: 0 4px 12px rgba(235, 89, 4, 0.2);
 }
 
 .time-selector.active.end-time-selector {
-  border-color: #0C77D9;
+  border-color: #0c77d9;
   box-shadow: 0 4px 12px rgba(12, 119, 217, 0.2);
 }
 
@@ -386,12 +389,12 @@
 }
 
 .start-time-selector .period-toggle button.active {
-  background-color: #EB5904;
+  background-color: #eb5904;
   color: white;
 }
 
 .end-time-selector .period-toggle button.active {
-  background-color: #0C77D9;
+  background-color: #0c77d9;
   color: white;
 }
 
@@ -427,14 +430,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem; 
+  font-size: 1rem;
   line-height: 1;
-  padding: 0; 
+  padding: 0;
   color: #888;
   border-radius: 4px;
   transition: all 0.2s;
   width: 30px;
-  height: 20px; 
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -447,11 +450,11 @@
 }
 
 .time-input button.up-arrow::before {
-  content: '▲';
+  content: "▲";
 }
 
 .time-input button.down-arrow::before {
-  content: '▼';
+  content: "▼";
 }
 
 .modal-actions {
@@ -462,7 +465,7 @@
 }
 
 .ok-button {
-  background-color: #EB5904;
+  background-color: #eb5904;
   color: white;
   border: none;
   border-radius: 25px;

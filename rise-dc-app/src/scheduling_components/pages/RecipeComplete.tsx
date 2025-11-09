@@ -25,14 +25,14 @@ export default function RecipeComplete() {
   }
 
   const handleImageLoad = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
   ) => {
     const img = e.currentTarget;
     const aspectRatio = img.naturalWidth / img.naturalHeight;
     const containerRatio = 4 / 3; // match h-80 w-full container ratio
 
     setObjectFit(
-      Math.abs(aspectRatio - containerRatio) < 0.05 ? "cover" : "contain"
+      Math.abs(aspectRatio - containerRatio) < 0.05 ? "cover" : "contain",
     );
 
     setIsRectangle(aspectRatio > 1.2 || aspectRatio < 0.8);

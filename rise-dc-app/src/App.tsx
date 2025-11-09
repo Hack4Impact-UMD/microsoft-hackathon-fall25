@@ -1,16 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Navbar from './shared/components/Navbar'
-import Home from './pages/Home'
-import Cookbook from './pages/Cookbook'
-import Scheduler from './pages/Scheduler'
-import AllRecipes from './pages/cookbook/AllRecipes'
-import MyRecipes from './pages/cookbook/MyRecipes'
-import RecipesByMeal from './pages/cookbook/RecipesByMeal'
-import RecipePreview from './pages/cookbook/RecipePreview'
-import InstructionPage from './pages/cookbook/InstructionPage'
-import RecipeComplete from './scheduling_components/pages/RecipeComplete'
-import GroceryList from './pages/cookbook/GroceryList'
-import GroceryShopping from './pages/cookbook/GroceryShopping'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./shared/components/Navbar";
+import Home from "./pages/Home";
+import Cookbook from "./pages/Cookbook";
+import Scheduler from "./pages/Scheduler";
+import AllRecipes from "./pages/cookbook/AllRecipes";
+import MyRecipes from "./pages/cookbook/MyRecipes";
+import RecipesByMeal from "./pages/cookbook/RecipesByMeal";
+import RecipePreview from "./pages/cookbook/RecipePreview";
+import InstructionPage from "./pages/cookbook/InstructionPage";
+import RecipeComplete from "./scheduling_components/pages/RecipeComplete";
+import GroceryList from "./pages/cookbook/GroceryList";
+import GroceryShopping from "./pages/cookbook/GroceryShopping";
 
 function App() {
   return (
@@ -20,17 +20,26 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cookbook" element={<Cookbook />} />
         <Route path="/cookbook/groceryList" element={<GroceryList />} />
-        <Route path="/cookbook/groceryList/shopping" element={<GroceryShopping />} />
+        <Route
+          path="/cookbook/groceryList/shopping"
+          element={<GroceryShopping />}
+        />
         <Route path="/cookbook/all-recipes" element={<AllRecipes />} />
         <Route path="/cookbook/my-recipes" element={<MyRecipes />} />
         <Route path="/cookbook/:meal" element={<RecipesByMeal />} />
         <Route path="/cookbook/recipe/:recipeId" element={<RecipePreview />} />
-        <Route path="/cookbook/recipe/:recipeId/:stepNum" element={<InstructionPage />} />
-        <Route path="/cookbook/recipe/:recipeId/complete" element={<RecipeComplete />} />
+        <Route
+          path="/cookbook/recipe/:recipeId/:stepNum"
+          element={<InstructionPage />}
+        />
+        <Route
+          path="/cookbook/recipe/:recipeId/complete"
+          element={<RecipeComplete />}
+        />
         <Route path="/scheduler" element={<Scheduler />} />
       </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

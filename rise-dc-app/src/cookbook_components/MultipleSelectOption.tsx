@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface MultipleSelectOptionProps<
-  T extends { image_id: string; name: string }
+  T extends { image_id: string; name: string },
 > {
   src: string;
   item: T;

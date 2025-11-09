@@ -3,6 +3,6 @@ import { createGroceryList } from "../../../services/service";
 
 export default function useCreateGroceryList() {
   return useMutation({
-    mutationFn: createGroceryList
-  })
+    mutationFn: createGroceryList,
+  });
 }

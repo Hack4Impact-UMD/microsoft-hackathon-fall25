@@ -21,7 +21,7 @@ export type PhotoUploaderProps = {
   maxSizeMB?: number;
   disabled?: boolean;
   onFilesChange?: (files: File[]) => void;
-onPhotoUrlChange?: (photoUrl: string | undefined, file?: File) => void;
+  onPhotoUrlChange?: (photoUrl: string | undefined, file?: File) => void;
   onUpload?: (file: File, onProgress: (p: number) => void) => Promise<ImageRec>;
   autoUpload?: boolean;
   onUploadComplete?: (images: ImageRec[]) => void;
@@ -56,16 +56,16 @@ export const PhotoUploader: React.FC<PhotoUploaderProps> = ({
   }, [items]);
 
   // Call onPhotoUrlChange when items change
-useEffect(() => {
-  if (onPhotoUrlChange) {
-    const validItem = items.find(item => item.status !== "error");
-    if (validItem) {
-      onPhotoUrlChange(validItem.previewUrl, validItem.file); // Pass both URL and File
-    } else {
-      onPhotoUrlChange(undefined, undefined);
+  useEffect(() => {
+    if (onPhotoUrlChange) {
+      const validItem = items.find((item) => item.status !== "error");
+      if (validItem) {
+        onPhotoUrlChange(validItem.previewUrl, validItem.file); // Pass both URL and File
+      } else {
+        onPhotoUrlChange(undefined, undefined);
+      }
     }
-  }
-}, [items, onPhotoUrlChange]);
+  }, [items, onPhotoUrlChange]);
 
   useEffect(() => {
     if (!exposeUploadApiRef) return;
@@ -84,10 +84,10 @@ useEffect(() => {
 
   const addFiles = (files: FileList | null) => {
     if (!files || disabled) return;
-    
+
     // For event completion, replace existing photo instead of adding multiple
     const next: UploadItem[] = maxFiles === 1 ? [] : [...items];
-    
+
     for (const f of Array.from(files)) {
       if (next.length >= maxFiles) break;
       const err = validate(f);
@@ -102,7 +102,7 @@ useEffect(() => {
     }
     setItems(next);
     onFilesChange?.(
-      next.filter((i) => i.status !== "error").map((i) => i.file)
+      next.filter((i) => i.status !== "error").map((i) => i.file),
     );
     if (autoUpload && onUpload) void uploadAll();
   };
@@ -113,7 +113,7 @@ useEffect(() => {
     const next = items.filter((i) => i.id !== id);
     setItems(next);
     onFilesChange?.(
-      next.filter((i) => i.status !== "error").map((i) => i.file)
+      next.filter((i) => i.status !== "error").map((i) => i.file),
     );
   };
 
@@ -125,30 +125,30 @@ useEffect(() => {
       if (it.status === "error") continue;
       setItems((prev) =>
         prev.map((p) =>
-          p.id === it.id ? { ...p, status: "uploading", progress: 0 } : p
-        )
+          p.id === it.id ? { ...p, status: "uploading", progress: 0 } : p,
+        ),
       );
       try {
         const image = await onUpload(it.file, (p) => {
           setItems((prev) =>
             prev.map((pItem) =>
-              pItem.id === it.id ? { ...pItem, progress: p } : pItem
-            )
+              pItem.id === it.id ? { ...pItem, progress: p } : pItem,
+            ),
           );
         });
         results.push(image);
         setItems((prev) =>
           prev.map((p) =>
-            p.id === it.id ? { ...p, status: "done", progress: 100 } : p
-          )
+            p.id === it.id ? { ...p, status: "done", progress: 100 } : p,
+          ),
         );
       } catch (e: any) {
         setItems((prev) =>
           prev.map((p) =>
             p.id === it.id
               ? { ...p, status: "error", error: e?.message ?? "Upload failed" }
-              : p
-          )
+              : p,
+          ),
         );
       }
     }

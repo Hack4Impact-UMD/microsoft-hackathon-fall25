@@ -15,12 +15,16 @@ const InstructionCard: React.FC<InstructionCardProps> = ({ instruction }) => {
     ? `${instruction.instructions} ${instruction.warning}`
     : instruction.instructions;
 
-  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageLoad = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
     const img = e.currentTarget;
     const aspectRatio = img.naturalWidth / img.naturalHeight;
     const containerRatio = 4 / 3; // match h-80 w-full container ratio
 
-    setObjectFit(Math.abs(aspectRatio - containerRatio) < 0.05 ? "cover" : "contain");
+    setObjectFit(
+      Math.abs(aspectRatio - containerRatio) < 0.05 ? "cover" : "contain",
+    );
 
     // rectangle if much wider or taller than square
     setIsRectangle(aspectRatio > 1.2 || aspectRatio < 0.8);

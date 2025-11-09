@@ -17,6 +17,10 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "../backend/src/photoUpload.ts", "server.ts"],
-  "include": ["src", "src/scheduling_components/icon_components/IconCard.tsx", "server.ts"],
+  "include": [
+    "src",
+    "src/scheduling_components/icon_components/IconCard.tsx",
+    "server.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

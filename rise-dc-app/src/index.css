@@ -7,7 +7,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  background-color: #0C343D;
+  background-color: #0c343d;
   color: white;
 }
 
@@ -23,19 +23,22 @@ body {
   body {
     font-size: 18px;
   }
-  
+
   /* Ensure touch targets are at least 44px */
-  button, input, select, textarea {
+  button,
+  input,
+  select,
+  textarea {
     min-height: 44px;
   }
-  
+
   /* Improve touch interactions */
-  button:active, 
-  input:active, 
+  button:active,
+  input:active,
   select:active {
     transform: scale(0.98);
   }
-  
+
   /* Better spacing for tablet layouts */
   .container {
     padding: 2rem;
@@ -44,7 +47,9 @@ body {
 
 /* Prevent zoom on input focus for tablets */
 @media (max-width: 1024px) {
-  input, select, textarea {
+  input,
+  select,
+  textarea {
     font-size: 16px;
   }
 }

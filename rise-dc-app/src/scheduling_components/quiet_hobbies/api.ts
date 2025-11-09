@@ -1,46 +1,50 @@
-import { QuietHobby, CreateQuietHobbyRequest, UpdateQuietHobbyRequest } from './types';
+import {
+  QuietHobby,
+  CreateQuietHobbyRequest,
+  UpdateQuietHobbyRequest,
+} from "./types";
 
 // Mock database - in a real app, this would be replaced with actual API calls
 let quietHobbies: QuietHobby[] = [
   {
-    id: '1',
-    name: 'Reading',
-    category: 'Quiet Hobbies',
+    id: "1",
+    name: "Reading",
+    category: "Quiet Hobbies",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: '2',
-    name: 'Drawing',
-    category: 'Quiet Hobbies',
+    id: "2",
+    name: "Drawing",
+    category: "Quiet Hobbies",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: '3',
-    name: 'Meditation',
-    category: 'Quiet Hobbies',
+    id: "3",
+    name: "Meditation",
+    category: "Quiet Hobbies",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: '4',
-    name: 'Puzzle Solving',
-    category: 'Quiet Hobbies',
+    id: "4",
+    name: "Puzzle Solving",
+    category: "Quiet Hobbies",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
   {
-    id: '5',
-    name: 'Journaling',
-    category: 'Quiet Hobbies',
+    id: "5",
+    name: "Journaling",
+    category: "Quiet Hobbies",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-  }
+  },
 ];
 
 // Simulate API delay
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const quietHobbiesApi = {
   // Get all quiet hobbies
@@ -52,18 +56,18 @@ export const quietHobbiesApi = {
   // Get a single quiet hobby by ID
   async getById(id: string): Promise<QuietHobby | null> {
     await delay(200);
-    return quietHobbies.find(hobby => hobby.id === id) || null;
+    return quietHobbies.find((hobby) => hobby.id === id) || null;
   },
 
   // Create a new quiet hobby
   async create(request: CreateQuietHobbyRequest): Promise<QuietHobby> {
     await delay(400);
-    
+
     const newHobby: QuietHobby = {
       id: Date.now().toString(), // Simple ID generation
       name: request.name,
       icon: request.icon,
-      category: 'Quiet Hobbies',
+      category: "Quiet Hobbies",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -75,8 +79,8 @@ export const quietHobbiesApi = {
   // Update an existing quiet hobby
   async update(request: UpdateQuietHobbyRequest): Promise<QuietHobby | null> {
     await delay(400);
-    
-    const index = quietHobbies.findIndex(hobby => hobby.id === request.id);
+
+    const index = quietHobbies.findIndex((hobby) => hobby.id === request.id);
     if (index === -1) return null;
 
     const updatedHobby: QuietHobby = {
@@ -93,8 +97,8 @@ export const quietHobbiesApi = {
   // Delete a quiet hobby
   async delete(id: string): Promise<boolean> {
     await delay(300);
-    
-    const index = quietHobbies.findIndex(hobby => hobby.id === id);
+
+    const index = quietHobbies.findIndex((hobby) => hobby.id === id);
     if (index === -1) return false;
 
     quietHobbies.splice(index, 1);
@@ -104,12 +108,12 @@ export const quietHobbiesApi = {
   // Search quiet hobbies by name
   async search(query: string): Promise<QuietHobby[]> {
     await delay(200);
-    
+
     const lowercaseQuery = query.toLowerCase();
-    return quietHobbies.filter(hobby => 
-      hobby.name.toLowerCase().includes(lowercaseQuery)
+    return quietHobbies.filter((hobby) =>
+      hobby.name.toLowerCase().includes(lowercaseQuery),
     );
-  }
+  },
 };
 
 // Export individual functions for convenience
@@ -119,5 +123,5 @@ export const {
   create: createQuietHobby,
   update: updateQuietHobby,
   delete: deleteQuietHobby,
-  search: searchQuietHobbies
+  search: searchQuietHobbies,
 } = quietHobbiesApi;

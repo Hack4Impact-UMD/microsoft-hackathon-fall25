@@ -3,6 +3,6 @@ import { createEvent } from "../../../services/service";
 
 export default function useCreateEvent() {
   return useMutation({
-    mutationFn: createEvent
-  })
+    mutationFn: createEvent,
+  });
 }

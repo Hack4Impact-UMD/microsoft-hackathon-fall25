@@ -3,7 +3,8 @@
 Reusable React hooks for common functionality.
 
 Examples:
+
 - Azure service hooks
 - Local storage hooks
-- Accessibility hooks 
+- Accessibility hooks
 - Data fetching hooks

@@ -8,7 +8,7 @@ export const PhotoViewer = ({ photoFile }: { photoFile: File }) => {
     if (photoFile) {
       const url = URL.createObjectURL(photoFile);
       setPhotoUrl(url);
-      
+
       // Cleanup when component unmounts or photoFile changes
       return () => URL.revokeObjectURL(url);
     }
@@ -33,7 +33,7 @@ export const PhotoViewer = ({ photoFile }: { photoFile: File }) => {
 
       {/* Fullscreen modal */}
       {isFullscreen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/80 flex items-center justify-center z-[60]"
           onClick={() => setIsFullscreen(false)}
         >

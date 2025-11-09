@@ -3,6 +3,6 @@ import { deleteMealPrep } from "../../../services/service";
 
 export default function useDeleteMealPrep() {
   return useMutation({
-    mutationFn: deleteMealPrep
-  })
+    mutationFn: deleteMealPrep,
+  });
 }

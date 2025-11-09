@@ -45,7 +45,7 @@ export default function MealPlanCell(props: MealPlanCellProps) {
             baseClasses,
             stateClasses,
             isToday && "ring-2 ring-sky-500 ring-offset-1",
-            className
+            className,
           )}
         >
           {recipe ? (

@@ -5,13 +5,15 @@ interface CookbookBarProps {
   showMyRecipes?: boolean; // optional toggle
 }
 
-export default function CookbookBar({ showMyRecipes = true }: CookbookBarProps) {
+export default function CookbookBar({
+  showMyRecipes = true,
+}: CookbookBarProps) {
   const navigate = useNavigate();
 
   return (
     <div className="flex flex-row items-center justify-between w-full">
       <BackButton />
-      
+
       {showMyRecipes && (
         <div
           className="flex flex-row items-center justify-center cursor-pointer mr-8"

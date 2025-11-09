@@ -8,7 +8,11 @@ export interface ServingsProps {
 }
 
 // Servings component
-export default function Servings({ count = 4, onChange, className = "" }: ServingsProps) {
+export default function Servings({
+  count = 4,
+  onChange,
+  className = "",
+}: ServingsProps) {
   const [selected, setSelected] = useState(1);
   const [hovered, setHovered] = useState<number | null>(null);
 
@@ -20,7 +24,11 @@ export default function Servings({ count = 4, onChange, className = "" }: Servin
 
   const intCount = Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
   return (
-    <div role="group" className={`flex flex-wrap gap-3 ${className}`} aria-label="Servings selector">
+    <div
+      role="group"
+      className={`flex flex-wrap gap-3 ${className}`}
+      aria-label="Servings selector"
+    >
       {Array.from({ length: intCount }, (_, idx) => {
         const n = idx + 1;
         const filled = selected >= n;
@@ -31,8 +39,8 @@ export default function Servings({ count = 4, onChange, className = "" }: Servin
         const colors = filled
           ? "bg-[#0E4775] text-white"
           : showHover
-          ? "bg-[#0C77D9] text-white"
-          : "bg-white border-black text-black";
+            ? "bg-[#0C77D9] text-white"
+            : "bg-white border-black text-black";
 
         return (
           <button

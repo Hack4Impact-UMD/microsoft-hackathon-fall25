@@ -22,26 +22,26 @@ const EventCompletionPopupView = ({
 }) => {
   const renderEnjoymentButton = (type: "YES" | "MAYBE" | "NO") => {
     const isSelected = completionData.enjoyment === type;
-    
+
     const configs = {
       YES: {
         icon: SentimentSatisfiedAlt,
         text: "Yes",
         bgColor: "bg-[#1BBB57]/50",
-        textColor: "text-[#17773B]"
+        textColor: "text-[#17773B]",
       },
       MAYBE: {
         icon: SentimentNeutral,
         text: "Maybe",
         bgColor: "bg-yellow-100",
-        textColor: "text-[#C8A225]"
+        textColor: "text-[#C8A225]",
       },
       NO: {
         icon: SentimentVeryDissatisfied,
         text: "No",
         bgColor: "bg-red-200",
-        textColor: "text-[#A62222]"
-      }
+        textColor: "text-[#A62222]",
+      },
     };
 
     const config = configs[type];

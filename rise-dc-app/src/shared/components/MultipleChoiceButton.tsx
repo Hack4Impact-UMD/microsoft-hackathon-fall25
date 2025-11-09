@@ -2,7 +2,7 @@ import { useState } from "react";
 import OptionButton from "./OptionButton";
 import { twMerge } from "tailwind-merge";
 
-interface ChoiceGroupProps<T extends {name: string, image_id: string}> {
+interface ChoiceGroupProps<T extends { name: string; image_id: string }> {
   question: string;
   isRequired?: boolean;
   label?: string;
@@ -14,7 +14,7 @@ interface ChoiceGroupProps<T extends {name: string, image_id: string}> {
   disabled?: boolean;
 }
 
-const ChoiceGroup = <T extends {name: string, image_id: string}>({
+const ChoiceGroup = <T extends { name: string; image_id: string }>({
   question,
   isRequired,
   label,
@@ -39,9 +39,7 @@ const ChoiceGroup = <T extends {name: string, image_id: string}>({
         {isRequired && <span className="text-red-600 ml-px">*</span>}
         {!isRequired && <span className="font-light text-xs"> (Optional)</span>}
       </span>
-      {label && (
-        <div className="mb-2 text-sm text-gray-600">{label}</div>
-      )}
+      {label && <div className="mb-2 text-sm text-gray-600">{label}</div>}
       <div className="flex flex-wrap gap-4 mt-2">
         {items.map((item) => (
           <OptionButton

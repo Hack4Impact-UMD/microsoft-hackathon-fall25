@@ -27,12 +27,16 @@ const ImageCard: React.FC<ImageCardProps> = ({
   const Wrapper: any = onClick ? "button" : "div";
   const [objectFit, setObjectFit] = useState<"cover" | "contain">("contain");
 
-  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageLoad = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
     const img = e.currentTarget;
     const aspectRatio = img.naturalWidth / img.naturalHeight;
     const containerRatio = width / height;
 
-    setObjectFit(Math.abs(aspectRatio - containerRatio) < 0.05 ? "cover" : "contain");
+    setObjectFit(
+      Math.abs(aspectRatio - containerRatio) < 0.05 ? "cover" : "contain",
+    );
   };
 
   return (
@@ -42,7 +46,10 @@ const ImageCard: React.FC<ImageCardProps> = ({
       style={{ width }}
     >
       {/* Image Container */}
-      <div className="w-full flex items-center justify-center bg-white" style={{ height }}>
+      <div
+        className="w-full flex items-center justify-center bg-white"
+        style={{ height }}
+      >
         <img
           src={src}
           alt={alt}
@@ -57,7 +64,9 @@ const ImageCard: React.FC<ImageCardProps> = ({
         <div
           className={twMerge(
             "w-full text-xl text-center py-2 font-md rounded-b-lg",
-            isSection ? "bg-[#EB5904] text-white" : "bg-white text-black font-light"
+            isSection
+              ? "bg-[#EB5904] text-white"
+              : "bg-white text-black font-light",
           )}
         >
           {caption}

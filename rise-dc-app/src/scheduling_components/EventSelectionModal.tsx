@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import './EventSelectionModal.css';
-import ModalHeader from './ModalHeader';
-import SelectEventStep from './SelectEventStep';
-import CreateTaskNameStep from './CreateTaskNameStep';
-import AddSteps from './AddSteps';
-import TimeSelectionModal from './TimeSelectionModal';
-import QuietHobbyParticipant from '../scheduling_components/pages/QuietHobbiesParticipant'; // Add this import
+import React, { useState } from "react";
+import "./EventSelectionModal.css";
+import ModalHeader from "./ModalHeader";
+import SelectEventStep from "./SelectEventStep";
+import CreateTaskNameStep from "./CreateTaskNameStep";
+import AddSteps from "./AddSteps";
+import TimeSelectionModal from "./TimeSelectionModal";
+import QuietHobbyParticipant from "../scheduling_components/pages/QuietHobbiesParticipant"; // Add this import
 
 interface EventSelectionModalProps {
   isOpen: boolean;
@@ -16,7 +16,7 @@ interface EventSelectionModalProps {
     endTime: TimeSlot;
     steps?: Step[];
   }) => void;
-   initialStep?: ModalStep;  
+  initialStep?: ModalStep;
 }
 
 type Step = {
@@ -27,17 +27,37 @@ type Step = {
 type TimeSlot = {
   hour: number;
   minute: number;
-  period: 'AM' | 'PM';
+  period: "AM" | "PM";
 };
 
-type ModalStep = 'SELECT_EVENT' | 'CREATE_TASK_NAME' | 'SET_TIME' | 'ADD_STEPS' | 'QUIET_HOBBY';
+type ModalStep =
+  | "SELECT_EVENT"
+  | "CREATE_TASK_NAME"
+  | "SET_TIME"
+  | "ADD_STEPS"
+  | "QUIET_HOBBY";
 
-const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClose, onEventCreated, initialStep }) => {
-  const [currentStep, setCurrentStep] = useState<ModalStep>(initialStep || 'SELECT_EVENT');
-  const [taskName, setTaskName] = useState('');
+const EventSelectionModal: React.FC<EventSelectionModalProps> = ({
+  isOpen,
+  onClose,
+  onEventCreated,
+  initialStep,
+}) => {
+  const [currentStep, setCurrentStep] = useState<ModalStep>(
+    initialStep || "SELECT_EVENT",
+  );
+  const [taskName, setTaskName] = useState("");
   const [steps, setSteps] = useState<Step[]>([]);
-  const [startTime, setStartTime] = useState<TimeSlot>({ hour: 10, minute: 15, period: 'AM' });
-  const [endTime, setEndTime] = useState<TimeSlot>({ hour: 11, minute: 15, period: 'AM' });
+  const [startTime, setStartTime] = useState<TimeSlot>({
+    hour: 10,
+    minute: 15,
+    period: "AM",
+  });
+  const [endTime, setEndTime] = useState<TimeSlot>({
+    hour: 11,
+    minute: 15,
+    period: "AM",
+  });
 
   // New functionality from the other person
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
@@ -45,8 +65,8 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
 
   const handleEventClick = (eventName: string) => {
     // Special handling for Quiet Hobby
-    if (eventName === 'Quiet Hobby') {
-      setCurrentStep('QUIET_HOBBY');
+    if (eventName === "Quiet Hobby") {
+      setCurrentStep("QUIET_HOBBY");
       return;
     }
 
@@ -68,7 +88,10 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
     setIsTimeModalOpen(false);
   };
 
-  const handleTimeConfirmed = (newStartTime: TimeSlot, newEndTime: TimeSlot) => {
+  const handleTimeConfirmed = (
+    newStartTime: TimeSlot,
+    newEndTime: TimeSlot,
+  ) => {
     setStartTime(newStartTime);
     setEndTime(newEndTime);
     setIsTimeModalOpen(false);
@@ -77,26 +100,26 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
       startTime: newStartTime,
       endTime: newEndTime,
     });
-    
+
     // Create the task with the selected event and times
-    console.log('Task created:', {
+    console.log("Task created:", {
       name: selectedEvent,
       startTime: newStartTime,
-      endTime: newEndTime
+      endTime: newEndTime,
     });
-    
+
     // Reset and close the main modal
     setSelectedEvent(null);
     onClose();
   };
 
   const handleQuietHobbyBack = () => {
-    setCurrentStep('SELECT_EVENT');
+    setCurrentStep("SELECT_EVENT");
   };
 
   const handleQuietHobbyActivityChosen = (activity: any) => {
-    console.log('Quiet hobby chosen:', activity);
-    setSelectedEvent(activity.name || 'Quiet Hobby');
+    console.log("Quiet hobby chosen:", activity);
+    setSelectedEvent(activity.name || "Quiet Hobby");
     setIsTimeModalOpen(true);
   };
 
@@ -105,21 +128,21 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
   }
 
   const handleCustomTaskClick = () => {
-    setCurrentStep('CREATE_TASK_NAME');
+    setCurrentStep("CREATE_TASK_NAME");
   };
 
   const handleBackToSelectEvent = () => {
-    setCurrentStep('SELECT_EVENT');
+    setCurrentStep("SELECT_EVENT");
   };
 
   const handleTaskNameNext = () => {
-    setCurrentStep('ADD_STEPS');
-    setCurrentStep('SET_TIME');
+    setCurrentStep("ADD_STEPS");
+    setCurrentStep("SET_TIME");
     setIsTimeModalOpen(true);
   };
 
   const handleBackToTaskName = () => {
-    setCurrentStep('CREATE_TASK_NAME');
+    setCurrentStep("CREATE_TASK_NAME");
   };
 
   const handleStepsNext = () => {
@@ -128,49 +151,47 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
   };
 
   const handleFinish = () => {
-     const newEvent = {
+    const newEvent = {
       name: taskName,
       steps,
       startTime,
       endTime,
     };
 
-     onEventCreated(newEvent);
+    onEventCreated(newEvent);
 
     // Here you would typically save the task data
-    console.log('Task created:', {
+    console.log("Task created:", {
       name: taskName,
       steps: steps,
       startTime: startTime,
-      endTime: endTime
+      endTime: endTime,
     });
 
     // Reset state and close modal
-    setCurrentStep('SELECT_EVENT');
-    setTaskName('');
+    setCurrentStep("SELECT_EVENT");
+    setTaskName("");
     setSteps([]);
-    setStartTime({ hour: 10, minute: 15, period: 'AM' });
-    setEndTime({ hour: 11, minute: 15, period: 'AM' });
+    setStartTime({ hour: 10, minute: 15, period: "AM" });
+    setEndTime({ hour: 11, minute: 15, period: "AM" });
     onClose();
   };
 
   const handleClose = () => {
     // Reset state when closing
-    setCurrentStep('SELECT_EVENT');
-    setTaskName('');
+    setCurrentStep("SELECT_EVENT");
+    setTaskName("");
     setSteps([]);
-    setStartTime({ hour: 10, minute: 15, period: 'AM' });
-    setEndTime({ hour: 11, minute: 15, period: 'AM' });
+    setStartTime({ hour: 10, minute: 15, period: "AM" });
+    setEndTime({ hour: 11, minute: 15, period: "AM" });
     setSelectedEvent(null);
     onClose();
   };
 
-  
-
   return (
     <>
       <div className="modal-overlay">
-        {currentStep === 'SELECT_EVENT' && (
+        {currentStep === "SELECT_EVENT" && (
           <div className="modal-content">
             <ModalHeader
               onClose={handleClose}
@@ -180,42 +201,42 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
             <div className="event-cards-container">
               {/* Make Bed Card */}
               <div
-                className={`event-card ${selectedEvent === 'Make Bed' ? 'selected' : ''}`}
-                onClick={() => handleEventClick('Make Bed')}
+                className={`event-card ${selectedEvent === "Make Bed" ? "selected" : ""}`}
+                onClick={() => handleEventClick("Make Bed")}
               >
                 <div className="event-image-placeholder make-bed-color">
                   <span className="event-icon">🛏️</span>
                 </div>
                 <p className="event-name">Make Bed</p>
-                {selectedEvent === 'Make Bed' && (
+                {selectedEvent === "Make Bed" && (
                   <span className="selection-checkmark">✔️</span>
                 )}
               </div>
 
               {/* Sweep Floor Card */}
               <div
-                className={`event-card ${selectedEvent === 'Sweep floor' ? 'selected' : ''}`}
-                onClick={() => handleEventClick('Sweep floor')}
+                className={`event-card ${selectedEvent === "Sweep floor" ? "selected" : ""}`}
+                onClick={() => handleEventClick("Sweep floor")}
               >
                 <div className="event-image-placeholder sweep-floor-color">
                   <span className="event-icon">🧹</span>
                 </div>
                 <p className="event-name">Sweep floor</p>
-                {selectedEvent === 'Sweep floor' && (
+                {selectedEvent === "Sweep floor" && (
                   <span className="selection-checkmark">✔️</span>
                 )}
               </div>
 
               {/* Water plants Card */}
               <div
-                className={`event-card ${selectedEvent === 'Water plants' ? 'selected' : ''}`}
-                onClick={() => handleEventClick('Water plants')}
+                className={`event-card ${selectedEvent === "Water plants" ? "selected" : ""}`}
+                onClick={() => handleEventClick("Water plants")}
               >
                 <div className="event-image-placeholder water-plants-color">
                   <span className="event-icon">💧</span>
                 </div>
                 <p className="event-name">Water plants</p>
-                {selectedEvent === 'Water plants' && (
+                {selectedEvent === "Water plants" && (
                   <span className="selection-checkmark">✔️</span>
                 )}
               </div>
@@ -223,7 +244,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
               {/* Quiet Hobby Card */}
               <div
                 className="event-card"
-                onClick={() => handleEventClick('Quiet Hobby')}
+                onClick={() => handleEventClick("Quiet Hobby")}
               >
                 <div className="event-image-placeholder quiet-hobby-color">
                   <span className="event-icon">🎨</span>
@@ -232,11 +253,14 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
               </div>
             </div>
             <div className="or-separator">OR</div>
-            <button className="custom-task-button" onClick={handleCustomTaskClick}>
+            <button
+              className="custom-task-button"
+              onClick={handleCustomTaskClick}
+            >
               <span className="plus-icon">+</span> Custom Task
             </button>
             <button
-              className={`add-time-button ${selectedEvent ? 'enabled' : ''}`}
+              className={`add-time-button ${selectedEvent ? "enabled" : ""}`}
               disabled={!selectedEvent}
               onClick={handleAddTimeClick}
             >
@@ -245,7 +269,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
           </div>
         )}
 
-        {currentStep === 'CREATE_TASK_NAME' && (
+        {currentStep === "CREATE_TASK_NAME" && (
           <CreateTaskNameStep
             onBack={handleBackToSelectEvent}
             onNext={handleTaskNameNext}
@@ -255,7 +279,7 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
           />
         )}
 
-        {currentStep === 'ADD_STEPS' && (
+        {currentStep === "ADD_STEPS" && (
           <AddSteps
             onBack={handleBackToTaskName}
             onNext={handleStepsNext}
@@ -266,19 +290,19 @@ const EventSelectionModal: React.FC<EventSelectionModalProps> = ({ isOpen, onClo
           />
         )}
 
-        {currentStep === 'QUIET_HOBBY' && (
+        {currentStep === "QUIET_HOBBY" && (
           <QuietHobbyParticipant
             onBack={handleBackToSelectEvent}
             onActivityChosen={handleQuietHobbyActivityChosen}
-            onPhotoTaken={() => console.log('Photo taken')}
+            onPhotoTaken={() => console.log("Photo taken")}
             onClose={handleClose}
           />
         )}
       </div>
 
       {/* Time Selection Modal */}
-      <TimeSelectionModal 
-        isOpen={isTimeModalOpen} 
+      <TimeSelectionModal
+        isOpen={isTimeModalOpen}
         onClose={closeTimeModal}
         selectedEvent={selectedEvent || taskName}
         onTimeConfirmed={handleTimeConfirmed}

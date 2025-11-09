@@ -29,10 +29,10 @@ const MultiSelectGroup = <T extends { name: string; image_id: string }>({
   }, [value]);
   const handleSelectClick = (item: T) => {
     const updatedSelections = selectedOptions.some(
-      (selected) => (selected as any).id === (item as any).id
+      (selected) => (selected as any).id === (item as any).id,
     )
       ? selectedOptions.filter(
-          (selected) => (selected as any).id !== (item as any).id
+          (selected) => (selected as any).id !== (item as any).id,
         )
       : [...selectedOptions, item];
     setSelectedOptions(updatedSelections);
@@ -43,7 +43,8 @@ const MultiSelectGroup = <T extends { name: string; image_id: string }>({
       {" "}
       <span className="text-4xl font-normal mb-2">
         {" "}
-        {question} {isRequired && <span className="text-red-600 ml-px">*</span>}{" "}
+        {question}{" "}
+        {isRequired && <span className="text-red-600 ml-px">*</span>}{" "}
       </span>{" "}
       {label && <div className="mb-2 text-sm text-gray-600">{label}</div>}{" "}
       <div className="flex flex-wrap gap-4 mt-8">
@@ -54,7 +55,7 @@ const MultiSelectGroup = <T extends { name: string; image_id: string }>({
             item={item}
             buttonType="multiSelect"
             isSelected={selectedOptions.some(
-              (selected) => (selected as any).id === (item as any).id
+              (selected) => (selected as any).id === (item as any).id,
             )}
             onClick={() => handleSelectClick(item)}
             disabled={disabled}

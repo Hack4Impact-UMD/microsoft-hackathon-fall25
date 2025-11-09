@@ -38,4 +38,3 @@ src/
 - React 18
 - Vite
 - React Router
-

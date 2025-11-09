@@ -46,7 +46,12 @@ function StepRow({
         aria-hidden
         className="text-[#FD8743] ml-2"
       >
-        <path d="M7 9h10M7 12h10M7 15h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <path
+          d="M7 9h10M7 12h10M7 15h10"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
       </svg>
     </div>
   );
@@ -65,7 +70,9 @@ export default function StaffCreateEventTask() {
   const addStep = () => setSteps((prev) => [...prev, { id: uid(), text: "" }]);
 
   const updateStep = (id: string, next: string) =>
-    setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, text: next } : s)));
+    setSteps((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, text: next } : s)),
+    );
 
   // Visual parity with mockup: rows are static; remove, move actions are not shown.
 
@@ -90,8 +97,8 @@ export default function StaffCreateEventTask() {
         style={{
           position: "absolute",
           top: 184,
-          left: '50%',
-          transform: 'translateX(-50%)',
+          left: "50%",
+          transform: "translateX(-50%)",
           width: 720,
           height: 1074,
           opacity: 1,
@@ -105,11 +112,25 @@ export default function StaffCreateEventTask() {
             className="absolute left-6 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#FFD2E4] text-[#FF2680] grid place-items-center"
           >
             {/* Back arrow */}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="-ml-[1px]">
-              <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="-ml-[1px]"
+            >
+              <path
+                d="M15 6l-6 6 6 6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </button>
-          <h2 className="text-center text-[22px] font-semibold text-[#0B3A3F]">Create Event</h2>
+          <h2 className="text-center text-[22px] font-semibold text-[#0B3A3F]">
+            Create Event
+          </h2>
           <button
             type="button"
             aria-label="Close"
@@ -117,7 +138,12 @@ export default function StaffCreateEventTask() {
           >
             {/* Close icon */}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M6 6l12 12M18 6l-12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <path
+                d="M6 6l12 12M18 6l-12 12"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
           </button>
         </header>
@@ -152,9 +178,9 @@ export default function StaffCreateEventTask() {
               className="w-28 h-28 rounded-full border-2 border-[#2E9BFF]"
               style={{
                 backgroundImage:
-                  'linear-gradient(45deg, #f6f6f6 25%, transparent 25%), linear-gradient(-45deg, #f6f6f6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f6f6f6 75%), linear-gradient(-45deg, transparent 75%, #f6f6f6 75%)',
-                backgroundSize: '14px 14px',
-                backgroundPosition: '0 0, 0 7px, 7px -7px, -7px 0px',
+                  "linear-gradient(45deg, #f6f6f6 25%, transparent 25%), linear-gradient(-45deg, #f6f6f6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f6f6f6 75%), linear-gradient(-45deg, transparent 75%, #f6f6f6 75%)",
+                backgroundSize: "14px 14px",
+                backgroundPosition: "0 0, 0 7px, 7px -7px, -7px 0px",
               }}
             />
           </div>
@@ -168,14 +194,21 @@ export default function StaffCreateEventTask() {
                 aria-label="Event name"
                 className="text-[20px] text-center font-medium px-2 py-1 bg-transparent outline-none"
               />
-              <span className="text-[#9A9A9A]" aria-hidden>✎</span>
+              <span className="text-[#9A9A9A]" aria-hidden>
+                ✎
+              </span>
             </div>
           </div>
           {/* Steps */}
           <div className="px-6 pb-6">
             <div className="space-y-3" aria-label="Steps list">
               {steps.map((s, idx) => (
-                <StepRow key={s.id} index={idx} step={s} onChange={(next) => updateStep(s.id, next)} />
+                <StepRow
+                  key={s.id}
+                  index={idx}
+                  step={s}
+                  onChange={(next) => updateStep(s.id, next)}
+                />
               ))}
               <div className="pt-1">
                 <button

@@ -70,16 +70,16 @@
     gap: 15px;
     align-items: flex-start;
   }
-  
+
   .list-mode .image-wrapper {
     width: 160px;
   }
-  
+
   .list-mode img {
     width: 160px;
     height: 120px;
   }
-  
+
   .images.grid-mode {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }

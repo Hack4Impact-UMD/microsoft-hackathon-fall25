@@ -61,21 +61,24 @@ const RemoveButton = <T extends { name: string; image_id: string }>({
             key={(item as any).id}
             className={twMerge(
               "relative flex flex-col items-center p-4 border-2 border-orange-500 rounded-lg bg-orange-50 min-w-[120px]",
-              disabled && "opacity-50"
-            )}>
+              disabled && "opacity-50",
+            )}
+          >
             <button
               onClick={() => handleRemove(item)}
               disabled={disabled}
               className={twMerge(
                 "absolute -top-2 -right-2 w-6 h-6 bg-red-600 hover:bg-red-700 text-white cursor-pointer rounded-full flex items-center justify-center transition-colors duration-200 z-10 shadow-md",
-                disabled && "cursor-not-allowed hover:bg-red-600"
+                disabled && "cursor-not-allowed hover:bg-red-600",
               )}
-              aria-label={`Remove ${getItemDisplayText(item)}`}>
+              aria-label={`Remove ${getItemDisplayText(item)}`}
+            >
               <svg
                 className="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
-                viewBox="0 0 24 24">
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"

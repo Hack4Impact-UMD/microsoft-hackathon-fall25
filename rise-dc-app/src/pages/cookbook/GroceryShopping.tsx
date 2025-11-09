@@ -25,8 +25,8 @@ export default function GroceryShopping() {
       prev.map((item) =>
         item.ingredient.id === id
           ? { ...item, storeQuantity: newQty, quantity: newQty.toString() }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
@@ -34,8 +34,8 @@ export default function GroceryShopping() {
   const toggleBought = (id: string) => {
     setIngredients((prev) =>
       prev.map((item) =>
-        item.ingredient.id === id ? { ...item, bought: !item.bought } : item
-      )
+        item.ingredient.id === id ? { ...item, bought: !item.bought } : item,
+      ),
     );
   };
 
@@ -52,7 +52,8 @@ export default function GroceryShopping() {
     // Combine existing with new bought items (avoid duplicates by id)
     const combined = [
       ...existingItems.filter(
-        (ei) => !boughtItems.some((bi) => bi.ingredient.id === ei.ingredient.id)
+        (ei) =>
+          !boughtItems.some((bi) => bi.ingredient.id === ei.ingredient.id),
       ),
       ...boughtItems,
     ];

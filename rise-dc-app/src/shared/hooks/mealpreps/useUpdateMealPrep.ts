@@ -4,6 +4,6 @@ import { updateMealPrep } from "../../../services/service";
 
 export default function useUpdateMealPrep() {
   return useMutation({
-    mutationFn: (payload: MealPrep) => updateMealPrep(payload.id, payload)
-  })
+    mutationFn: (payload: MealPrep) => updateMealPrep(payload.id, payload),
+  });
 }

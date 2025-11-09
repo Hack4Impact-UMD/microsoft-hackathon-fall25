@@ -3,6 +3,6 @@ import { deleteTask } from "../../../services/service";
 
 export default function useDeleteTask() {
   return useMutation({
-    mutationFn: deleteTask
-  })
+    mutationFn: deleteTask,
+  });
 }

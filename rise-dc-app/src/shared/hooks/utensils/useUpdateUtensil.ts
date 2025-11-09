@@ -4,6 +4,6 @@ import { updateUtensil } from "../../../services/service";
 
 export default function useUpdateUtensil() {
   return useMutation({
-    mutationFn: (payload: Utensil) => updateUtensil(payload.id, payload)
-  })
+    mutationFn: (payload: Utensil) => updateUtensil(payload.id, payload),
+  });
 }

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import './EventSelectionModal.css'; // Don't forget to import the CSS
-import EventSelectionModal from './EventSelectionModal';
-import EventCard from './EventCard';
-import styles from './PlanYourDay.module.css';
+import React, { useState } from "react";
+import "./EventSelectionModal.css"; // Don't forget to import the CSS
+import EventSelectionModal from "./EventSelectionModal";
+import EventCard from "./EventCard";
+import styles from "./PlanYourDay.module.css";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
-import AISuggestionsPopup from './AIsuggestionsPopup';
+import AISuggestionsPopup from "./AIsuggestionsPopup";
 
 type EventData = {
   name: string;
-  startTime: { hour: number; minute: number; period: 'AM' | 'PM' };
-  endTime: { hour: number; minute: number; period: 'AM' | 'PM' };
+  startTime: { hour: number; minute: number; period: "AM" | "PM" };
+  endTime: { hour: number; minute: number; period: "AM" | "PM" };
 };
 
 export function PlanYourDayButton() {
@@ -27,19 +27,33 @@ export function PlanYourDayButton() {
 
   const addEvent = (event: {
     name: string;
-    startTime: { hour: number; minute: number; period: 'AM' | 'PM' };
-    endTime: { hour: number; minute: number; period: 'AM' | 'PM' };
+    startTime: { hour: number; minute: number; period: "AM" | "PM" };
+    endTime: { hour: number; minute: number; period: "AM" | "PM" };
     steps?: any[];
   }) => {
     setEvents((prev) => {
       const newEvents = [
         ...prev,
-        { name: event.name, startTime: event.startTime, endTime: event.endTime },
+        {
+          name: event.name,
+          startTime: event.startTime,
+          endTime: event.endTime,
+        },
       ];
       // Sort by start time (from teammate's code)
       newEvents.sort((a, b) => {
-        const aHour24 = a.startTime.period === 'PM' && a.startTime.hour !== 12 ? a.startTime.hour + 12 : a.startTime.hour === 12 && a.startTime.period === 'AM' ? 0 : a.startTime.hour;
-        const bHour24 = b.startTime.period === 'PM' && b.startTime.hour !== 12 ? b.startTime.hour + 12 : b.startTime.hour === 12 && b.startTime.period === 'AM' ? 0 : b.startTime.hour;
+        const aHour24 =
+          a.startTime.period === "PM" && a.startTime.hour !== 12
+            ? a.startTime.hour + 12
+            : a.startTime.hour === 12 && a.startTime.period === "AM"
+              ? 0
+              : a.startTime.hour;
+        const bHour24 =
+          b.startTime.period === "PM" && b.startTime.hour !== 12
+            ? b.startTime.hour + 12
+            : b.startTime.hour === 12 && b.startTime.period === "AM"
+              ? 0
+              : b.startTime.hour;
         if (aHour24 !== bHour24) return aHour24 - bHour24;
         return a.startTime.minute - b.startTime.minute;
       });
@@ -50,7 +64,7 @@ export function PlanYourDayButton() {
 
   // Handle AI suggestion selection
   const handleSuggestionSelected = (suggestion: string) => {
-    console.log('AI suggested event:', suggestion);
+    console.log("AI suggested event:", suggestion);
     // You could auto-open the event creation modal with the suggestion pre-filled
     // For now, just log it - you can integrate with your event creation flow
     setIsModalOpen(true); // Open event creation modal

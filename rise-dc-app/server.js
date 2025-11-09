@@ -6,10 +6,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: "http://localhost:5173", // or whatever port your frontend uses
-  credentials: true
-}));app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // or whatever port your frontend uses
+    credentials: true,
+  }),
+);
+app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
@@ -37,7 +40,7 @@ const getEventSuggestions = async (existingEvents) => {
         {
           role: "user",
           content: `Here are my existing events: ${existingEvents.join(
-            ", "
+            ", ",
           )}. Suggest 3-4 additional events that complement them. Keep each 2-5 words.`,
         },
       ],
@@ -52,7 +55,12 @@ const getEventSuggestions = async (existingEvents) => {
       .filter((line) => line.length > 0);
   } catch (error) {
     console.error("AI suggestion error:", error);
-    return ["Take a short break", "Review progress", "Prepare for tomorrow", "Reflect on goals"];
+    return [
+      "Take a short break",
+      "Review progress",
+      "Prepare for tomorrow",
+      "Reflect on goals",
+    ];
   }
 };
 
@@ -107,10 +115,15 @@ app.post("/api/ai-recipes", async (req, res) => {
   }
 
   if (!currentIngredients || !Array.isArray(currentIngredients)) {
-    return res.status(400).json({ error: "currentIngredients array is required" });
+    return res
+      .status(400)
+      .json({ error: "currentIngredients array is required" });
   }
 
-  const recipeSuggestions = await getRecipeSuggestions(currentRecipes, currentIngredients);
+  const recipeSuggestions = await getRecipeSuggestions(
+    currentRecipes,
+    currentIngredients,
+  );
   res.json({ recipeSuggestions });
 });
 

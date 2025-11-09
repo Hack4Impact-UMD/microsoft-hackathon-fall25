@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import QuietHobbyModal from "../quiet_hobbies/QuietHobbyModal";
-import { QuietHobby, QuietHobbiesParticipantProps } from "../quiet_hobbies/types";
+import {
+  QuietHobby,
+  QuietHobbiesParticipantProps,
+} from "../quiet_hobbies/types";
 import { quietHobbiesApi } from "../quiet_hobbies/api";
 
 export default function QuietHobbiesParticipant({
   onActivityChosen,
-  onClose
+  onClose,
 }: QuietHobbiesParticipantProps) {
   const [hobbies, setHobbies] = useState<QuietHobby[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -22,21 +25,21 @@ export default function QuietHobbiesParticipant({
         // Open modal immediately after hobbies are loaded.
         setOpen(true);
       } catch (err) {
-        setError('Failed to load quiet hobbies');
-        console.error('Error loading hobbies:', err);
+        setError("Failed to load quiet hobbies");
+        console.error("Error loading hobbies:", err);
         setOpen(false);
       }
     };
     loadHobbies();
   }, []);
 
-   const handleCloseModal = () => {
-    console.log('Closing modal, current open state:', open);
+  const handleCloseModal = () => {
+    console.log("Closing modal, current open state:", open);
     setOpen(false);
   };
 
   const handleChooseActivity = (hobbyId: string) => {
-    const selectedHobby = hobbies.find(hobby => hobby.id === hobbyId);
+    const selectedHobby = hobbies.find((hobby) => hobby.id === hobbyId);
     if (selectedHobby) {
       console.log("Chose activity:", selectedHobby);
       onActivityChosen?.(selectedHobby);
@@ -60,7 +63,7 @@ export default function QuietHobbiesParticipant({
                   setHobbies(data);
                   setOpen(true);
                 } catch (err) {
-                  setError('Failed to load quiet hobbies');
+                  setError("Failed to load quiet hobbies");
                   setOpen(false);
                 }
               })();

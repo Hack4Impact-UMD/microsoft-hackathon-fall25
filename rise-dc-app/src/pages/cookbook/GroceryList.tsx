@@ -11,10 +11,13 @@ const LOCAL_STORAGE_KEY = "boughtIngredients";
 export default function GroceryList() {
   const navigate = useNavigate();
   const [quantities, setQuantities] = useState<Record<string, number>>(
-    recipes.reduce((acc, recipe) => {
-      acc[recipe.id] = 0;
-      return acc;
-    }, {} as Record<string, number>)
+    recipes.reduce(
+      (acc, recipe) => {
+        acc[recipe.id] = 0;
+        return acc;
+      },
+      {} as Record<string, number>,
+    ),
   );
 
   const [ingredientTotals, setIngredientTotals] = useState<
@@ -33,7 +36,7 @@ export default function GroceryList() {
   // Close modal and save updated bought ingredients
   const closeBoughtModal = () => {
     const filtered = boughtIngredients.filter(
-      (item) => Number(item.quantity) > 0
+      (item) => Number(item.quantity) > 0,
     );
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(filtered));
     setBoughtIngredients(filtered);
@@ -95,8 +98,8 @@ export default function GroceryList() {
       prev.map((item) =>
         item.ingredient.id === id
           ? { ...item, quantity: newQty.toString() }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
@@ -119,14 +122,14 @@ export default function GroceryList() {
 
     try {
       const ingredientsList = boughtIngredients.map(
-        (item) => item.ingredient.name
+        (item) => item.ingredient.name,
       );
 
       const minimalRecipes = recipes.map((r) => ({
-      id: r.id,
-      title: r.title,
-      ingredients: r.ingredients,
-    }));
+        id: r.id,
+        title: r.title,
+        ingredients: r.ingredients,
+      }));
 
       const response = await fetch("http://localhost:4000/api/ai-recipes", {
         method: "POST",

@@ -13,8 +13,8 @@ const ProgressBar = ({ currentStep, totalSteps }: ProgressBarProps) => {
         Step {currentStep}/{totalSteps}
       </p>
 
-      <div className="w-full h-4 bg-[#E6E6E6] rounded-full flex border-1 border-[#616161] overflow-hidden">        
-      {Array.from({ length: totalSteps }).map((_, index) => {
+      <div className="w-full h-4 bg-[#E6E6E6] rounded-full flex border-1 border-[#616161] overflow-hidden">
+        {Array.from({ length: totalSteps }).map((_, index) => {
           const isComplete = index + 1 <= currentStep;
 
           return (

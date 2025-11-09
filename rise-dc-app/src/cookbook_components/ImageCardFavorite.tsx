@@ -12,11 +12,13 @@ export default function ImageCardStar({
   recipe,
   className,
   onClick,
-  onFavorite
+  onFavorite,
 }: ImageCardFavoriteProps) {
   const [objectFit, setObjectFit] = useState<"cover" | "contain">("contain");
 
-  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageLoad = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
     const img = e.currentTarget;
     const aspectRatio = img.naturalWidth / img.naturalHeight;
     const containerRatio = 300 / 200; // container width / height

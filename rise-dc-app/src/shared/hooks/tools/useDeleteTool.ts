@@ -3,6 +3,6 @@ import { deleteTool } from "../../../services/service";
 
 export default function useDeleteTool() {
   return useMutation({
-    mutationFn: deleteTool
-  })
+    mutationFn: deleteTool,
+  });
 }

@@ -4,6 +4,6 @@ import { updateIngredient } from "../../../services/service";
 
 export default function useUpdateIngredient() {
   return useMutation({
-    mutationFn: (payload: Ingredient) => updateIngredient(payload.id, payload)
-  })
+    mutationFn: (payload: Ingredient) => updateIngredient(payload.id, payload),
+  });
 }

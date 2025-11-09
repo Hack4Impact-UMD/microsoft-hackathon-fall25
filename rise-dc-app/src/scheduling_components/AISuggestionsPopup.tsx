@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { getEventSuggestions } from '../shared/utils/aiSuggestions';
+import { useState } from "react";
+import { getEventSuggestions } from "../shared/utils/aiSuggestions";
 
 interface Event {
   name: string;
@@ -14,11 +14,11 @@ interface AISuggestionsPopupProps {
   events: Event[];
 }
 
-const AISuggestionsPopup: React.FC<AISuggestionsPopupProps> = ({ 
-  isOpen, 
-  onClose, 
-  onSelectSuggestion, 
-  events = [] 
+const AISuggestionsPopup: React.FC<AISuggestionsPopupProps> = ({
+  isOpen,
+  onClose,
+  onSelectSuggestion,
+  events = [],
 }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,8 +32,13 @@ const AISuggestionsPopup: React.FC<AISuggestionsPopupProps> = ({
       const aiSuggestions = await getEventSuggestions(eventNames);
       setSuggestions(aiSuggestions);
     } catch (error) {
-      console.error('Failed to get suggestions:', error);
-      setSuggestions(['Take a short break', 'Review your progress', 'Plan ahead', 'Reflect on goals']);
+      console.error("Failed to get suggestions:", error);
+      setSuggestions([
+        "Take a short break",
+        "Review your progress",
+        "Plan ahead",
+        "Reflect on goals",
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +56,9 @@ const AISuggestionsPopup: React.FC<AISuggestionsPopupProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] px-4">
       <div className="bg-white rounded-lg p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-black">AI Event Suggestions</h3>
+          <h3 className="text-lg font-semibold text-black">
+            AI Event Suggestions
+          </h3>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 text-black"
@@ -64,14 +71,17 @@ const AISuggestionsPopup: React.FC<AISuggestionsPopupProps> = ({
           {suggestions.length === 0 ? (
             <div>
               <p className="text-sm text-gray-600 mb-3">
-                Get AI suggestions based on your current {events.length} scheduled events
+                Get AI suggestions based on your current {events.length}{" "}
+                scheduled events
               </p>
               <button
                 onClick={handleGetSuggestions}
                 disabled={isLoading || events.length === 0}
                 className="w-full px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Analyzing your schedule...' : 'Get Smart Suggestions'}
+                {isLoading
+                  ? "Analyzing your schedule..."
+                  : "Get Smart Suggestions"}
               </button>
               {events.length === 0 && (
                 <p className="text-xs text-gray-500 mt-2 text-center">
@@ -81,14 +91,16 @@ const AISuggestionsPopup: React.FC<AISuggestionsPopupProps> = ({
             </div>
           ) : (
             <div className="space-y-2">
-              <p className="text-sm text-gray-600">Based on your current schedule:</p>
+              <p className="text-sm text-gray-600">
+                Based on your current schedule:
+              </p>
               {suggestions.map((suggestion: string, index: number) => (
                 <button
                   key={index}
                   onClick={() => handleSelectSuggestion(suggestion)}
                   className="w-full text-left p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors text-black"
                 >
-                  {suggestion.replace(/^\d+\.?\s*/, '')}
+                  {suggestion.replace(/^\d+\.?\s*/, "")}
                 </button>
               ))}
               <button
@@ -96,7 +108,7 @@ const AISuggestionsPopup: React.FC<AISuggestionsPopupProps> = ({
                 disabled={isLoading}
                 className="w-full px-3 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 text-sm disabled:opacity-50"
               >
-                {isLoading ? 'Loading...' : 'Get Different Suggestions'}
+                {isLoading ? "Loading..." : "Get Different Suggestions"}
               </button>
             </div>
           )}

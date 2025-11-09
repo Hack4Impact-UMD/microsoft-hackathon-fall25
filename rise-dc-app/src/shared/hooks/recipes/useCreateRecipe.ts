@@ -3,6 +3,6 @@ import { createRecipe } from "../../../services/service";
 
 export default function useCreateRecipe() {
   return useMutation({
-    mutationFn: createRecipe
-  })
+    mutationFn: createRecipe,
+  });
 }

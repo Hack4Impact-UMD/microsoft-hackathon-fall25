@@ -13,7 +13,7 @@ import Button from "../../cookbook_components/Button";
 function formatList(
   items: string[],
   singularLabel: string,
-  pluralLabel: string
+  pluralLabel: string,
 ) {
   if (items.length === 0) return "";
   if (items.length === 1) return `${singularLabel} is ${items[0]}.`;
@@ -39,14 +39,14 @@ export default function RecipePreview() {
   const totalSteps = recipe.instructions.length;
 
   const handleImageLoad = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
   ) => {
     const img = e.currentTarget;
     const containerRatio = 16 / 9;
     const aspectRatio = img.naturalWidth / img.naturalHeight;
 
     setObjectFit(
-      Math.abs(aspectRatio - containerRatio) < 0.05 ? "cover" : "contain"
+      Math.abs(aspectRatio - containerRatio) < 0.05 ? "cover" : "contain",
     );
   };
 
@@ -96,19 +96,19 @@ export default function RecipePreview() {
             formatList(
               recipe.tools.map((t) => t.name),
               "The appliance you will need",
-              "The appliances you will need"
+              "The appliances you will need",
             ),
             formatList(
               recipe.utensils.map((u) => u.name),
               "The utensil you will need",
-              "The utensils you will need"
+              "The utensils you will need",
             ),
             formatList(
               recipe.ingredients.map(
-                (i) => `${i.quantity} of ${i.ingredient.name}`
+                (i) => `${i.quantity} of ${i.ingredient.name}`,
               ),
               "The ingredient you will need",
-              "The ingredients you will need"
+              "The ingredients you will need",
             ),
           ]
             .filter(Boolean)

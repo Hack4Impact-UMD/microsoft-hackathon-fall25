@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import ImageCard from "../shared/components/ImageCard";
 
