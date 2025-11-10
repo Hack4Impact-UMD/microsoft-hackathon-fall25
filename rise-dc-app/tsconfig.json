@@ -16,11 +16,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../backend/src/photoUpload.ts", "server.ts"],
-  "include": [
-    "src",
-    "src/scheduling_components/icon_components/IconCard.tsx",
-    "server.ts"
-  ],
+  "include": ["src", "../backend/src/photoUpload.ts", "src/scheduling_components/icon_components/IconCard.tsx", "server.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

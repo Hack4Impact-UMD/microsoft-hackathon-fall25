@@ -4,7 +4,7 @@ import EventSelectionModal from "./EventSelectionModal";
 import EventCard from "./EventCard";
 import styles from "./PlanYourDay.module.css";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
-import AISuggestionsPopup from "./AIsuggestionsPopup";
+import AISuggestionsPopup from "./AISuggestionsPopup";
 
 type EventData = {
   name: string;
