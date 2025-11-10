@@ -54,16 +54,16 @@ router.post(
           .status(400)
           .json({ error: "No caption uploaded under field 'caption'." });
 
-    const containerName = "uploads";
-    const ext = path.extname(file.originalname) || "";
-    const id = crypto.randomUUID();
-    const blobName = `${id}${ext}`;
+      const containerName = "uploads";
+      const ext = path.extname(file.originalname) || "";
+      const id = crypto.randomUUID();
+      const blobName = `${id}${ext}`;
 
       const url = await uploadBlob(
         containerName,
         blobName,
         file.buffer,
-        file.mimetype
+        file.mimetype,
       );
       await addImage({ id: id, url: url, caption: caption });
 
@@ -71,7 +71,7 @@ router.post(
     } catch (err) {
       return res.status(400).json({ error: "route failed: " + err.message });
     }
-  }
+  },
 );
 
 export default router;

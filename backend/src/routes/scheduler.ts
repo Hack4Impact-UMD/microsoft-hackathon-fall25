@@ -1,6 +1,19 @@
 import { Request, Response, Router } from "express";
-import { addAssignment, addEvent, addFeedback, addTask, deleteTask, getAllItems, getContainer, queryItems } from "../cosmos";
-import { Assignment, Feedback, Task } from "../../../rise-dc-app/src/shared/types";
+import {
+  addAssignment,
+  addEvent,
+  addFeedback,
+  addTask,
+  deleteTask,
+  getAllItems,
+  getContainer,
+  queryItems,
+} from "../cosmos";
+import {
+  Assignment,
+  Feedback,
+  Task,
+} from "../../../rise-dc-app/src/shared/types";
 
 const SCHEDULING_DB = process.env.COSMOS_SCHEDULING_DB || "Scheduling";
 
@@ -34,7 +47,7 @@ schedulerRouter.get("/tasks", async (req: Request, res: Response) => {
         SCHEDULING_DB,
         "Tasks",
         "SELECT * FROM c WHERE CONTAINS(LOWER(c.name), LOWER(@searchTerm))",
-        [{ name: "@searchTerm", value: search as string }]
+        [{ name: "@searchTerm", value: search as string }],
       );
     } else {
       tasks = await getAllItems<Task>(SCHEDULING_DB, "Tasks");
@@ -127,7 +140,7 @@ schedulerRouter.get("/assignments", async (req: Request, res: Response) => {
         SCHEDULING_DB,
         "Assignments",
         "SELECT * FROM c WHERE c.date = @date",
-        [{ name: "@date", value: date as string }]
+        [{ name: "@date", value: date as string }],
       );
     } else {
       assignments = await getAllItems<Assignment>(SCHEDULING_DB, "Assignments");

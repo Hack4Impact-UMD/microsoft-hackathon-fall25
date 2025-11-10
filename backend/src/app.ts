@@ -48,7 +48,7 @@ if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 // Test route
 app.get("/", (_, res: Response) =>
-  res.send("RISE DC Scheduling API is running!")
+  res.send("RISE DC Scheduling API is running!"),
 );
 
 app.use("/api/scheduler", schedulerRouter);

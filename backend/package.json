@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "serve": "npm run build && node lib/backend/src/app.js"
+    "serve": "npm run build && node lib/backend/src/app.js",
+    "format": "npx prettier . --write"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +18,8 @@
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "prettier": "^3.6.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
