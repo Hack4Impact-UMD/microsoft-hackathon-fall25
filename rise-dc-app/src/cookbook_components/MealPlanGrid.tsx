@@ -4,7 +4,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import React, { useMemo } from "react";
 import MealPlanCell, { MealType } from "./MealPlanCell";
 import { Recipe } from "../shared/types";
-import useAllRecipes from "../shared/hooks/recipes/useAllRecipes";
+import useAllRecipes from "../hooks/recipes/useAllRecipes";
 
 export type AssignedMap = Record<
   string,
