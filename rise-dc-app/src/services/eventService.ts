@@ -3,6 +3,7 @@ import { getJSON, postJSON } from "./service";
 
 export type EventPayload = {
   name: string;
+  complete?: boolean;
   icon?: string;
   tasks?: TaskAssignment[];
   image?: Image;

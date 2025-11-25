@@ -1,5 +1,4 @@
 import { Request, Response, Router } from "express";
-import { CosmosClient } from "@azure/cosmos";
 import crypto from "crypto";
 import multer from "multer";
 import path from "path";
@@ -7,36 +6,33 @@ import { uploadBlob } from "../blob";
 import { addImage } from "../cosmos";
 
 const router = Router();
-const client = new CosmosClient({
-  endpoint: process.env.COSMOS_ENDPOINT!,
-  key: process.env.COSMOS_KEY!,
-});
-const container = client
-  .database(process.env.COSMOS_DB!)
-  .container(process.env.COSMOS_IMAGES_CONTAINER!);
+
+// const container = client
+//   .database(process.env.COSMOS_DB!)
+//   .container(process.env.COSMOS_IMAGES_CONTAINER!);
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.post("/photos", async (req: Request, res: Response) => {
-  try {
-    const { blobUrl, caption, userId, eventId } = req.body;
-    const doc = {
-      id: crypto.randomUUID(),
-      blobUrl,
-      caption,
-      userId,
-      eventId,
-      createdAt: new Date().toISOString(),
-    };
-    const { resource } = await container.items.upsert(doc, {
-      partitionKey: eventId ?? userId,
-    });
-    res.json(resource);
-  } catch (err) {
-    console.error("Cosmos upsert failed:", err);
-    res.status(500).json({ error: "Failed to save photo metadata" });
-  }
-});
+// router.post("/photos", async (req: Request, res: Response) => {
+//   try {
+//     const { blobUrl, caption, userId, eventId } = req.body;
+//     const doc = {
+//       id: crypto.randomUUID(),
+//       blobUrl,
+//       caption,
+//       userId,
+//       eventId,
+//       createdAt: new Date().toISOString(),
+//     };
+//     const { resource } = await container.items.upsert(doc, {
+//       // partitionKey: eventId ?? userId,
+//     });
+//     res.json(resource);
+//   } catch (err) {
+//     console.error("Cosmos upsert failed:", err);
+//     res.status(500).json({ error: "Failed to save photo metadata" });
+//   }
+// });
 
 router.post(
   "/upload_image",

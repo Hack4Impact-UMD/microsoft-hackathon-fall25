@@ -1,3 +1,5 @@
+// Cookbook Types
+
 export interface Recipe {
   id: string;
   image_id: string;
@@ -36,16 +38,6 @@ export interface Tool extends RecipeItem {
 }
 export interface Utensil extends RecipeItem {
   type: "utensil";
-}
-
-export function isIngredient(recipeItem: RecipeItem): recipeItem is Ingredient {
-  return recipeItem.type === "ingredient";
-}
-export function isTool(recipeItem: RecipeItem): recipeItem is Tool {
-  return recipeItem.type === "tool";
-}
-export function isUtensil(recipeItem: RecipeItem): recipeItem is Utensil {
-  return recipeItem.type === "utensil";
 }
 
 export interface Image {

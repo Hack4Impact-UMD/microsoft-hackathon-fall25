@@ -17,6 +17,7 @@
     "@azure/storage-blob": "^12.28.0",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "multer": "^2.0.2",
     "prettier": "^3.6.2"

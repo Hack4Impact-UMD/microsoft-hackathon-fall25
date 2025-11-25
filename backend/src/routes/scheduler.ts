@@ -11,6 +11,7 @@ import {
 } from "../cosmos";
 import {
   Assignment,
+  Event,
   Feedback,
   Task,
 } from "../../../rise-dc-app/src/shared/types";
@@ -85,11 +86,12 @@ schedulerRouter.delete("/tasks/:id", async (req: Request, res: Response) => {
 
 schedulerRouter.post("/events", async (req: Request, res: Response) => {
   try {
-    const { name, icon, tasks, image } = req.body;
+    const { name, icon, tasks, image, complete } = req.body;
     const event: Event = {
       id: `event_${Date.now()}`,
       name,
       icon: icon || "",
+      complete: complete || false,
       tasks: tasks || [],
       image: image || { id: "", caption: "" },
     };
