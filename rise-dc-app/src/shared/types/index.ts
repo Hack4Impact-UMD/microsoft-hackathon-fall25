@@ -1,5 +1,7 @@
 // Cookbook Types
 
+import { Event } from "@mui/icons-material";
+
 export interface Recipe {
   id: string;
   image_id: string;
@@ -78,41 +80,29 @@ export interface Instruction {
 }
 
 // Scheduling Types
-export interface Assignment {
-  id: string;
-  complete: boolean;
-  date: string;
-  startTime: string;
-  endTime: string;
-  event: Event;
-}
-
-export interface Event {
-  id: string;
-  name: string;
-  icon: string;
-  complete: boolean;
-  tasks: TaskAssignment[];
-  image: Image | null;
-}
-
-export interface TaskAssignment {
-  id: string;
-  complete: boolean;
-}
-
 export interface Task {
   id: string;
+  userId: string;
   name: string;
   icon: string;
-  steps: string[];
-  category:
-    | "Hobbies"
-    | "Hygiene"
-    | "Chores"
-    | "Skills"
-    | "Quiet Hobbies"
-    | "Miscellaneous";
+  complete: boolean;
+  image?: Image;
+  startTime: string; // TODO: this might need to be a different type depending on how Cosmos works
+  endTime: string;
+  category: TaskCategory;
+}
+
+export interface Event extends Task {
+  steps: string[]; // TODO: turn this into it's own mini type, likely comrpising of 
+}
+
+export enum TaskCategory {
+  Hobbies = "Hobbies",
+  Hygiene = "Hygiene",
+  Chores = "Chores",
+  Skills = "Skills",
+  QuietHobbies = "QuietHobbies",
+  Misc = "Miscellaneous",
 }
 
 export interface Feedback {

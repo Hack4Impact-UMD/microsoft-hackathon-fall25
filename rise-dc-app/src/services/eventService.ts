@@ -1,6 +1,7 @@
-import { Image, TaskAssignment } from "../shared/types";
+import { Image } from "../shared/types";
 import { getJSON, postJSON } from "./service";
 
+// TODO fix these
 export type EventPayload = {
   name: string;
   complete?: boolean;

@@ -1,9 +1,15 @@
-import { Task } from "../shared/types";
+import { TaskCategory } from "../scheduling_components/quiet_hobbies/types";
+import { Image, Task } from "../shared/types";
 import { delJSON, getJSON, postJSON } from "./service";
 
 export interface TaskPayload {
-  taskName: string;
-  steps: string[];
+  userId: string;
+  icon: string;
+  name: string;
+  image?: Image;
+  startTime: string;
+  endTime: string;
+  category: TaskCategory;
 }
 
 export async function createTask(payload: TaskPayload): Promise<Task> {

@@ -23,14 +23,18 @@ const schedulerRouter = Router();
 // ===== TASKS =====
 schedulerRouter.post("/tasks", async (req: Request, res: Response) => {
   try {
-    const { taskName, steps } = req.body;
+    const { userId, icon, name, image, startTime, endTime, category } = req.body;
     const task: Task = {
       id: `task_${Date.now()}`,
-      name: taskName,
-      icon: "",
-      steps: steps || [],
-      category: "Miscellaneous",
-    };
+      userId: userId,
+      name: name,
+      icon: icon,
+      image: image,
+      startTime: startTime,
+      endTime: endTime,
+      category: category,
+      complete: false,
+    }
     const createdTask = await addTask(task);
     return res.status(201).json(createdTask);
   } catch (error) {
@@ -84,6 +88,7 @@ schedulerRouter.delete("/tasks/:id", async (req: Request, res: Response) => {
   }
 });
 
+// TODO: Fix this!
 schedulerRouter.post("/events", async (req: Request, res: Response) => {
   try {
     const { name, icon, tasks, image, complete } = req.body;
