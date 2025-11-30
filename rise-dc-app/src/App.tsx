@@ -11,6 +11,7 @@ import InstructionPage from "./pages/cookbook/InstructionPage";
 import RecipeComplete from "./scheduling_components/pages/RecipeComplete";
 import GroceryList from "./pages/cookbook/GroceryList";
 import GroceryShopping from "./pages/cookbook/GroceryShopping";
+import EventCardTest from "./pages/SchedulerTest";// added test page
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           element={<RecipeComplete />}
         />
         <Route path="/scheduler" element={<Scheduler />} />
+        <Route path="/test-event-card" element={<EventCardTest />} />//testing remove after
       </Routes>
     </Router>
   );
