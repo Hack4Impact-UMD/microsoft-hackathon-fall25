@@ -87,7 +87,6 @@ schedulerRouter.delete("/tasks/:id", async (req: Request, res: Response) => {
   }
 });
 
-// TODO: Fix this!
 schedulerRouter.post("/events", async (req: Request, res: Response) => {
   try {
     const { userId, name, icon, steps, image, startTime, endTime, category, complete } = req.body;
