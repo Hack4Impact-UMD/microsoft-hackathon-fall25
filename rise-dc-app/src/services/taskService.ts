@@ -1,5 +1,5 @@
 import { TaskCategory } from "../scheduling_components/quiet_hobbies/types";
-import { Image, Task } from "../shared/types";
+import { Image, Task, TimeSlot } from "../shared/types";
 import { delJSON, getJSON, postJSON } from "./service";
 
 export interface TaskPayload {
@@ -7,8 +7,8 @@ export interface TaskPayload {
   icon: string;
   name: string;
   image?: Image;
-  startTime: string;
-  endTime: string;
+  startTime: TimeSlot;
+  endTime: TimeSlot;
   category: TaskCategory;
 }
 

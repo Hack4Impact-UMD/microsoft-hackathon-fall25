@@ -4,13 +4,7 @@ import back from "./icon_components/back.png";
 import { useCreateTask } from "../hooks/useTask";
 import { useQueryClient } from "@tanstack/react-query";
 import { TaskPayload } from "../services/taskService";
-import { TaskCategory } from "../shared/types";
-
-interface TimeSlot {
-  hour: number;
-  minute: number;
-  period: "AM" | "PM";
-}
+import { TaskCategory, TimeSlot } from "../shared/types";
 
 interface TimeSelectionModalProps {
   isOpen: boolean;
@@ -111,8 +105,8 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
       userId: "",
       name: selectedEvent,
       icon: "",
-      startTime: `${startTime.hour}:${startTime.minute.toString().padStart(2, "0")} ${startTime.period}`,
-      endTime: `${endTime.hour}:${endTime.minute.toString().padStart(2, "0")} ${endTime.period}`,
+      startTime: startTime,
+      endTime: endTime,
       category: TaskCategory.Misc,
     };
 
