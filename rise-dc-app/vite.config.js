@@ -9,7 +9,7 @@ export default defineConfig({
     port: 5173, // your Vite dev server port
     proxy: {
       "/api": {
-        target: "http://localhost:4000", // backend server
+        target: "http://localhost:3000", // backend server
         changeOrigin: true, // needed for some CORS scenarios
         secure: false, // allow self-signed certificates if any
       },

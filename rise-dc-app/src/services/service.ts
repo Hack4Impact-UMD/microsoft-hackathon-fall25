@@ -8,7 +8,7 @@ import {
   GroceryList,
 } from "../shared/types";
 
-const API_URL = "http://localhost:3000"; // TODO: change this to be actual backend URL once deployed
+const API_URL = ""; // TODO: change this to be actual backend URL once deployed
 
 export type RecipePayload = Omit<Recipe, "id">;
 export type IngredientPayload = Omit<Ingredient, "id">;
