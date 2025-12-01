@@ -1,6 +1,5 @@
 import { Request, Response, Router } from "express";
 import {
-  addAssignment,
   addEvent,
   addFeedback,
   addTask,
@@ -10,10 +9,10 @@ import {
   queryItems,
 } from "../cosmos";
 import {
-  Assignment,
   Event,
   Feedback,
   Task,
+  TaskCategory,
 } from "../../../rise-dc-app/src/shared/types";
 
 const SCHEDULING_DB = process.env.COSMOS_SCHEDULING_DB || "Scheduling";
@@ -91,14 +90,18 @@ schedulerRouter.delete("/tasks/:id", async (req: Request, res: Response) => {
 // TODO: Fix this!
 schedulerRouter.post("/events", async (req: Request, res: Response) => {
   try {
-    const { name, icon, tasks, image, complete } = req.body;
+    const { userId, name, icon, steps, image, startTime, endTime, category, complete } = req.body;
     const event: Event = {
       id: `event_${Date.now()}`,
+      userId: userId || "",
       name,
       icon: icon || "",
       complete: complete || false,
-      tasks: tasks || [],
+      steps: steps || [],
       image: image || { id: "", caption: "" },
+      startTime: startTime || "",
+      endTime: endTime || "",
+      category: (category as TaskCategory) || TaskCategory.Misc,
     };
     const createdEvent = await addEvent(event);
     return res.status(201).json(createdEvent);
@@ -118,54 +121,14 @@ schedulerRouter.get("/events", async (_, res: Response) => {
   }
 });
 
-// ===== ASSIGNMENTS =====
-schedulerRouter.post("/assignments", async (req: Request, res: Response) => {
-  try {
-    const { complete, date, startTime, endTime, event } = req.body;
-    const assignment: Assignment = {
-      id: `assignment_${Date.now()}`,
-      complete: complete || false,
-      date,
-      startTime,
-      endTime,
-      event,
-    };
-    const createdAssignment = await addAssignment(assignment);
-    return res.status(201).json(createdAssignment);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to create assignment" });
-  }
-});
-
-schedulerRouter.get("/assignments", async (req: Request, res: Response) => {
-  try {
-    const { date } = req.query;
-    let assignments: Assignment[];
-    if (date) {
-      assignments = await queryItems<Assignment>(
-        SCHEDULING_DB,
-        "Assignments",
-        "SELECT * FROM c WHERE c.date = @date",
-        [{ name: "@date", value: date as string }],
-      );
-    } else {
-      assignments = await getAllItems<Assignment>(SCHEDULING_DB, "Assignments");
-    }
-    return res.json(assignments);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to fetch assignments" });
-  }
-});
 
 // ===== FEEDBACK =====
 schedulerRouter.post("/feedback", async (req: Request, res: Response) => {
   try {
-    const { taskAssignmentId, taskId, reaction } = req.body;
+    const { taskId, reaction } = req.body;
     const feedback: Feedback = {
       id: `feedback_${Date.now()}`,
-      taskAssignmentId,
+      taskAssignmentId: "",
       taskId,
       reaction,
     };
