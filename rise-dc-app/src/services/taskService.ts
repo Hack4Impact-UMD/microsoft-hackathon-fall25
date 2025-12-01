@@ -13,19 +13,19 @@ export interface TaskPayload {
 }
 
 export async function createTask(payload: TaskPayload): Promise<Task> {
-  return postJSON<Task, TaskPayload>("/api/tasks", payload);
+  return postJSON<Task, TaskPayload>("/api/scheduler/tasks", payload);
 }
 
 export async function getTask(id: string): Promise<Task> {
-  return getJSON<Task>(`/api/tasks/${id}`);
+  return getJSON<Task>(`/api/scheduler/tasks/${id}`);
 }
 
 export async function listTasks(): Promise<Task[]> {
-  return getJSON<Task[]>("/api/tasks");
+  return getJSON<Task[]>("/api/scheduler/tasks");
 }
 
 export async function deleteTask(
   id: string,
 ): Promise<{ message: string; id: string }> {
-  return delJSON<{ message: string; id: string }>(`/api/tasks/${id}`);
+  return delJSON<{ message: string; id: string }>(`/api/scheduler/tasks/${id}`);
 }
