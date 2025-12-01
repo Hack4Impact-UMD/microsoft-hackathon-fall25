@@ -98,8 +98,8 @@ schedulerRouter.post("/events", async (req: Request, res: Response) => {
       complete: complete || false,
       steps: steps || [],
       image: image || { id: "", caption: "" },
-      startTime: startTime || "",
-      endTime: endTime || "",
+      startTime: startTime || { hour: 0, minute: 0, period: "AM" },
+      endTime: endTime || { hour: 0, minute: 0, period: "AM" },
       category: (category as TaskCategory) || TaskCategory.Misc,
     };
     const createdEvent = await addEvent(event);
