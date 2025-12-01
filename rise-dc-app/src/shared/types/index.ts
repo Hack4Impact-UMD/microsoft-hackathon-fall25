@@ -80,6 +80,12 @@ export interface Instruction {
 }
 
 // Scheduling Types
+export type TimeSlot = {
+  hour: number;
+  minute: number;
+  period: "AM" | "PM";
+};
+
 export interface Task {
   id: string;
   userId: string;
@@ -87,8 +93,8 @@ export interface Task {
   icon: string;
   complete: boolean;
   image?: Image;
-  startTime: string; // TODO: this might need to be a different type depending on how Cosmos works
-  endTime: string;
+  startTime: TimeSlot;
+  endTime: TimeSlot;
   category: TaskCategory;
 }
 

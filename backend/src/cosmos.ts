@@ -4,7 +4,6 @@ import { BulkOperationType, SqlParameter } from "@azure/cosmos";
 import {
   Task,
   Event,
-  Assignment,
   Feedback,
   Recipe,
   Ingredient,
@@ -183,15 +182,6 @@ export const getEvent = (id: string) =>
 export const deleteEvent = (id: string) =>
   deleteItem(id, id, SCHEDULING_DB, "Events");
 
-// Assignments
-export const addAssignment = (assignment: Assignment) =>
-  addItem(assignment, SCHEDULING_DB, "Assignments");
-export const getAssignments = () =>
-  getAllItems<Assignment>(SCHEDULING_DB, "Assignments");
-export const getAssignment = (id: string) =>
-  getItem<Assignment>(id, SCHEDULING_DB, "Assignments");
-export const deleteAssignment = (id: string) =>
-  deleteItem(id, id, SCHEDULING_DB, "Assignments");
 
 // Feedback
 export const addFeedback = (feedback: Feedback) =>

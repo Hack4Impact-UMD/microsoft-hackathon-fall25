@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./EventSelectionModal.css"; // Don't forget to import the CSS
 import EventSelectionModal from "./EventSelectionModal";
 import EventCard from "./EventCard";
 import styles from "./PlanYourDay.module.css";
 import WhatsNextButton from "../shared/components/WhatsNextButton";
 import AISuggestionsPopup from "./AISuggestionsPopup";
+import { useAllTasks } from "../hooks/useTask";
+import { Task } from "../shared/types";
 
 type EventData = {
   name: string;
@@ -16,6 +18,38 @@ export function PlanYourDayButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [events, setEvents] = useState<EventData[]>([]);
   const [showAISuggestions, setShowAISuggestions] = useState(false); // Add AI popup state
+  const { data: tasks, isLoading, isSuccess } = useAllTasks();
+
+  // Sync events state with tasks from Cosmos
+  useEffect(() => {
+    if (!isSuccess || !tasks) return;
+
+    const convertedEvents: EventData[] = tasks
+      .map((task: Task) => ({
+        name: task.name,
+        startTime: task.startTime,
+        endTime: task.endTime,
+      }))
+      .sort((a, b) => {
+        // Sort by start time
+        const aHour24 =
+          a.startTime.period === "PM" && a.startTime.hour !== 12
+            ? a.startTime.hour + 12
+            : a.startTime.hour === 12 && a.startTime.period === "AM"
+              ? 0
+              : a.startTime.hour;
+        const bHour24 =
+          b.startTime.period === "PM" && b.startTime.hour !== 12
+            ? b.startTime.hour + 12
+            : b.startTime.hour === 12 && b.startTime.period === "AM"
+              ? 0
+              : b.startTime.hour;
+        if (aHour24 !== bHour24) return aHour24 - bHour24;
+        return a.startTime.minute - b.startTime.minute;
+      });
+
+    setEvents(convertedEvents);
+  }, [tasks, isSuccess]);
 
   const openPlanner = () => {
     setIsModalOpen(true);
@@ -72,7 +106,10 @@ export function PlanYourDayButton() {
 
   return (
     <>
-      {events.length === 0 && (
+      {isLoading && (
+        <div className="text-center text-white mt-8">Loading tasks...</div>
+      )}
+      {!isLoading && events.length === 0 && (
         <div
           className="bg-[#EB5904] text-white font-light pt-6 pr-25 pb-6 pl-25 rounded-lg text-[1.2rem] mt-[15rem] cursor-pointer"
           onClick={openPlanner}

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import "./EventSelectionModal.css";
 import back from "./icon_components/back.png";
-
-interface TimeSlot {
-  hour: number;
-  minute: number;
-  period: "AM" | "PM";
-}
+import { useCreateTask } from "../hooks/useTask";
+import { useQueryClient } from "@tanstack/react-query";
+import { TaskPayload } from "../services/taskService";
+import { TaskCategory, TimeSlot } from "../shared/types";
 
 interface TimeSelectionModalProps {
   isOpen: boolean;
@@ -23,6 +21,8 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
   selectedEvent = "Sweep floor",
   onTimeConfirmed,
 }) => {
+  const queryClient = useQueryClient();
+  const createTaskMutation = useCreateTask();
   const [currentStep, setCurrentStep] =
     useState<TimeSelectionStep>("START_TIME");
   const [startTime, setStartTime] = useState<TimeSlot>({
@@ -41,7 +41,7 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
   const updateTime = (
     timeType: "start" | "end",
     field: "hour" | "minute",
-    increment: boolean,
+    increment: boolean
   ) => {
     const currentTime = timeType === "start" ? startTime : endTime;
     const setTime = timeType === "start" ? setStartTime : setEndTime;
@@ -64,7 +64,7 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
   const updateTimeDirect = (
     timeType: "start" | "end",
     field: "hour" | "minute",
-    value: number,
+    value: number
   ) => {
     const setTime = timeType === "start" ? setStartTime : setEndTime;
     const currentTime = timeType === "start" ? startTime : endTime;
@@ -100,9 +100,34 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
   };
 
   const handleFinish = () => {
-    onTimeConfirmed?.(startTime, endTime);
-    setCurrentStep("START_TIME");
-    onClose();
+    // TODO: Get specific userId, icon, and category
+    const taskPayload: TaskPayload = {
+      userId: "",
+      name: selectedEvent,
+      icon: "",
+      startTime: startTime,
+      endTime: endTime,
+      category: TaskCategory.Misc,
+    };
+
+    createTaskMutation.mutate(taskPayload, {
+      onSuccess: (data) => {
+        console.log("Task created successfully:", data);
+
+        // Reset and close the modal
+        onTimeConfirmed?.(startTime, endTime);
+        setCurrentStep("START_TIME");
+        onClose();
+      },
+      onError: (error) => {
+        console.error("Failed to create task:", error);
+        alert("Failed to create task. Please try again.");
+      },
+      onSettled: () => {
+        // Refresh the tasks list
+        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      },
+    });
   };
 
   const handleClose = () => {
@@ -115,7 +140,7 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
     time: TimeSlot,
     isActive: boolean,
     label: string,
-    icon: string = "🕐",
+    icon: string = "🕐"
   ) => (
     <div
       className={`time-selector ${isActive ? "active" : "disabled"} ${timeType}-time-selector`}
@@ -237,13 +262,13 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
             "start",
             startTime,
             currentStep === "START_TIME",
-            "Start time",
+            "Start time"
           )}
           {renderTimeSelector(
             "end",
             endTime,
             currentStep === "END_TIME",
-            "End time",
+            "End time"
           )}
         </div>
 
@@ -253,8 +278,11 @@ const TimeSelectionModal: React.FC<TimeSelectionModalProps> = ({
             <button
               className="finish-adding-task-button"
               onClick={handleFinish}
+              disabled={createTaskMutation.isPending}
             >
-              Finish Adding Task
+              {createTaskMutation.isPending
+                ? "Creating Task..."
+                : "Finish Adding Task"}
             </button>
           ) : (
             <>
