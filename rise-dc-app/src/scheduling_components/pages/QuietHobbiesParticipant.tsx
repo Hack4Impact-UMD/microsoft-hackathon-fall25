@@ -36,6 +36,8 @@ export default function QuietHobbiesParticipant({
   const handleCloseModal = () => {
     console.log("Closing modal, current open state:", open);
     setOpen(false);
+    // Properly calls the parent's onClose() which resets everything and removes all overlays.
+    onClose?.();
   };
 
   const handleChooseActivity = (hobbyId: string) => {
